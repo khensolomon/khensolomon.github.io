@@ -1,0 +1,31 @@
+{
+  "name": "khensolomonlethil.github.io",
+  "version": "1.0.0",
+  "description": "the Holy Bible utility for html5 application",
+  "main": "index.js",
+  "scripts": {
+    "test": "job"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khensolomonlethil/khensolomonlethil.github.io.git"
+  },
+  "keywords": [
+    "holy",
+    "bible",
+    "html5",
+    "jQuery"
+  ],
+  "author": "Khen Solomon Lethil",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khensolomonlethil/khensolomonlethil.github.io/issues"
+  },
+  "homepage": "https://github.com/khensolomonlethil/khensolomonlethil.github.io#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-sass": "^2.0.4",
+    "gulp-uglify": "^1.4.1"
+  }
+}
