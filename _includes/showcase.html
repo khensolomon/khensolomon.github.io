@@ -17,11 +17,12 @@
   can reflow them: art beside stacked meta on wide screens, art+name on one row
   with full-width blurb/links on phones (no wasted space under the art).
 {%- endcomment -%}
-<section class="showcase inset reveal-on-scroll" aria-label="{{ include.heading | default: 'Work' }}">
-  {% if include.heading %}<h2 class="showcase__heading mono muted">{{ include.heading }}</h2>{% endif %}
+<section class="showcase inset" aria-label="{{ include.heading | default: 'Work' }}">
+  {%- assign base = include.base_delay | default: 0 -%}
+  {% if include.heading %}<h2 class="showcase__heading mono muted reveal" style="--d:{{ base }}">{{ include.heading }}</h2>{% endif %}
   <ul class="showcase__grid">
     {% for item in include.items %}
-    <li class="card">
+    <li class="card reveal" style="--d:{{ forloop.index | plus: base }}">
       <a class="card__art{% if item.image contains 'symbolic' %} card__art--symbolic{% endif %}"
          href="{{ item.repo }}" aria-label="{{ item.name }} source"
          {% if item.image contains 'symbolic' %}style="--icon:url('{{ item.image }}')"{% endif %}>

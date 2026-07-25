@@ -55,14 +55,15 @@ days:
 # ----------------------------------------------------------------------------
 #  dates: optional overrides. On a matching date the chosen content shows,
 #  whatever the weekday. Match with:
-#    on:     "YYYY-MM-DD"   a single specific date
-#    every:  "MM-DD"        recurs every year (month-day)
+#    on:     "YYYY-MM-DD"   a single specific date (full ISO date)
+#    every:  "mm.dd"        recurs every year — month.day, e.g. "01.01" = Jan 1,
+#                           "12.25" = Dec 25 (always two digits, dot separator)
 #  Then EITHER give inline caption/slogan/subject/eyebrow, OR reuse one of the
 #  `days` above with `use: N` (1-based). Any inline field layers on top of it.
 #  An exact `on` wins over a recurring `every`.
 # ----------------------------------------------------------------------------
 dates:
-  - every: "01-01"
+  - every: "01.01"
     caption: "Happy New Year"
     slogan:  "New year, same mission"
     subject: "Another year of building open tools that preserve language, scripts, and music — thanks for stopping by."

@@ -10,6 +10,18 @@ nav_order: 99
 
 Versions use `yy.mm.dd` — the date the change shipped. Newest at the top.
 
+## 26.07.25f
+
+- Both showcases now use the hero's startup animation (staggered fade-up on
+  load) instead of the scroll reveal, and "Projects" is renamed to "Apps".
+- The feature banner content moved to `_data/feature.yml` so highlighting a
+  current focus no longer touches the project list; its label is now "Working".
+- Homepage `title` is now "ZOMI.developer".
+- Recurring hero date overrides use `mm.dd` (e.g. `every: "01.01"`), documented
+  in `_data/hero.yml`.
+- Missing or empty data files degrade to defaults instead of erroring: the hero
+  falls back to the site title, and the feature banner simply doesn't render.
+
 ## 26.07.25e
 
 - Fixed the hero slogan and subject not appearing: the weekday index used a

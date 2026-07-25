@@ -2,20 +2,17 @@
 layout: default
 ---
 {%- comment -%}
-  Optional top feature. Renders ONLY when page.highlight exists — otherwise
-  no element is emitted at all, so there is no empty banner or reserved gap.
-{%- endcomment -%}
-{%- comment -%}
-  Optional top feature lives at the top of the hero. Renders ONLY when
-  page.highlight exists — otherwise nothing is emitted, so there is no empty
-  banner and no reserved vertical space.
+  Optional feature banner. Content lives in _data/feature.yml so it can change
+  independently of the project list. Renders only when a name is set — a missing
+  file or blank fields emit nothing (no empty banner, no reserved gap).
 {%- endcomment -%}
 <section class="hero inset">
-  {% if page.highlight %}
-  <a class="feature reveal" href="{{ page.highlight.url }}">
-    <span class="feature__label mono">{{ page.highlight.label | default: 'Featured' }}</span>
+  {%- assign feature = site.data.feature -%}
+  {% if feature and feature.name %}
+  <a class="feature reveal" href="{{ feature.url }}">
+    <span class="feature__label mono">{{ feature.label | default: 'Featured' }}</span>
     <span class="feature__body">
-      <strong>{{ page.highlight.name }}</strong>{% if page.highlight.text %} — {{ page.highlight.text }}{% endif %}
+      <strong>{{ feature.name }}</strong>{% if feature.text %} — {{ feature.text }}{% endif %}
     </span>
     <span class="feature__arrow mono" aria-hidden="true">&#8599;</span>
   </a>
@@ -27,13 +24,19 @@ layout: default
     BUILD-day entry below so the page is correct with JS off and never flashes;
     the inline script then swaps to the VISITOR's weekday and applies any date
     override, running during parse so the change lands before first paint.
+    If the data file is missing or empty, the caption falls back to the site
+    title and the optional lines simply don't render — no build error.
   {%- endcomment -%}
   {%- assign hero = site.data.hero -%}
-  {%- assign wd = site.time | date: "%u" | times: 1 -%}
-  {%- assign count = hero.days | size -%}
-  {%- if wd > count %}{% assign wd = count %}{% endif -%}
-  {%- assign idx = wd | minus: 1 -%}
-  {%- assign d = hero.days[idx] -%}
+  {%- assign days = hero.days -%}
+  {%- assign d = nil -%}
+  {%- if days and days.size > 0 -%}
+    {%- assign wd = site.time | date: "%u" | times: 1 -%}
+    {%- assign count = days | size -%}
+    {%- if wd > count %}{% assign wd = count %}{% endif -%}
+    {%- assign idx = wd | minus: 1 -%}
+    {%- assign d = days[idx] -%}
+  {%- endif -%}
 
   <p class="hero__eyebrow mono reveal" data-hero-eyebrow>{{ site.time | date: "%A · %-d %b %Y" }}</p>
 
@@ -65,7 +68,7 @@ layout: default
   {%- comment -%} Client-side pick: visitor's weekday + date overrides. {%- endcomment -%}
   <script>
   (function () {
-    var HERO = {{ site.data.hero | jsonify }};
+    var HERO = {{ site.data.hero | jsonify }} || {};
     var days = (HERO && HERO.days) || [];
     if (!days.length) return;
     var dates = (HERO && HERO.dates) || [];
@@ -74,7 +77,7 @@ layout: default
     var iso = ((now.getDay() + 6) % 7) + 1;           // 1=Mon … 7=Sun
     var p = function (n) { return (n < 10 ? "0" : "") + n; };
     var ymd = now.getFullYear() + "-" + p(now.getMonth() + 1) + "-" + p(now.getDate());
-    var md  = p(now.getMonth() + 1) + "-" + p(now.getDate());
+    var md  = p(now.getMonth() + 1) + "." + p(now.getDate());   // mm.dd (recurring)
 
     function pick(i) {                                 // 1-based, clamped
       i = i < 1 ? 1 : (i > days.length ? days.length : i);
@@ -112,11 +115,12 @@ layout: default
 </section>
 
 {% if page.apps %}
-{% include showcase.html items=page.apps heading=page.apps_heading %}
+{% include showcase.html items=page.apps heading=page.apps_heading base_delay=5 %}
 {% endif %}
 
 {% if page.tools %}
-{% include showcase.html items=page.tools heading=page.tools_heading %}
+{%- assign tools_delay = page.apps | size | plus: 6 -%}
+{% include showcase.html items=page.tools heading=page.tools_heading base_delay=tools_delay %}
 {% endif %}
 
 {% if content != "" %}

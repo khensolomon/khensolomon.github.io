@@ -1,17 +1,10 @@
 ---
 layout: portfolio
-title: "Hello world"
+title: "ZOMI.developer"
 
-# The hero (caption / slogan / subject / eyebrow) now rotates by weekday and is
-# edited in _data/hero.yml — not here.
-
-# Optional top highlight — a current/recent focus. Remove this whole block and
-# nothing renders in its place (no empty banner, no gap).
-highlight:
-  label: "Now building"
-  name: "Lesion"
-  text: "a GNOME Shell extension"
-  url: "https://github.com/khensolomon/lesion"
+# Hero content (caption / slogan / subject / eyebrow) rotates by weekday and is
+# edited in _data/hero.yml. The "current focus" banner is in _data/feature.yml.
+# Neither lives here anymore.
 
 links:
   - { label: "GitHub",     url: "https://github.com/khensolomon", prefix: "[+]" }
@@ -20,7 +13,7 @@ links:
 
 # Shipped apps. Each renders as a card via _includes/showcase.html — no raw
 # HTML in this file. Add a store only if the app is actually listed there.
-apps_heading: "Projects"
+apps_heading: "Apps"
 apps:
   - name:  "MyOrdbok"
     blurb: "A comprehensive online Myanmar dictionary, making learning and reference accessible to everyone."
