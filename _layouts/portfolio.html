@@ -7,7 +7,7 @@ layout: default
     <span class="muted">· status: {{ page.status | default: 'online' }}</span>
   </p>
 
-  <h1 class="hero__name reveal" style="--d:1">{{ page.name | default: site.title }}</h1>
+  <h1 class="hero__name reveal" style="--d:1">{{ page.name | default: site.name }}</h1>
 
   <p class="hero__role mono reveal" style="--d:2">{{ page.role }}</p>
 
@@ -29,6 +29,10 @@ layout: default
   </ul>
   {% endif %}
 </section>
+
+{% if page.apps %}
+{% include apps.html items=page.apps heading=page.apps_heading %}
+{% endif %}
 
 {% if content != "" %}
 <section class="portfolio-body prose inset reveal-on-scroll">

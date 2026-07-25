@@ -20,15 +20,20 @@
                Menlo, Consolas, monospace;
 
   /* rhythm — left-anchored shell, no global centering */
-  --gutter:    clamp(1.25rem, 5vw, 4rem);   /* the shell's left/right inset   */
-  --measure:   44rem;                       /* readable text column, per-region */
-  --side-w:    clamp(12rem, 18vw, 15.5rem); /* docs sidebar width             */
-  --radius:    14px;
-  --radius-sm: 9px;
+  --gutter:     clamp(1.25rem, 5vw, 4rem);  /* the shell's left/right inset  */
+  --measure:    44rem;                      /* readable text column          */
+  --side-w:     clamp(13rem, 19vw, 16rem);  /* sidebar width                 */
+  --topbar-h:   3.5rem;                     /* header height; sidebar__head
+                                               matches it so borders align   */
+  --radius:     14px;
+  --radius-sm:  9px;
+  --radius-btn: 8px;    /* shared by theme toggle, menu button, search input */
+  --btn:        35px;   /* icon-button footprint (width & height)           */
 
   /* motion */
-  --ease: cubic-bezier(.22, 1, .36, 1);
-  --dur:  .55s;
+  --ease:     cubic-bezier(.22, 1, .36, 1);
+  --dur:      .55s;
+  --dur-nav:  .35s;     /* sidebar push + hamburger morph share this clock   */
 
   color-scheme: light;
 }
@@ -60,9 +65,6 @@ body {
   font-size: 1rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
   transition: background .3s var(--ease), color .3s var(--ease);
 }
 
@@ -75,46 +77,130 @@ a { color: inherit; text-decoration: none; }
 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 
-/* The shell flows left-to-right. A region inset is a left/right gutter only —
-   never `margin: 0 auto`. Each region caps its own measure and aligns itself. */
+/* Region inset is a left/right gutter only — never `margin: 0 auto`. */
 .inset { padding-inline: var(--gutter); }
 
 /* ===========================================================================
-   HEADER  (full-bleed, sticky, in-flow — not fixed)
+   SHELL + SIDEBAR PUSH
+   ---------------------------------------------------------------------------
+   body
+   ├─ .sidebar   fixed, full viewport height (top:0 → bottom:0), so the
+   │             sticky header can never overlap it
+   └─ .shell     everything else; moves when the sidebar opens:
+                   ≥700px  margin-left grows  → content RESIZES, no h-scroll
+                   <700px  translateX          → content is PUSHED off-canvas
+   =========================================================================== */
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  transition: margin-left var(--dur-nav) var(--ease),
+              transform   var(--dur-nav) var(--ease);
+}
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;               /* top:0 bottom:0 left:0 — full height */
+  width: var(--side-w);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  transform: translateX(-100%);
+  visibility: hidden;                       /* off the tab order when closed */
+  transition: transform var(--dur-nav) var(--ease),
+              visibility 0s linear var(--dur-nav);
+  z-index: 50;
+}
+
+body[data-nav="open"] .sidebar {
+  transform: none;
+  visibility: visible;
+  transition: transform var(--dur-nav) var(--ease);
+}
+
+/* desktop & tablet: shell resizes beside the sidebar — no horizontal scroll */
+@media (min-width: 700px) {
+  body[data-nav="open"] .shell { margin-left: var(--side-w); }
+}
+
+/* mobile: shell is pushed as one piece; clip the off-screen part */
+@media (max-width: 699.98px) {
+  body { --side-w: min(78vw, 17rem); }
+  html, body { overflow-x: hidden; }
+  body[data-nav="open"] .shell { transform: translateX(var(--side-w)); }
+}
+
+/* sidebar internals */
+.sidebar__head {
+  height: var(--topbar-h);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-inline: 1.1rem;
+}
+.sidebar__body { flex: 1; overflow-y: auto; padding: 1rem .8rem 1.5rem; }
+
+.sidebar__title {
+  padding: .2rem .6rem .55rem;
+  margin: 0 0 .45rem;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar__nav { display: grid; gap: .15rem; }
+.sidebar__link {
+  display: flex; align-items: baseline; gap: .55rem;
+  padding: .45rem .6rem; border-radius: var(--radius-sm);
+  color: var(--muted); transition: background .15s, color .15s;
+}
+.sidebar__link:hover { background: var(--surface-2); color: var(--text); }
+.sidebar__link.is-active { color: var(--text); background: var(--accent-soft); }
+.sidebar__prefix { color: var(--accent); }
+
+/* ===========================================================================
+   HEADER  (sticky inside the shell — the sidebar stands beside it, not under)
    =========================================================================== */
 .topbar {
   position: sticky;
   top: 0;
   z-index: 40;
+  height: var(--topbar-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: .7rem var(--gutter);
+  padding-inline: var(--gutter);
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   backdrop-filter: saturate(1.4) blur(10px);
   border-bottom: 1px solid var(--border);
 }
 
-.brand { display: inline-flex; align-items: baseline; gap: .5rem; font-weight: 600; }
+.topbar__cluster {
+  display: flex;
+  align-items: center;
+  gap: clamp(.45rem, 1.6vw, .9rem);
+  min-width: 0;
+}
+
+.brand { display: inline-flex; align-items: baseline; gap: .5rem; font-weight: 600; white-space: nowrap; }
 .brand-mark { font-family: var(--font-mono); color: var(--accent); }
 .brand-name { letter-spacing: -.01em; }
 
-.topnav { display: flex; align-items: center; gap: clamp(.5rem, 2vw, 1.1rem); }
-.topnav > a { color: var(--muted); font-size: .92rem; transition: color .2s; }
-.topnav > a:hover { color: var(--text); }
-
-/* theme toggle — icon only, swapped purely by the root attribute */
-.theme-toggle {
+/* --- icon buttons share one footprint ------------------------------------ */
+.theme-toggle,
+.navbtn {
   display: inline-grid;
   place-items: center;
-  width: 38px; height: 38px;
+  width: var(--btn); height: var(--btn);
+  flex-shrink: 0;
   cursor: pointer;
   color: var(--muted);
+  border-radius: var(--radius-btn);
+  transition: color .2s, border-color .2s, background .2s;
+}
+
+.theme-toggle {
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  transition: color .2s, border-color .2s, background .2s;
 }
 .theme-toggle:hover { color: var(--text); border-color: var(--accent); }
 .theme-toggle .ico { width: 18px; height: 18px; display: none; }
@@ -122,8 +208,35 @@ a { color: inherit; text-decoration: none; }
 :root[data-theme-pref="dark"]  .ico-dark,
 :root[data-theme-pref="auto"]  .ico-auto { display: block; }
 
+/* menu button — ghost so it reads as part of the brand cluster, not a box
+   competing with it; it gains a border on hover and accent color when open */
+.navbtn {
+  background: transparent;
+  border: 1px solid transparent;
+  margin-left: -.45rem;             /* optically align icon with the gutter */
+}
+.navbtn:hover { color: var(--text); background: var(--surface-2); border-color: var(--border); }
+body[data-nav="open"] .navbtn { color: var(--accent); }
+
+/* hamburger → X, driven purely by body[data-nav]
+   .navbtn is a grid with place-items:center, and the icon is an explicit
+   block with a fixed 16x12 box, so it sits dead-center at any button size */
+.navbtn__icon { display: block; position: relative; width: 16px; height: 12px; }
+.navbtn__icon span,
+.navbtn__icon span::before,
+.navbtn__icon span::after {
+  content: ""; position: absolute; left: 0; top: 5px; width: 16px; height: 2px;
+  background: currentColor; border-radius: 2px;
+  transition: transform var(--dur-nav) var(--ease), background var(--dur-nav) var(--ease);
+}
+.navbtn__icon span::before { transform: translateY(-5px); }
+.navbtn__icon span::after  { transform: translateY(5px); }
+body[data-nav="open"] .navbtn__icon span { background: transparent; }
+body[data-nav="open"] .navbtn__icon span::before { transform: rotate(45deg); }
+body[data-nav="open"] .navbtn__icon span::after  { transform: rotate(-45deg); }
+
 /* ===========================================================================
-   PAGE SLOT  (no width cap, no centering — children decide)
+   PAGE SLOT
    =========================================================================== */
 .page { flex: 1; width: 100%; min-width: 0; display: flex; flex-direction: column; }
 
@@ -132,7 +245,7 @@ a { color: inherit; text-decoration: none; }
    =========================================================================== */
 .hero {
   padding-block: clamp(3.5rem, 14vh, 8rem) clamp(2.5rem, 7vh, 4.5rem);
-  container-type: inline-size;          /* lets inner blocks resize on their own */
+  container-type: inline-size;
 }
 .hero__eyebrow { margin: 0 0 1.4rem; }
 .hero__name {
@@ -167,106 +280,136 @@ a { color: inherit; text-decoration: none; }
 
 .portfolio-body { margin-block: 2rem 4rem; max-width: var(--measure); }
 
-/* ===========================================================================
-   DOCS  — left-anchored shell; reflows, never fixed
-   =========================================================================== */
-.docs {
-  padding-block: clamp(1rem, 3vh, 2rem) 4rem;
+/* --- shipped apps -------------------------------------------------------- */
+.apps { padding-block: clamp(1.5rem, 5vh, 3rem) clamp(2rem, 6vh, 4rem); }
+.apps__heading {
+  margin: 0 0 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .72rem;
 }
-
-/* mobile bar holding the pure-CSS toggle (in normal flow) */
-.docs__bar { margin-bottom: 1rem; }
-.navbtn {
-  display: inline-flex;
-  align-items: center;
-  gap: .6rem;
-  padding: .5rem .85rem;
-  border: 1px solid var(--border);
-  border-radius: 10px;
+.apps__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  max-width: 58rem;
+}
+.app-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
   background: var(--surface);
-  color: var(--text);
-  font-size: .9rem;
-  cursor: pointer;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color .2s, transform .2s var(--ease), box-shadow .2s;
 }
-.navbtn__icon { position: relative; width: 16px; height: 12px; display: inline-block; }
-.navbtn__icon span,
-.navbtn__icon span::before,
-.navbtn__icon span::after {
-  content: ""; position: absolute; left: 0; width: 16px; height: 2px;
-  background: currentColor; border-radius: 2px;
-  transition: transform .3s var(--ease), opacity .2s var(--ease);
+.app-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
+.app-card__art {
+  flex-shrink: 0;
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border-radius: 11px;
+  overflow: hidden;
+  background: var(--surface-2);
 }
-.navbtn__icon span { top: 5px; }
-.navbtn__icon span::before { transform: translateY(-5px); }
-.navbtn__icon span::after  { transform: translateY(5px); }
+.app-card__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.app-card__meta { min-width: 0; display: flex; flex-direction: column; gap: .3rem; }
+.app-card__name { font-weight: 600; letter-spacing: -.01em; }
+.app-card__blurb { margin: 0; font-size: .88rem; line-height: 1.5; color: var(--muted); }
+.app-card__stores { margin: .1rem 0 0; font-size: .82rem; }
+.app-card__stores a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; transition: opacity .15s; }
+.app-card__stores a:hover { opacity: .7; }
+.app-card__sep { margin-inline: .5rem; color: var(--muted); opacity: .5; }
 
-/* checkbox drives state with zero JS */
-.nav-toggle { position: absolute; width: 1px; height: 1px; opacity: 0; margin: 0; pointer-events: none; }
-.nav-toggle:focus-visible ~ .docs__bar .navbtn { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-.nav-toggle:checked ~ .docs__bar .navbtn__icon span { transform: rotate(45deg); }
-.nav-toggle:checked ~ .docs__bar .navbtn__icon span::before { transform: rotate(90deg); }
-.nav-toggle:checked ~ .docs__bar .navbtn__icon span::after  { opacity: 0; }
-
-/* sidebar collapses by animating its own height (no fixed positioning) */
-.sidebar { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease); }
-.sidebar__inner { overflow: hidden; min-height: 0; }
-.nav-toggle:checked ~ .sidebar { grid-template-rows: 1fr; }
-
-.sidebar__title { padding-bottom: .6rem; margin: 0 0 .6rem; border-bottom: 1px solid var(--border); }
-.sidebar__nav { display: grid; gap: .15rem; padding-bottom: 1rem; }
-.sidebar__link {
-  display: flex; align-items: baseline; gap: .55rem;
-  padding: .45rem .6rem; border-radius: var(--radius-sm);
-  color: var(--muted); transition: background .15s, color .15s;
-}
-.sidebar__link:hover { background: var(--surface-2); color: var(--text); }
-.sidebar__link.is-active { color: var(--text); background: var(--accent-soft); }
-.sidebar__prefix { color: var(--accent); }
+/* ===========================================================================
+   DOCS  — single column; the sidebar is global now
+   =========================================================================== */
+.docs { padding-block: clamp(1.5rem, 4vh, 2.5rem) 4rem; }
 
 .docs__content { min-width: 0; container-type: inline-size; }
 .docs__head { margin-bottom: 2rem; }
 .docs__head h1 { margin: .3rem 0 0; font-size: clamp(1.9rem, 5vw, 2.6rem); letter-spacing: -.025em; }
 .docs__lede { color: var(--muted); font-size: 1.1rem; margin: .8rem 0 0; }
 
-/* wide screens: a real two-column app layout, anchored left */
-@media (min-width: 860px) {
-  .docs {
-    display: grid;
-    grid-template-columns: var(--side-w) minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: start;
-  }
-  .docs__bar { display: none; }
-  .sidebar {
-    position: sticky; top: 4rem;
-    grid-template-rows: 1fr;                 /* always open */
-    max-height: calc(100dvh - 5rem);
-    overflow-y: auto;
-  }
-  .sidebar__inner { overflow: visible; }
-}
-
 /* ===========================================================================
-   SEARCH  (dropdown anchored to its trigger)
+   SEARCH
+   ---------------------------------------------------------------------------
+   Docs:  input always visible, sits in the LEFT cluster after the brand.
+   Home:  .search--collapsible — icon button only; clicking it grows the
+          input out of the button (clean UI until you actually want it).
    =========================================================================== */
-.search { position: relative; }
+.search { position: relative; display: flex; align-items: center; min-width: 0; }
+
+/* --- home: ONE box. The bordered container holds both the icon and the
+   input; collapsed it is just an icon button, expanded the input grows
+   inside the same box — no separate button + field floating side by side. */
+.search--collapsible {
+  height: var(--btn);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-btn);
+  transition: border-color .2s;
+}
+.search--collapsible:hover,
+.search--collapsible:focus-within,
+.search--collapsible.is-open { border-color: var(--accent); }
+
+.search__toggle {
+  display: inline-grid;
+  place-items: center;
+  width: calc(var(--btn) - 2px);   /* fills the box minus its 1px borders */
+  height: 100%;
+  flex-shrink: 0;
+  cursor: pointer;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--radius-btn) - 1px);
+  transition: color .2s;
+}
+.search__toggle:hover { color: var(--text); }
+.search__toggle svg { width: 17px; height: 17px; }
+.search--collapsible.is-open .search__toggle { color: var(--accent); }
+
 .search__input {
   font: inherit;
-  width: clamp(7rem, 22vw, 13rem);
-  padding: .4rem .8rem;
+  height: var(--btn);
+  width: clamp(6.5rem, 20vw, 12rem);
+  padding: 0 .8rem;
   background: var(--surface-2);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 999px;
-  transition: width .25s var(--ease), border-color .2s;
+  border-radius: var(--radius-btn);          /* matches the theme toggle */
+  transition: width var(--dur-nav) var(--ease), padding var(--dur-nav) var(--ease),
+              opacity .2s var(--ease), border-color .2s;
 }
 .search__input::placeholder { color: var(--muted); }
-.search__input:focus { width: clamp(11rem, 30vw, 18rem); border-color: var(--accent); outline: none; }
+.search__input:focus { width: clamp(9rem, 26vw, 16rem); border-color: var(--accent); outline: none; }
+
+/* inside the box the input is chrome-less — the container draws the border */
+.search--collapsible .search__input {
+  height: 100%;
+  width: 0;
+  padding-inline: 0;
+  background: transparent;
+  border: none;
+  opacity: 0;
+  pointer-events: none;
+}
+.search--collapsible.is-open .search__input {
+  width: clamp(8rem, 24vw, 14rem);
+  padding-inline: 0 .8rem;                   /* icon already pads the left */
+  opacity: 1;
+  pointer-events: auto;
+}
 
 .search__panel {
   position: absolute;
-  top: calc(100% + .5rem);
+  top: calc(100% + .6rem);
   right: 0;
   width: min(92vw, 26rem);
   background: var(--surface);
@@ -276,6 +419,9 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   z-index: 60;
 }
+/* docs search lives on the left — anchor its panel left so it stays on screen */
+.is-docs .search:not(.search--collapsible) .search__panel { right: auto; left: 0; }
+
 .search__results { list-style: none; margin: 0; padding: .35rem; max-height: 60vh; overflow-y: auto; }
 .search__results li { border-radius: var(--radius-sm); }
 .search__results a { display: block; padding: .6rem .7rem; }
@@ -290,7 +436,7 @@ a { color: inherit; text-decoration: none; }
 /* ===========================================================================
    PROSE
    =========================================================================== */
-.prose { max-width: var(--measure); }            /* capped + left-aligned, never centered */
+.prose { max-width: var(--measure); }
 .prose h2 { margin: 2.6rem 0 .8rem; font-size: 1.45rem; letter-spacing: -.02em; }
 .prose h3 { margin: 2rem 0 .6rem; font-size: 1.15rem; }
 .prose p, .prose ul, .prose ol { margin: 0 0 1.1rem; }
@@ -314,7 +460,7 @@ a { color: inherit; text-decoration: none; }
 .prose hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
 /* ===========================================================================
-   FOOTERS  (each layout chooses its own — not shared blindly)
+   FOOTERS
    =========================================================================== */
 .portfoot { padding-block: 2.5rem 2rem; color: var(--muted); }
 .docfoot  { margin-top: auto; border-top: 1px solid var(--border); padding-block: 1.5rem; }

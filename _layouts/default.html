@@ -1,4 +1,20 @@
 <!doctype html>
+{%- comment -%}
+  Shell structure (order matters for the push behavior):
+
+    body
+    ├─ aside.sidebar        fixed, full-height, left — NEVER under the header
+    └─ div.shell            header + page + footer
+       ├─ header.topbar     sticky, lives INSIDE the shell so the sidebar
+       │                    spans the full viewport height beside it
+       └─ main.page
+
+  Nav state lives on <body data-nav="open|closed">. It is decided by an inline
+  script BEFORE the sidebar/shell render, so the initial state never animates.
+  Defaults: docs + wide viewport = open (session-sticky), everything else = closed.
+{%- endcomment -%}
+{%- assign is_docs = false -%}
+{%- if page.layout == "docs" or page.url contains "/docs/" -%}{%- assign is_docs = true -%}{%- endif -%}
 <html lang="{{ site.lang | default: 'en' }}" data-theme="light" data-theme-pref="auto">
 <head>
   <meta charset="utf-8">
@@ -24,35 +40,67 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   <script>window.SITE = { searchUrl: "{{ '/search.json' | relative_url }}" };</script>
 </head>
-<body>
-  <header class="topbar">
-    <a class="brand" href="{{ '/' | relative_url }}">
-      <span class="brand-mark">[*]</span>
-      <span class="brand-name">{{ site.title }}</span>
-    </a>
+<body class="{% if is_docs %}is-docs{% else %}is-home{% endif %}" data-nav="closed">
+  <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
+  <script>
+    (function () {
+      try {
+        var b = document.body;
+        var wide = matchMedia('(min-width: 700px)').matches;
+        if (!wide) return; /* mobile always starts closed */
+        if (b.classList.contains('is-docs')) {
+          var stored = sessionStorage.getItem('nav:docs');
+          if (stored !== 'closed') b.setAttribute('data-nav', 'open');
+        }
+      } catch (e) {}
+    })();
+  </script>
 
-    <nav class="topnav">
-      <a href="{{ '/docs/getting-started/' | relative_url }}">Docs</a>
-      {% include search.html %}
-      <button class="theme-toggle" type="button" aria-label="Color theme: auto">
-        <svg class="ico ico-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-          <circle cx="12" cy="12" r="4.2"/>
-          <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
-        </svg>
-        <svg class="ico ico-dark" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M20.5 14.2A8 8 0 0 1 9.8 3.5 8 8 0 1 0 20.5 14.2Z"/>
-        </svg>
-        <svg class="ico ico-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <circle cx="12" cy="12" r="8.5"/>
-          <path d="M12 3.5a8.5 8.5 0 0 0 0 17Z" fill="currentColor" stroke="none"/>
-        </svg>
-      </button>
-    </nav>
-  </header>
+  {% include sidebar.html is_docs=is_docs %}
 
-  <main class="page">
-    {{ content }}
-  </main>
+  <div class="shell">
+    <header class="topbar">
+      <div class="topbar__cluster">
+        <button class="navbtn" type="button"
+                aria-controls="sidebar" aria-expanded="false"
+                aria-label="Toggle navigation" data-nav-toggle>
+          <span class="navbtn__icon" aria-hidden="true"><span></span></span>
+        </button>
+
+        {% if is_docs %}
+        <a class="brand" href="{{ '/docs/getting-started/' | relative_url }}">
+          <span class="brand-name">Docs</span>
+        </a>
+        {% include search.html %}
+        {% else %}
+        <a class="brand" href="{{ '/' | relative_url }}">
+          <span class="brand-name">{{ site.title }}</span>
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="topbar__cluster">
+        {% unless is_docs %}{% include search.html mode="collapsed" %}{% endunless %}
+        <button class="theme-toggle" type="button" aria-label="Color theme: auto">
+          <svg class="ico ico-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.2"/>
+            <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+          </svg>
+          <svg class="ico ico-dark" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.5 14.2A8 8 0 0 1 9.8 3.5 8 8 0 1 0 20.5 14.2Z"/>
+          </svg>
+          <svg class="ico ico-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="8.5"/>
+            <path d="M12 3.5a8.5 8.5 0 0 0 0 17Z" fill="currentColor" stroke="none"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+      {{ content }}
+    </main>
+  </div>
 
   <script src="{{ '/assets/js/app.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/search.js' | relative_url }}" defer></script>

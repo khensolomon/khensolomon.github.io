@@ -1,24 +1,30 @@
 {%- comment -%}
-  Pure-CSS navigation. The checkbox + sibling selectors drive the collapse and
-  the icon animation with zero JavaScript. On wide screens CSS keeps it open as
-  a static column; on narrow screens it animates its own height in normal flow
-  (no fixed positioning, no overlay). Order matters: input, bar, sidebar must
-  stay siblings so `#nav-toggle:checked ~ .x` can reach them.
+  Global full-height sidebar, shared by Home and Docs. It sits OUTSIDE the
+  .shell so it spans the entire viewport height — the sticky header never
+  overlaps it. Open/closed state is body[data-nav]; app.js toggles it.
+  When closed it is visibility:hidden (off the tab order), so no `inert` needed.
+
+  The head is a cross-link, not a duplicate of the topbar brand:
+    on Home  →  Docs    (the topbar already says "Lethil")
+    on Docs  →  Lethil  (takes you home; the topbar already says "Docs")
+  Expects: {% include sidebar.html is_docs=is_docs %}
 {%- endcomment -%}
+<aside id="sidebar" class="sidebar" aria-label="Site navigation">
+  <div class="sidebar__head">
+    {% if include.is_docs %}
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-name">{{ site.title }}</span>
+    </a>
+    {% else %}
+    <a class="brand" href="{{ '/docs/getting-started/' | relative_url }}">
+      <span class="brand-name">Docs</span>
+    </a>
+    {% endif %}
+  </div>
 
-<input type="checkbox" id="nav-toggle" class="nav-toggle">
-
-<div class="docs__bar">
-  <label for="nav-toggle" class="navbtn">
-    <span class="navbtn__icon" aria-hidden="true"><span></span></span>
-    <span>Contents</span>
-  </label>
-</div>
-
-<aside class="sidebar" aria-label="Documentation">
-  <div class="sidebar__inner">
+  <div class="sidebar__body">
     <p class="sidebar__title mono muted">Guide</p>
-    <nav class="sidebar__nav">
+    <nav class="sidebar__nav" aria-label="Documentation">
       {%- assign docs = site.pages | where_exp: "p", "p.path contains 'docs/'" | sort: "nav_order" -%}
       {%- for doc in docs -%}
         {%- if doc.title -%}

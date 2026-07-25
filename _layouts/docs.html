@@ -1,9 +1,11 @@
 ---
 layout: default
 ---
+{%- comment -%}
+  The sidebar is global now (rendered by default.html), so this layout is
+  just the article column.
+{%- endcomment -%}
 <div class="docs inset">
-  {% include sidebar.html %}
-
   <article class="docs__content prose">
     <header class="docs__head">
       {% if page.category %}<p class="eyebrow mono accent">{{ page.category }}</p>{% endif %}

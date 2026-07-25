@@ -1,4 +1,7 @@
-/* search.js — fetches /search.json on first use and filters client-side. */
+/* search.js — fetches /search.json on first use and filters client-side.
+   Handles both modes of _includes/search.html:
+     - docs:  input always visible
+     - home:  .search--collapsible — icon button expands into the input */
 (function () {
   "use strict";
 
@@ -8,6 +11,7 @@
   var input   = box.querySelector("[data-search-input]");
   var panel   = box.querySelector("[data-search-panel]");
   var results = box.querySelector("[data-search-results]");
+  var toggle  = box.querySelector("[data-search-toggle]");
   var URL_    = (window.SITE && window.SITE.searchUrl) || "/search.json";
 
   var index = null;     // loaded lazily
@@ -85,6 +89,34 @@
   function open()  { panel.hidden = false; }
   function close() { panel.hidden = true; focusIdx = -1; }
 
+  /* ---- collapsible mode (home) ------------------------------------------ */
+  function isCollapsible() { return box.classList.contains("search--collapsible"); }
+
+  function expand() {
+    box.classList.add("is-open");
+    if (toggle) toggle.setAttribute("aria-expanded", "true");
+    input.removeAttribute("tabindex");
+    load();
+    // focus after the width transition has a frame to start, so the caret
+    // doesn't appear in a zero-width box
+    requestAnimationFrame(function () { input.focus(); });
+  }
+
+  function collapse() {
+    box.classList.remove("is-open");
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
+    input.setAttribute("tabindex", "-1");
+    input.value = "";
+    close();
+  }
+
+  if (toggle) {
+    toggle.addEventListener("click", function () {
+      if (box.classList.contains("is-open")) collapse(); else expand();
+    });
+  }
+
+  /* ---- shared behavior --------------------------------------------------- */
   function links() { return Array.prototype.slice.call(results.querySelectorAll("a")); }
 
   function move(dir) {
@@ -109,10 +141,16 @@
       var els = links();
       var target = els[focusIdx] || els[0];
       if (target) { e.preventDefault(); window.location.href = target.getAttribute("href"); }
-    } else if (e.key === "Escape") { close(); input.blur(); }
+    } else if (e.key === "Escape") {
+      if (isCollapsible()) { collapse(); toggle && toggle.focus(); }
+      else { close(); input.blur(); }
+    }
   });
 
   document.addEventListener("click", function (e) {
-    if (!box.contains(e.target)) close();
+    if (box.contains(e.target)) return;
+    close();
+    // clicking away from an empty expanded search collapses it back to the icon
+    if (isCollapsible() && !input.value.trim()) collapse();
   });
 })();

@@ -1,8 +1,68 @@
-/* app.js — theme toggle + scroll reveal. Vanilla, no dependencies. */
+/* app.js — nav push/resize, theme toggle, scroll reveal. Vanilla, no deps. */
 (function () {
   "use strict";
 
   var root = document.documentElement;
+  var body = document.body;
+
+  /* =========================================================================
+     NAV — body[data-nav="open|closed"] drives everything in CSS:
+       - .sidebar slides in (fixed, full height)
+       - .shell gets margin-left (>=700px, resize) or translateX (<700px, push)
+     The INITIAL state is set by the inline script in default.html before the
+     shell renders, so page loads never animate. This module only handles
+     user-driven changes.
+     ======================================================================= */
+  var mqWide = window.matchMedia("(min-width: 700px)");
+  var navBtn = document.querySelector("[data-nav-toggle]");
+  var isDocs = body.classList.contains("is-docs");
+
+  function navOpen() { return body.getAttribute("data-nav") === "open"; }
+
+  function setNav(open, remember) {
+    body.setAttribute("data-nav", open ? "open" : "closed");
+    if (navBtn) navBtn.setAttribute("aria-expanded", String(open));
+    // Only docs remembers the choice (per tab), so navigating between docs
+    // pages keeps the sidebar where you left it. Home always starts closed.
+    if (remember && isDocs) {
+      try { sessionStorage.setItem("nav:docs", open ? "open" : "closed"); } catch (e) {}
+    }
+  }
+
+  if (navBtn) {
+    navBtn.setAttribute("aria-expanded", String(navOpen())); // sync initial
+    navBtn.addEventListener("click", function () { setNav(!navOpen(), true); });
+  }
+
+  // Mobile: tapping the pushed-aside content closes the nav.
+  var shell = document.querySelector(".shell");
+  if (shell) {
+    shell.addEventListener("click", function (e) {
+      if (mqWide.matches || !navOpen()) return;
+      if (navBtn && navBtn.contains(e.target)) return; // the toggle handles itself
+      setNav(false, false);
+    });
+  }
+
+  // Escape closes the nav (any viewport) when nothing else claims it.
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && navOpen() && !mqWide.matches) setNav(false, false);
+  });
+
+  // Shrinking to mobile with the nav open would shove content off-screen —
+  // close it. Growing back to wide on docs restores the remembered state.
+  mqWide.addEventListener("change", function (e) {
+    if (!e.matches) { if (navOpen()) setNav(false, false); return; }
+    if (isDocs) {
+      var stored = null;
+      try { stored = sessionStorage.getItem("nav:docs"); } catch (err) {}
+      setNav(stored !== "closed", false);
+    }
+  });
+
+  /* =========================================================================
+     THEME — cycles auto -> light -> dark
+     ======================================================================= */
   var media = window.matchMedia("(prefers-color-scheme: dark)");
   var ORDER = ["auto", "light", "dark"];
 
@@ -20,7 +80,6 @@
     });
   }
 
-  // toggle cycles auto -> light -> dark
   document.querySelectorAll(".theme-toggle").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var current = root.getAttribute("data-theme-pref") || "auto";
@@ -30,19 +89,19 @@
     });
   });
 
-  // re-resolve when the OS theme changes and we're in auto
   media.addEventListener("change", function () {
     if ((root.getAttribute("data-theme-pref") || "auto") === "auto") apply("auto");
   });
 
-  // sync label on load with whatever the inline head script decided
   apply(root.getAttribute("data-theme-pref") || "auto");
 
-  /* --- scroll reveal --- */
+  /* =========================================================================
+     SCROLL REVEAL
+     ======================================================================= */
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var targets = document.querySelectorAll(".reveal-on-scroll");
   if (!reduce && "IntersectionObserver" in window && targets.length) {
-    root.classList.add("js-reveal"); // enables the hidden start state in CSS
+    root.classList.add("js-reveal");
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {

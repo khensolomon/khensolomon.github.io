@@ -1,0 +1,28 @@
+{%- comment -%}
+  Renders page.apps as a card grid. Data lives in the page front matter so the
+  markdown file stays free of markup. Each card: tappable logo → repo, the app
+  name, and whichever store links exist for it.
+{%- endcomment -%}
+<section class="apps inset reveal-on-scroll" aria-label="Shipped apps">
+  {% if include.heading %}<h2 class="apps__heading mono muted">{{ include.heading }}</h2>{% endif %}
+  <ul class="apps__grid">
+    {% for app in include.items %}
+    <li class="app-card">
+      <a class="app-card__art" href="{{ app.repo }}" aria-label="{{ app.name }} source on GitHub">
+        <img src="{{ app.image }}" alt="" loading="lazy" decoding="async">
+      </a>
+      <div class="app-card__meta">
+        <a class="app-card__name" href="{{ app.repo }}">
+          <span class="mono accent">[+]</span> {{ app.name }}
+        </a>
+        {% if app.blurb %}<p class="app-card__blurb">{{ app.blurb }}</p>{% endif %}
+        {% if app.stores %}
+        <p class="app-card__stores">
+          {% for store in app.stores %}<a href="{{ store.url }}">{{ store.label }}</a>{% unless forloop.last %}<span class="app-card__sep" aria-hidden="true">·</span>{% endunless %}{% endfor %}
+        </p>
+        {% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
