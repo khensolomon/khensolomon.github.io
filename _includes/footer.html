@@ -1,0 +1,12 @@
+{%- if include.minimal -%}
+<footer class="portfoot inset">
+  <span class="mono">[*] {{ site.title | downcase | replace: ' ', '-' }} · {{ 'now' | date: "%Y" }}</span>
+</footer>
+{%- else -%}
+<footer class="docfoot inset">
+  <div class="docfoot__inner">
+    <span class="mono muted">{{ site.title }} · built with jekyll</span>
+    <span class="mono muted">© {{ 'now' | date: "%Y" }}</span>
+  </div>
+</footer>
+{%- endif -%}

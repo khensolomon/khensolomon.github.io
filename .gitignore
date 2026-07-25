@@ -1,6 +1,7 @@
-#################
-## COSOTM
-#################
+*.v[0-9]*.*
+Gemfile.lock
+/_site
+
 /nbproject
 /node_modules
 

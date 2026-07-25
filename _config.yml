@@ -1,0 +1,30 @@
+# ----------------------------------------------------------------------------
+# Site
+# ----------------------------------------------------------------------------
+title: "Lethil"
+description: "Infrastructure, tooling, and self-hosted systems."
+lang: "en"
+
+# baseurl matters for path correctness.
+#   - user/org page (e.g. username.github.io):   baseurl: ""
+#   - project page  (e.g. .../<repo>/):          baseurl: "/<repo>"
+# Every internal link in this scaffold uses `| relative_url`, so setting this
+# correctly is the ONLY change needed when moving between the two.
+baseurl: ""
+url: "/"
+# name: "naMes"
+# title: "titLes"
+
+# ----------------------------------------------------------------------------
+# Build
+# ----------------------------------------------------------------------------
+permalink: pretty          # docs/getting-started.md -> /docs/getting-started/
+markdown: kramdown
+exclude:
+  - README.md
+  - Gemfile
+
+# Auto-assign layouts so individual files stay clean.
+defaults:
+  - scope: { path: "docs" }
+    values: { layout: "docs" }

@@ -1,0 +1,34 @@
+{%- comment -%}
+  Pure-CSS navigation. The checkbox + sibling selectors drive the collapse and
+  the icon animation with zero JavaScript. On wide screens CSS keeps it open as
+  a static column; on narrow screens it animates its own height in normal flow
+  (no fixed positioning, no overlay). Order matters: input, bar, sidebar must
+  stay siblings so `#nav-toggle:checked ~ .x` can reach them.
+{%- endcomment -%}
+
+<input type="checkbox" id="nav-toggle" class="nav-toggle">
+
+<div class="docs__bar">
+  <label for="nav-toggle" class="navbtn">
+    <span class="navbtn__icon" aria-hidden="true"><span></span></span>
+    <span>Contents</span>
+  </label>
+</div>
+
+<aside class="sidebar" aria-label="Documentation">
+  <div class="sidebar__inner">
+    <p class="sidebar__title mono muted">Guide</p>
+    <nav class="sidebar__nav">
+      {%- assign docs = site.pages | where_exp: "p", "p.path contains 'docs/'" | sort: "nav_order" -%}
+      {%- for doc in docs -%}
+        {%- if doc.title -%}
+        <a class="sidebar__link{% if page.url == doc.url %} is-active{% endif %}"
+           href="{{ doc.url | relative_url }}">
+          <span class="mono sidebar__prefix">{% if page.url == doc.url %}[*]{% else %}[+]{% endif %}</span>
+          {{ doc.title }}
+        </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+  </div>
+</aside>

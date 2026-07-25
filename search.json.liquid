@@ -1,0 +1,18 @@
+---
+permalink: /search.json
+---
+[
+  {%- assign docs = site.pages | where_exp: "p", "p.path contains 'docs/'" | sort: "nav_order" -%}
+  {%- assign first = true -%}
+  {%- for doc in docs -%}
+    {%- if doc.title -%}
+      {%- unless first %},{% endunless -%}{%- assign first = false -%}
+  {
+    "title": {{ doc.title | jsonify }},
+    "url": {{ doc.url | relative_url | jsonify }},
+    "category": {{ doc.category | default: "Docs" | jsonify }},
+    "content": {{ doc.content | strip_html | strip_newlines | jsonify }}
+  }
+    {%- endif -%}
+  {%- endfor -%}
+]

@@ -1,0 +1,39 @@
+---
+layout: default
+---
+<section class="hero inset">
+  <p class="hero__eyebrow mono reveal">
+    <span class="accent">[*]</span> {{ page.version | default: 'v00.00.00' }}
+    <span class="muted">· status: {{ page.status | default: 'online' }}</span>
+  </p>
+
+  <h1 class="hero__name reveal" style="--d:1">{{ page.name | default: site.title }}</h1>
+
+  <p class="hero__role mono reveal" style="--d:2">{{ page.role }}</p>
+
+  {% if page.tagline %}
+  <p class="hero__tagline reveal" style="--d:3">{{ page.tagline }}</p>
+  {% endif %}
+
+  {% if page.links %}
+  <ul class="hero__links reveal" style="--d:4">
+    {% for link in page.links %}
+    <li>
+      <a class="link-row" href="{{ link.url }}">
+        <span class="mono accent">{{ link.prefix | default: '[+]' }}</span>
+        <span>{{ link.label }}</span>
+        <span class="mono muted link-row__url">{{ link.url | remove: 'https://' }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</section>
+
+{% if content != "" %}
+<section class="portfolio-body prose inset reveal-on-scroll">
+  {{ content }}
+</section>
+{% endif %}
+
+{% include footer.html minimal=true %}

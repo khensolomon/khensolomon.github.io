@@ -1,0 +1,18 @@
+---
+layout: default
+---
+<div class="docs inset">
+  {% include sidebar.html %}
+
+  <article class="docs__content prose">
+    <header class="docs__head">
+      {% if page.category %}<p class="eyebrow mono accent">{{ page.category }}</p>{% endif %}
+      <h1>{{ page.title }}</h1>
+      {% if page.description %}<p class="docs__lede">{{ page.description }}</p>{% endif %}
+    </header>
+
+    {{ content }}
+  </article>
+</div>
+
+{% include footer.html %}
