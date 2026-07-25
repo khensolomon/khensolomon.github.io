@@ -9,6 +9,7 @@
   --text:        #16181d;
   --muted:       #6b7078;
   --border:      #e6e6e0;
+  --border-hover:#d3d3ca;   /* gentle neutral emphasis — not the loud accent */
   --accent:      #3457e0;
   --accent-soft: #3457e01a;
   --shadow:      0 1px 2px rgba(20,22,28,.04), 0 8px 30px rgba(20,22,28,.06);
@@ -45,6 +46,7 @@
   --text:        #e9ebf0;
   --muted:       #8b919c;
   --border:      #262b33;
+  --border-hover:#39404b;   /* a touch lighter than the resting border */
   --accent:      #7aa0ff;
   --accent-soft: #7aa0ff1f;
   --shadow:      0 1px 2px rgba(0,0,0,.4), 0 10px 40px rgba(0,0,0,.5);
@@ -105,7 +107,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   background: var(--surface);
-  border-right: 1px solid var(--border);
+  box-shadow: inset -15px 0 7px -15px var(--border-hover);
   transform: translateX(-100%);
   visibility: hidden;                       /* off the tab order when closed */
   transition: transform var(--dur-nav) var(--ease),
@@ -202,7 +204,7 @@ body[data-nav="open"] .sidebar {
   background: var(--surface-2);
   border: 1px solid var(--border);
 }
-.theme-toggle:hover { color: var(--text); border-color: var(--accent); }
+.theme-toggle:hover { color: var(--text); border-color: var(--border-hover); }
 .theme-toggle .ico { width: 18px; height: 18px; display: none; }
 :root[data-theme-pref="light"] .ico-light,
 :root[data-theme-pref="dark"]  .ico-dark,
@@ -218,22 +220,28 @@ body[data-nav="open"] .sidebar {
 .navbtn:hover { color: var(--text); background: var(--surface-2); border-color: var(--border); }
 body[data-nav="open"] .navbtn { color: var(--accent); }
 
-/* hamburger → X, driven purely by body[data-nav]
-   .navbtn is a grid with place-items:center, and the icon is an explicit
-   block with a fixed 16x12 box, so it sits dead-center at any button size */
-.navbtn__icon { display: block; position: relative; width: 16px; height: 12px; }
-.navbtn__icon span,
-.navbtn__icon span::before,
-.navbtn__icon span::after {
-  content: ""; position: absolute; left: 0; top: 5px; width: 16px; height: 2px;
-  background: currentColor; border-radius: 2px;
-  transition: transform var(--dur-nav) var(--ease), background var(--dur-nav) var(--ease);
+/* hamburger → X, driven purely by body[data-nav].
+   Three real bars in a flex column: even 14px box (bars at 0-2, 6-8, 12-14)
+   so the stack is internally symmetric and never rounds to a lopsided 1px on
+   standard-DPI screens. The button's grid centers the whole box. */
+.navbtn__icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 16px; height: 14px;
 }
-.navbtn__icon span::before { transform: translateY(-5px); }
-.navbtn__icon span::after  { transform: translateY(5px); }
-body[data-nav="open"] .navbtn__icon span { background: transparent; }
-body[data-nav="open"] .navbtn__icon span::before { transform: rotate(45deg); }
-body[data-nav="open"] .navbtn__icon span::after  { transform: rotate(-45deg); }
+.navbtn__bar {
+  width: 16px; height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform var(--dur-nav) var(--ease), opacity calc(var(--dur-nav) / 2) var(--ease);
+}
+/* open: top bar drops to center + rotates, bottom bar rises + rotates,
+   middle fades. translateY(6px) meets the center from 0; -6px from 12. */
+body[data-nav="open"] .navbtn__bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+body[data-nav="open"] .navbtn__bar:nth-child(2) { opacity: 0; }
+body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 /* ===========================================================================
    PAGE SLOT
@@ -269,26 +277,68 @@ body[data-nav="open"] .navbtn__icon span::after  { transform: rotate(-45deg); }
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: .8rem;
-  padding: .7rem .9rem;
+  padding: .2rem .9rem;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   transition: background .2s, border-color .2s, transform .2s var(--ease);
 }
-.link-row:hover { background: var(--surface); border-color: var(--border); transform: translateX(4px); box-shadow: var(--shadow); }
+.link-row:hover { background: var(--surface); border-color: var(--border-hover); transform: translateX(4px); box-shadow: var(--shadow); }
 .link-row__url { justify-self: end; opacity: 0; transition: opacity .2s; }
 .link-row:hover .link-row__url { opacity: 1; }
 
 .portfolio-body { margin-block: 2rem 4rem; max-width: var(--measure); }
 
-/* --- shipped apps -------------------------------------------------------- */
-.apps { padding-block: clamp(1.5rem, 5vh, 3rem) clamp(2rem, 6vh, 4rem); }
-.apps__heading {
+/* --- top highlight (optional, portfolio) --------------------------------- */
+.highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  margin-bottom: 1.6rem;
+  padding: 1.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  font-size: .9rem;
+  transition: border-color .2s, transform .2s var(--ease), box-shadow .2s;
+}
+.highlight:hover { border-color: var(--border-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
+.highlight__label {
+  flex-shrink: 0;
+  padding: .18rem .55rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 7px;
+  font-size: .72rem;
+  letter-spacing: .02em;
+}
+.highlight__body { color: var(--text); }
+.highlight__body strong { font-weight: 600; }
+.highlight__arrow { flex-shrink: 0; color: var(--muted); padding-right: .35rem; }
+
+/* Small screens: the pill goes full width and its two ends float apart —
+   label pinned left, body pinned right — instead of overflowing in one line.
+   Block display (not flex) so `float` actually applies to the children. */
+@media (max-width: 560px) {
+  .highlight {
+    display: block;
+    width: 100%;
+    gap: 0;
+  }
+  .highlight::after { content: ""; display: block; clear: both; }   /* contain the floats */
+  .highlight__label { float: left; }
+  .highlight__body  { float: right; max-width: 70%; text-align: right; }
+  .highlight__arrow { display: none; }                              /* drop the decorative arrow when split */
+}
+
+/* --- showcase: apps + tools share one card grid -------------------------- */
+.showcase { padding-block: clamp(1.5rem, 5vh, 3rem) clamp(2rem, 6vh, 4rem); }
+.showcase__heading {
   margin: 0 0 1.4rem;
   text-transform: uppercase;
   letter-spacing: .14em;
   font-size: .72rem;
 }
-.apps__grid {
+.showcase__grid {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -297,7 +347,7 @@ body[data-nav="open"] .navbtn__icon span::after  { transform: rotate(-45deg); }
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   max-width: 58rem;
 }
-.app-card {
+.card {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
@@ -307,23 +357,38 @@ body[data-nav="open"] .navbtn__icon span::after  { transform: rotate(-45deg); }
   border-radius: var(--radius);
   transition: border-color .2s, transform .2s var(--ease), box-shadow .2s;
 }
-.app-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
-.app-card__art {
+.card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow); }
+.card__art {
   flex-shrink: 0;
   width: 48px; height: 48px;
   display: grid; place-items: center;
   border-radius: 11px;
   overflow: hidden;
   background: var(--surface-2);
+  color: var(--muted);
 }
-.app-card__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.app-card__meta { min-width: 0; display: flex; flex-direction: column; gap: .3rem; }
-.app-card__name { font-weight: 600; letter-spacing: -.01em; }
-.app-card__blurb { margin: 0; font-size: .88rem; line-height: 1.5; color: var(--muted); }
-.app-card__stores { margin: .1rem 0 0; font-size: .82rem; }
-.app-card__stores a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; transition: opacity .15s; }
-.app-card__stores a:hover { opacity: .7; }
-.app-card__sep { margin-inline: .5rem; color: var(--muted); opacity: .5; }
+.card__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card__art-mark { font-size: 1rem; color: var(--accent); }
+/* symbolic (GNOME) icons: monochrome glyphs painted with currentColor via a
+   mask so they track the theme instead of rendering as flat black */
+.card__art--symbolic {
+  color: var(--text);
+}
+.card__art--symbolic::before {
+  content: "";
+  width: 62%; height: 62%;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+          mask: var(--icon) center / contain no-repeat;
+}
+.card__meta { min-width: 0; display: flex; flex-direction: column; gap: .3rem; }
+.card__name { font-weight: 600; letter-spacing: -.01em; }
+.card__blurb { margin: 0; font-size: .88rem; line-height: 1.5; color: var(--muted); }
+.card__links { margin: .1rem 0 0; font-size: .82rem; }
+.card__links a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; transition: opacity .15s; }
+.card__links a:hover { opacity: .7; }
+.card__sep { margin-inline: .5rem; color: var(--muted); opacity: .5; }
+.card__arrow { text-decoration: none; }
 
 /* ===========================================================================
    DOCS  — single column; the sidebar is global now
@@ -354,7 +419,7 @@ body[data-nav="open"] .navbtn__icon span::after  { transform: rotate(-45deg); }
   border-radius: var(--radius-btn);
   transition: border-color .2s;
 }
-.search--collapsible:hover,
+.search--collapsible:hover { border-color: var(--border-hover); }
 .search--collapsible:focus-within,
 .search--collapsible.is-open { border-color: var(--accent); }
 

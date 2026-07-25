@@ -1,18 +1,27 @@
 ---
 layout: portfolio
 title: "Hello world"
-name: "Khen Solomon Lethil"
-role: "Open-source · Myanmar language, scripts & culture"
+fullname: "Khen Solomon Lethil"
+role: "Independent open-source developer"
 version: "v26.06.20"
 status: "online"
-tagline: "Independent open-source developer preserving and modernizing Myanmar language, scripts, and culture through technology."
+tagline: "I build open-source tools and platforms that help preserve, modernize, and freely share language, scripts, and music for the next generation."
+
+# Optional top highlight — a current/recent focus. Remove this whole block and
+# nothing renders in its place (no empty banner, no gap).
+highlight:
+  label: "Now building"
+  name: "Lesion"
+  text: "a GNOME Shell extension"
+  url: "https://github.com/khensolomon/lesion"
+
 links:
   - { label: "GitHub",     url: "https://github.com/khensolomon", prefix: "[+]" }
   - { label: "MyOrdbok",   url: "https://myordbok.com",           prefix: "[>]" }
   - { label: "Zaideih",    url: "https://zaideih.com",            prefix: "[>]" }
 
-# Shipped apps. Each renders as a card via _includes/apps.html — no raw HTML
-# in this file. Add a store only if the app is actually listed there.
+# Shipped apps. Each renders as a card via _includes/showcase.html — no raw
+# HTML in this file. Add a store only if the app is actually listed there.
 apps_heading: "Projects"
 apps:
   - name:  "MyOrdbok"
@@ -35,4 +44,14 @@ apps:
     image: "https://raw.githubusercontent.com/laisiangtho/music/master/music.png"
     stores:
       - { label: "Play Store", url: "https://play.google.com/store/apps/details?id=com.zaideih.app" }
+
+# Extensions, packages, smaller tools. Same card include; `image` is optional
+# (falls back to a monospace mark) and there are no stores — the name links to
+# the source. Symbolic SVGs (filename contains "symbolic") adapt to the theme.
+tools_heading: "Extensions & packages"
+tools:
+  - name:  "Lesion"
+    blurb: "A GNOME Shell extension."
+    repo:  "https://github.com/khensolomon/lesion"
+    image: "https://raw.githubusercontent.com/khensolomon/lesion/refs/heads/master/icon/hornbill-symbolic.svg"
 ---

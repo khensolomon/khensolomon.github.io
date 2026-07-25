@@ -1,15 +1,34 @@
 ---
 layout: default
 ---
+{%- comment -%}
+  Optional top highlight. Renders ONLY when page.highlight exists — otherwise
+  no element is emitted at all, so there is no empty banner or reserved gap.
+{%- endcomment -%}
+{%- comment -%}
+  Optional top highlight lives at the top of the hero. Renders ONLY when
+  page.highlight exists — otherwise nothing is emitted, so there is no empty
+  banner and no reserved vertical space.
+{%- endcomment -%}
 <section class="hero inset">
+  {% if page.highlight %}
+  <a class="highlight reveal" href="{{ page.highlight.url }}">
+    <span class="highlight__label mono">{{ page.highlight.label | default: 'Featured' }}</span>
+    <span class="highlight__body">
+      <strong>{{ page.highlight.name }}</strong>{% if page.highlight.text %} — {{ page.highlight.text }}{% endif %}
+    </span>
+    <span class="highlight__arrow mono" aria-hidden="true">&#8599;</span>
+  </a>
+  {% endif %}
+
   <p class="hero__eyebrow mono reveal">
     <span class="accent">[*]</span> {{ page.version | default: 'v00.00.00' }}
     <span class="muted">· status: {{ page.status | default: 'online' }}</span>
   </p>
 
-  <h1 class="hero__name reveal" style="--d:1">{{ page.name | default: site.name }}</h1>
+  <h1 class="hero__name reveal" style="--d:1">{{ page.fullname | default: site.title }}</h1>
 
-  <p class="hero__role mono reveal" style="--d:2">{{ page.role }}</p>
+  {% if page.role %}<p class="hero__role mono reveal" style="--d:2">{{ page.role }}</p>{% endif %}
 
   {% if page.tagline %}
   <p class="hero__tagline reveal" style="--d:3">{{ page.tagline }}</p>
@@ -31,7 +50,11 @@ layout: default
 </section>
 
 {% if page.apps %}
-{% include apps.html items=page.apps heading=page.apps_heading %}
+{% include showcase.html items=page.apps heading=page.apps_heading %}
+{% endif %}
+
+{% if page.tools %}
+{% include showcase.html items=page.tools heading=page.tools_heading %}
 {% endif %}
 
 {% if content != "" %}

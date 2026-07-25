@@ -7,6 +7,20 @@ nav_order: 99
 
 Versions use `yy.mm.dd` — the date the change shipped. Newest at the top.
 
+## 26.07.25b
+
+- Added an optional top highlight in the hero for a current/recent focus
+  ("Now building"). It renders only when set in `index.md` — no gap otherwise.
+- New "Extensions & packages" section (Lesion) using the same card include;
+  images are now optional and GNOME symbolic SVGs adapt to the theme.
+- Softened hover borders from the loud accent to a gentle neutral.
+- Rebuilt the menu button icon as three flush bars so it centers on whole
+  pixels at any DPI.
+- Fixed the hero name showing the filename (`page.name` collided with a Jekyll
+  built-in; renamed to `fullname`).
+- Reworded the role and tagline to be about language, scripts, and music
+  generally, without naming a country.
+
 ## 26.07.25
 
 - Home now shows real project cards (MyOrdbok, Lai Siangtho, Zaideih) with
