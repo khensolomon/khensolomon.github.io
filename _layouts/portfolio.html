@@ -2,37 +2,51 @@
 layout: default
 ---
 {%- comment -%}
-  Optional top highlight. Renders ONLY when page.highlight exists — otherwise
+  Optional top feature. Renders ONLY when page.highlight exists — otherwise
   no element is emitted at all, so there is no empty banner or reserved gap.
 {%- endcomment -%}
 {%- comment -%}
-  Optional top highlight lives at the top of the hero. Renders ONLY when
+  Optional top feature lives at the top of the hero. Renders ONLY when
   page.highlight exists — otherwise nothing is emitted, so there is no empty
   banner and no reserved vertical space.
 {%- endcomment -%}
 <section class="hero inset">
   {% if page.highlight %}
-  <a class="highlight reveal" href="{{ page.highlight.url }}">
-    <span class="highlight__label mono">{{ page.highlight.label | default: 'Featured' }}</span>
-    <span class="highlight__body">
+  <a class="feature reveal" href="{{ page.highlight.url }}">
+    <span class="feature__label mono">{{ page.highlight.label | default: 'Featured' }}</span>
+    <span class="feature__body">
       <strong>{{ page.highlight.name }}</strong>{% if page.highlight.text %} — {{ page.highlight.text }}{% endif %}
     </span>
-    <span class="highlight__arrow mono" aria-hidden="true">&#8599;</span>
+    <span class="feature__arrow mono" aria-hidden="true">&#8599;</span>
   </a>
   {% endif %}
 
-  <p class="hero__eyebrow mono reveal">
-    <span class="accent">[*]</span> {{ page.version | default: 'v00.00.00' }}
-    <span class="muted">· status: {{ page.status | default: 'online' }}</span>
-  </p>
+  {%- comment -%}
+    Dynamic hero. Content rotates by weekday from _data/hero.yml (index 1=Mon …
+    7=Sun; fewer entries → the last one fills the rest). Liquid renders the
+    BUILD-day entry below so the page is correct with JS off and never flashes;
+    the inline script then swaps to the VISITOR's weekday and applies any date
+    override, running during parse so the change lands before first paint.
+  {%- endcomment -%}
+  {%- assign hero = site.data.hero -%}
+  {%- assign wd = site.time | date: "%u" | times: 1 -%}
+  {%- assign count = hero.days | size -%}
+  {%- if wd > count %}{% assign wd = count %}{% endif -%}
+  {%- assign idx = wd | minus: 1 -%}
+  {%- assign d = hero.days[idx] -%}
 
-  <h1 class="hero__name reveal" style="--d:1">{{ page.fullname | default: site.title }}</h1>
+  <p class="hero__eyebrow mono reveal" data-hero-eyebrow>{{ site.time | date: "%A · %-d %b %Y" }}</p>
 
-  {% if page.role %}<p class="hero__role mono reveal" style="--d:2">{{ page.role }}</p>{% endif %}
+  <h1 class="hero__caption reveal" style="--d:1" data-hero-caption>{{ d.caption | default: site.title }}</h1>
 
-  {% if page.tagline %}
-  <p class="hero__tagline reveal" style="--d:3">{{ page.tagline }}</p>
-  {% endif %}
+  {%- comment -%}
+    slogan/subject are always emitted so the client-side swap has an element to
+    fill for the visitor's weekday; `hidden` keeps them out of sight (and out of
+    the layout) when a day has no such field, including for JS-off visitors.
+  {%- endcomment -%}
+  <p class="hero__slogan mono reveal" style="--d:2" data-hero-slogan{% unless d.slogan %} hidden{% endunless %}>{{ d.slogan }}</p>
+
+  <p class="hero__subject reveal" style="--d:3" data-hero-subject{% unless d.subject %} hidden{% endunless %}>{{ d.subject }}</p>
 
   {% if page.links %}
   <ul class="hero__links reveal" style="--d:4">
@@ -47,6 +61,54 @@ layout: default
     {% endfor %}
   </ul>
   {% endif %}
+
+  {%- comment -%} Client-side pick: visitor's weekday + date overrides. {%- endcomment -%}
+  <script>
+  (function () {
+    var HERO = {{ site.data.hero | jsonify }};
+    var days = (HERO && HERO.days) || [];
+    if (!days.length) return;
+    var dates = (HERO && HERO.dates) || [];
+
+    var now = new Date();
+    var iso = ((now.getDay() + 6) % 7) + 1;           // 1=Mon … 7=Sun
+    var p = function (n) { return (n < 10 ? "0" : "") + n; };
+    var ymd = now.getFullYear() + "-" + p(now.getMonth() + 1) + "-" + p(now.getDate());
+    var md  = p(now.getMonth() + 1) + "-" + p(now.getDate());
+
+    function pick(i) {                                 // 1-based, clamped
+      i = i < 1 ? 1 : (i > days.length ? days.length : i);
+      return days[i - 1] || {};
+    }
+
+    var entry = pick(iso);                             // last entry fills extra days
+
+    var ov = null, k;                                  // exact date wins over recurring
+    for (k = 0; k < dates.length; k++) if (dates[k].on === ymd) { ov = dates[k]; break; }
+    if (!ov) for (k = 0; k < dates.length; k++) if (dates[k].every === md) { ov = dates[k]; break; }
+
+    var out = { caption: entry.caption, slogan: entry.slogan, subject: entry.subject, eyebrow: entry.eyebrow };
+    if (ov) {
+      if (ov.use) { var u = pick(ov.use); out = { caption: u.caption, slogan: u.slogan, subject: u.subject, eyebrow: u.eyebrow }; }
+      ["caption", "slogan", "subject", "eyebrow"].forEach(function (f) { if (ov[f] != null) out[f] = ov[f]; });
+    }
+
+    var WD = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var MO = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    out.eyebrow = out.eyebrow || (WD[iso - 1] + " · " + now.getDate() + " " + MO[now.getMonth()] + " " + now.getFullYear());
+
+    function fill(sel, val, canHide) {
+      var n = document.querySelector(sel); if (!n) return;
+      var v = (val == null ? "" : String(val));
+      n.textContent = v;
+      if (canHide) n.hidden = (v === "");
+    }
+    fill("[data-hero-caption]", out.caption, false);
+    fill("[data-hero-slogan]",  out.slogan,  true);
+    fill("[data-hero-subject]", out.subject, true);
+    fill("[data-hero-eyebrow]", out.eyebrow, false);
+  })();
+  </script>
 </section>
 
 {% if page.apps %}

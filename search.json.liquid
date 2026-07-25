@@ -2,7 +2,7 @@
 permalink: /search.json
 ---
 [
-  {%- assign docs = site.pages | where_exp: "p", "p.path contains 'docs/'" | sort: "nav_order" -%}
+  {%- assign docs = site.pages | where: "in_nav", true | sort: "nav_order" -%}
   {%- assign first = true -%}
   {%- for doc in docs -%}
     {%- if doc.title -%}

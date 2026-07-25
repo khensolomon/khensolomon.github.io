@@ -1,9 +1,11 @@
 ---
 layout: portfolio
-title: "Hello world"
-
-# The hero (caption / slogan / subject / eyebrow) now rotates by weekday and is
-# edited in _data/hero.yml — not here.
+title: "ZOMI.developer"
+fullname: "Khen Solomon Lethil"
+role: "Independent open-source developer"
+version: "v26.06.20"
+status: "online"
+tagline: "I build open-source tools and platforms that help preserve, modernize, and freely share language, scripts, and music for the next generation."
 
 # Optional top highlight — a current/recent focus. Remove this whole block and
 # nothing renders in its place (no empty banner, no gap).

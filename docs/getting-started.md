@@ -3,6 +3,7 @@ title: "Getting started"
 description: "Run the site locally and add your first page."
 category: "Guide"
 nav_order: 1
+in_nav: true
 ---
 
 Every page in the sidebar and the search index comes from one contract: a

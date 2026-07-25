@@ -57,7 +57,13 @@
    BASE
    =========================================================================== */
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  font-size: 104%;                 /* ~16.6px base — a touch larger everywhere */
+}
+@media (max-width: 699.98px) {
+  html { font-size: 109%; }        /* ~17.4px on phones, checked on-device */
+}
 
 body {
   margin: 0;
@@ -131,6 +137,20 @@ body[data-nav="open"] .sidebar {
   body { --side-w: min(78vw, 17rem); }
   html, body { overflow-x: hidden; }
   body[data-nav="open"] .shell { transform: translateX(var(--side-w)); }
+
+  /* header has no room on phones: move the theme control into the sidebar.
+     Descendant selectors here outrank the base .sidebar__foot / .theme-toggle
+     rules (which appear later in the file) so order doesn't matter. */
+  .topbar .theme-toggle { display: none; }
+  .sidebar .sidebar__foot { display: block; }
+  .sidebar__foot .theme-toggle--wide {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%; height: auto;
+    gap: .6rem;
+    padding: .6rem .7rem;
+  }
 }
 
 /* sidebar internals */
@@ -142,6 +162,12 @@ body[data-nav="open"] .sidebar {
   padding-inline: 1.1rem;
 }
 .sidebar__body { flex: 1; overflow-y: auto; padding: 1rem .8rem 1.5rem; }
+
+/* theme control lives at the sidebar foot on phones only (see media query) */
+.sidebar__foot { flex-shrink: 0; padding: .8rem; border-top: 1px solid var(--border); display: none; }
+.theme-toggle--wide { display: none; }
+.theme-toggle--wide .ico { width: 18px; }
+.theme-toggle__text { font-size: .95rem; color: var(--text); }
 
 .sidebar__title {
   padding: .2rem .6rem .55rem;
@@ -183,9 +209,11 @@ body[data-nav="open"] .sidebar {
   min-width: 0;
 }
 
-.brand { display: inline-flex; align-items: baseline; gap: .5rem; font-weight: 600; white-space: nowrap; }
+.brand { display: inline-flex; align-items: center; gap: .5rem; font-weight: 600; white-space: nowrap; }
 .brand-mark { font-family: var(--font-mono); color: var(--accent); }
 .brand-name { letter-spacing: -.01em; }
+.brand__icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--muted); }
+.brand:hover .brand__icon { color: var(--accent); }
 
 /* --- icon buttons share one footprint ------------------------------------ */
 .theme-toggle,
@@ -255,8 +283,8 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
   padding-block: clamp(3.5rem, 14vh, 8rem) clamp(2.5rem, 7vh, 4.5rem);
   container-type: inline-size;
 }
-.hero__eyebrow { margin: 0 0 1.4rem; }
-.hero__name {
+.hero__eyebrow { margin: 0 0 1.4rem; color: var(--muted); }
+.hero__caption {
   margin: 0;
   font-size: clamp(2.4rem, 8vw, 4.6rem);
   line-height: 1.02;
@@ -264,8 +292,8 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
   font-weight: 650;
   max-width: 18ch;
 }
-.hero__role { margin: .9rem 0 0; color: var(--muted); font-size: clamp(.95rem, 2.5vw, 1.05rem); }
-.hero__tagline {
+.hero__slogan { margin: .9rem 0 0; color: var(--muted); font-size: clamp(.95rem, 2.5vw, 1.05rem); }
+.hero__subject {
   margin: 1.6rem 0 0;
   max-width: 34ch;
   font-size: clamp(1.05rem, 2.4vw, 1.3rem);
@@ -289,7 +317,7 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
 .portfolio-body { margin-block: 2rem 4rem; max-width: var(--measure); }
 
 /* --- top highlight (optional, portfolio) --------------------------------- */
-.highlight {
+.feature {
   display: inline-flex;
   align-items: center;
   gap: .7rem;
@@ -301,8 +329,8 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
   font-size: .9rem;
   transition: border-color .2s, transform .2s var(--ease), box-shadow .2s;
 }
-.highlight:hover { border-color: var(--border-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
-.highlight__label {
+.feature:hover { border-color: var(--border-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
+.feature__label {
   flex-shrink: 0;
   padding: .18rem .55rem;
   background: var(--accent-soft);
@@ -311,23 +339,23 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
   font-size: .72rem;
   letter-spacing: .02em;
 }
-.highlight__body { color: var(--text); }
-.highlight__body strong { font-weight: 600; }
-.highlight__arrow { flex-shrink: 0; color: var(--muted); padding-right: .35rem; }
+.feature__body { color: var(--text); }
+.feature__body strong { font-weight: 600; }
+.feature__arrow { flex-shrink: 0; color: var(--muted); padding-right: .35rem; }
 
 /* Small screens: the pill goes full width and its two ends float apart —
    label pinned left, body pinned right — instead of overflowing in one line.
    Block display (not flex) so `float` actually applies to the children. */
 @media (max-width: 560px) {
-  .highlight {
+  .feature {
     display: block;
     width: 100%;
     gap: 0;
   }
-  .highlight::after { content: ""; display: block; clear: both; }   /* contain the floats */
-  .highlight__label { float: left; }
-  .highlight__body  { float: right; max-width: 70%; text-align: right; }
-  .highlight__arrow { display: none; }                              /* drop the decorative arrow when split */
+  .feature::after { content: ""; display: block; clear: both; }   /* contain the floats */
+  .feature__label { float: left; }
+  .feature__body  { float: right; max-width: 70%; text-align: right; }
+  .feature__arrow { display: none; }                              /* drop the decorative arrow when split */
 }
 
 /* --- showcase: apps + tools share one card grid -------------------------- */
@@ -348,9 +376,15 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
   max-width: 58rem;
 }
 .card {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "art name"
+    "art blurb"
+    "art links";
+  align-content: start;
+  column-gap: 1rem;
+  row-gap: .3rem;
   padding: 1rem 1.1rem;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -359,6 +393,8 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
 }
 .card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow); }
 .card__art {
+  grid-area: art;
+  align-self: start;
   flex-shrink: 0;
   width: 48px; height: 48px;
   display: grid; place-items: center;
@@ -381,14 +417,28 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
   -webkit-mask: var(--icon) center / contain no-repeat;
           mask: var(--icon) center / contain no-repeat;
 }
-.card__meta { min-width: 0; display: flex; flex-direction: column; gap: .3rem; }
-.card__name { font-weight: 600; letter-spacing: -.01em; }
-.card__blurb { margin: 0; font-size: .88rem; line-height: 1.5; color: var(--muted); }
-.card__links { margin: .1rem 0 0; font-size: .82rem; }
+.card__name  { grid-area: name;  align-self: center; min-width: 0; font-weight: 600; letter-spacing: -.01em; }
+.card__blurb { grid-area: blurb; margin: 0; font-size: .88rem; line-height: 1.5; color: var(--muted); }
+.card__links { grid-area: links; margin: .1rem 0 0; font-size: .82rem; }
 .card__links a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; transition: opacity .15s; }
 .card__links a:hover { opacity: .7; }
 .card__sep { margin-inline: .5rem; color: var(--muted); opacity: .5; }
 .card__arrow { text-decoration: none; }
+
+/* Phones: the art no longer spans the whole card height (which left dead space
+   beneath a short icon). Instead it pairs with the name on the top row, and the
+   blurb + links run full width beneath — a tidy header-then-body layout. */
+@media (max-width: 560px) {
+  .card {
+    grid-template-areas:
+      "art name"
+      "blurb blurb"
+      "links links";
+    align-items: center;
+    row-gap: .55rem;
+  }
+  .card__art { align-self: center; width: 44px; height: 44px; }
+}
 
 /* ===========================================================================
    DOCS  — single column; the sidebar is global now
@@ -403,15 +453,29 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
 /* ===========================================================================
    SEARCH
    ---------------------------------------------------------------------------
-   Docs:  input always visible, sits in the LEFT cluster after the brand.
-   Home:  .search--collapsible — icon button only; clicking it grows the
-          input out of the button (clean UI until you actually want it).
+   Desktop  — Docs: input inline (left cluster). Home: collapsible pill.
+   Phones   — both show only the toggle icon; opening it fills the screen with
+              an overlay (back button + input on top, results below).
    =========================================================================== */
 .search { position: relative; display: flex; align-items: center; min-width: 0; }
+.search__field { display: contents; }   /* transparent on desktop; a bar on phones */
+.search__back  { display: none; }        /* only appears in the phone overlay */
 
-/* --- home: ONE box. The bordered container holds both the icon and the
-   input; collapsed it is just an icon button, expanded the input grows
-   inside the same box — no separate button + field floating side by side. */
+/* toggle icon: hidden by default (docs shows the input instead); the
+   collapsible home variant and the phone layout switch it on */
+.search__toggle {
+  display: none;
+  place-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  transition: color .2s;
+}
+.search__toggle svg { width: 17px; height: 17px; }
+
+/* --- home: ONE box. Icon + input share a bordered pill. --- */
 .search--collapsible {
   height: var(--btn);
   background: var(--surface-2);
@@ -422,22 +486,13 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
 .search--collapsible:hover { border-color: var(--border-hover); }
 .search--collapsible:focus-within,
 .search--collapsible.is-open { border-color: var(--accent); }
-
-.search__toggle {
+.search--collapsible .search__toggle {
   display: inline-grid;
-  place-items: center;
-  width: calc(var(--btn) - 2px);   /* fills the box minus its 1px borders */
-  height: 100%;
-  flex-shrink: 0;
-  cursor: pointer;
-  color: var(--muted);
-  background: transparent;
-  border: none;
+  width: calc(var(--btn) - 2px);
+  height: calc(var(--btn) - 2px);
   border-radius: calc(var(--radius-btn) - 1px);
-  transition: color .2s;
 }
-.search__toggle:hover { color: var(--text); }
-.search__toggle svg { width: 17px; height: 17px; }
+.search--collapsible .search__toggle:hover { color: var(--text); }
 .search--collapsible.is-open .search__toggle { color: var(--accent); }
 
 .search__input {
@@ -448,14 +503,14 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
   background: var(--surface-2);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: var(--radius-btn);          /* matches the theme toggle */
+  border-radius: var(--radius-btn);
   transition: width var(--dur-nav) var(--ease), padding var(--dur-nav) var(--ease),
               opacity .2s var(--ease), border-color .2s;
 }
 .search__input::placeholder { color: var(--muted); }
 .search__input:focus { width: clamp(9rem, 26vw, 16rem); border-color: var(--accent); outline: none; }
 
-/* inside the box the input is chrome-less — the container draws the border */
+/* inside the pill the input is chrome-less — the pill draws the border */
 .search--collapsible .search__input {
   height: 100%;
   width: 0;
@@ -467,7 +522,7 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
 }
 .search--collapsible.is-open .search__input {
   width: clamp(8rem, 24vw, 14rem);
-  padding-inline: 0 .8rem;                   /* icon already pads the left */
+  padding-inline: 0 .8rem;
   opacity: 1;
   pointer-events: auto;
 }
@@ -484,7 +539,6 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
   overflow: hidden;
   z-index: 60;
 }
-/* docs search lives on the left — anchor its panel left so it stays on screen */
 .is-docs .search:not(.search--collapsible) .search__panel { right: auto; left: 0; }
 
 .search__results { list-style: none; margin: 0; padding: .35rem; max-height: 60vh; overflow-y: auto; }
@@ -497,6 +551,83 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) { transform: translateY(-6px) ro
                   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .search__rsnip mark { background: var(--accent-soft); color: var(--text); border-radius: 3px; padding: 0 .1em; }
 .search__empty { padding: 1rem .8rem; color: var(--muted); font-size: .9rem; }
+
+/* --- phones: single icon in the header → full-screen overlay on open ------ */
+@media (max-width: 699.98px) {
+  /* collapse every variant down to just the icon in the header */
+  .search__field { display: none; }
+  .search__toggle {
+    display: inline-grid;
+    width: var(--btn); height: var(--btn);
+    border-radius: var(--radius-btn);
+  }
+  .search--collapsible {
+    height: var(--btn);
+    background: transparent;
+    border: 1px solid transparent;
+  }
+  .search--collapsible .search__toggle { width: var(--btn); height: var(--btn); }
+
+  /* opened: the container becomes a full-screen surface */
+  .search.is-open {
+    position: fixed;
+    inset: 0;
+    height: 100dvh;               /* override the collapsible pill's 35px height */
+    z-index: 200;
+    display: block;
+    background: var(--bg);
+  }
+  .search.is-open .search__toggle { display: none; }
+  .search.is-open .search__field {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    height: var(--topbar-h);
+    padding-inline: var(--gutter);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .search.is-open .search__back {
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: var(--btn); height: var(--btn);
+    margin-left: -.4rem;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-btn);
+    cursor: pointer;
+  }
+  .search.is-open .search__back:hover { background: var(--surface-2); }
+  .search.is-open .search__back svg { width: 22px; height: 22px; }
+  .search.is-open .search__input {
+    display: block;
+    flex: 1;
+    width: auto; min-width: 0;
+    height: 42px;
+    opacity: 1;
+    pointer-events: auto;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    padding: 0 .9rem;
+  }
+  .search.is-open .search__panel {
+    position: static;
+    display: block;
+    width: 100%;
+    height: calc(100dvh - var(--topbar-h));
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: var(--bg);
+    overflow-y: auto;
+  }
+  .search.is-open .search__results { max-height: none; padding: .5rem; }
+  .search.is-open .search__results a { padding: .8rem .7rem; }
+}
+body.search-lock { overflow: hidden; }
 
 /* ===========================================================================
    PROSE
