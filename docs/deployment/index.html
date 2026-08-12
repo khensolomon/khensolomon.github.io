@@ -1,0 +1,1482 @@
+<!doctype html><html lang="en" data-theme="light" data-theme-pref="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deployment guide — Lethil</title>
+  <meta name="description" content="Provision a production server from a fresh Ubuntu/Debian host to an automated Docker Swarm deploy pipeline.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+
+  <!-- Resolve theme before first paint to avoid a flash. Must stay inline. -->
+  <script>
+    (function () {
+      try {
+        var pref = localStorage.getItem('theme') || 'auto';
+        var dark = pref === 'dark' ||
+          (pref === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+        var r = document.documentElement;
+        r.setAttribute('data-theme', dark ? 'dark' : 'light');
+        r.setAttribute('data-theme-pref', pref);
+      } catch (e) {}
+    })();
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1786513643">
+  <script>window.SITE = { searchUrl: "/search.json?v=1786513643" };</script>
+</head>
+<body class="is-docs" data-nav="closed">
+  <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
+  <script>
+    (function () {
+      try {
+        var b = document.body;
+        var wide = matchMedia('(min-width: 700px)').matches;
+        if (!wide) return; /* mobile always starts closed */
+        if (b.classList.contains('is-docs')) {
+          var stored = sessionStorage.getItem('nav:docs');
+          if (stored !== 'closed') b.setAttribute('data-nav', 'open');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <aside id="sidebar" class="sidebar" aria-label="Site navigation">
+  <div class="sidebar__head">
+    
+    <a class="brand" href="/">
+      <svg class="brand__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 11.2 12 4l8 7.2"/><path d="M6 10v9.2h12V10"/><path d="M10 19v-5h4v5"/>
+      </svg>
+      <span class="brand-name">Home</span>
+    </a>
+    <button class="theme-toggle theme-toggle--icon" type="button" aria-label="Color theme: auto">
+      <svg class="ico ico-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+      </svg>
+      <svg class="ico ico-dark" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.5 14.2A8 8 0 0 1 9.8 3.5 8 8 0 1 0 20.5 14.2Z"/>
+      </svg>
+      <svg class="ico ico-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="12" cy="12" r="8.5"/>
+        <path d="M12 3.5a8.5 8.5 0 0 0 0 17Z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar__body">
+    <p class="sidebar__title mono muted">Docs</p>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
+           href="/docs/getting-started/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Getting started</span>
+        </a><a class="sidebar__link is-active"
+           href="/docs/deployment/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Deployment guide</span>
+        </a><a class="sidebar__link"
+           href="/docs/secrets/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Secrets manager</span>
+        </a><a class="sidebar__link"
+           href="/docs/summary/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Handoff summary</span>
+        </a></nav>
+
+    
+  </div><div class="sidebar__foot" hidden></div>
+</aside>
+
+
+  <div class="shell">
+    <header class="topbar">
+      <div class="topbar__cluster">
+        <button class="navbtn" type="button"
+                aria-controls="sidebar" aria-expanded="false"
+                aria-label="Toggle navigation" data-nav-toggle>
+          <span class="navbtn__icon" aria-hidden="true">
+            <span class="navbtn__bar"></span>
+            <span class="navbtn__bar"></span>
+            <span class="navbtn__bar"></span>
+          </span>
+        </button>
+
+        <a class="brand" href="/docs/">
+          <span class="brand-name">Docs</span>
+        </a>
+        <div class="search" data-search>
+  <div class="search__bar">
+    <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="11" cy="11" r="6.5"/><path d="M20.5 20.5 16 16"/>
+      </svg>
+    </button>
+    <div class="search__field">
+      <button type="button" class="search__back" data-search-close aria-label="Close search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <input
+        type="search"
+        class="search__input"
+        placeholder="Search"
+        aria-label="Search"
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input>
+      <span class="search__hint" data-search-hint aria-hidden="true" title="Press / or Ctrl+K to search">
+        <kbd>/</kbd>
+        <span class="search__hint-sep">or</span>
+        <kbd data-search-hint-mod>Ctrl</kbd><span class="search__hint-plus">+</span><kbd>K</kbd>
+      </span>
+    </div>
+  </div>
+  <div class="search__panel" data-search-panel hidden>
+    <ul class="search__results" data-search-results role="listbox"></ul>
+  </div>
+</div>
+
+        
+      </div>
+
+      <div class="topbar__cluster">
+        
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="docs inset">
+  <article class="docs__content prose">
+    <header class="docs__head">
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Guide">Guide</a>
+      <h1>Deployment guide</h1>
+      <p class="docs__lede">Provision a production server from a fresh Ubuntu/Debian host to an automated Docker Swarm deploy pipeline.</p>
+    </header>
+    
+    <p><strong>Stack:</strong> Django · MySQL · Nginx · Docker Swarm · Cloudflare Tunnel · GitHub Actions</p>
+
+<p>This guide covers the complete setup of a production server from a fresh Ubuntu/Debian droplet to a fully automated deployment pipeline. Follow each section in order on a first-time setup.</p>
+
+<p>The bootstrap is fully scripted. <code class="language-plaintext highlighter-rouge">setup.py</code> provisions the VM, creates the Cloudflare Tunnel, ingress rules, DNS records, the Access application protecting SSH, and attaches a Service Auth policy that lets the GitHub Actions deploy pipeline authenticate. Credentials are supplied as flags; the script wires them up.</p>
+
+<hr />
+
+<h2 id="todo">Todo</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />mkdir -p /opt/bucket/storage</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />mkdir -p /opt/bucket/media</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />install rclone and config — now handled by <code class="language-plaintext highlighter-rouge">setup.py</code> (see <a href="#4-running-the-setup-script">Section 4</a>)</li>
+</ul>
+
+<hr />
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ol>
+  <li><a href="#1-prerequisites">Prerequisites</a></li>
+  <li><a href="#2-one-time-cloudflare-credentials">One-time Cloudflare credentials</a></li>
+  <li><a href="#3-server-provisioning">Server Provisioning</a></li>
+  <li><a href="#4-running-the-setup-script">Running the Setup Script</a></li>
+  <li><a href="#5-directory-structure">Directory Structure</a></li>
+  <li><a href="#6-manual-cloudflare-steps-still-required">Manual Cloudflare Steps Still Required</a>
+    <ul>
+      <li><a href="#61-verify-the-tunnel-is-healthy">6.1 Verify the tunnel is healthy</a></li>
+    </ul>
+  </li>
+  <li><a href="#7-post-install-ssh-cutover-and-landing-page">Post-install: SSH cutover and landing page</a>
+    <ul>
+      <li><a href="#71-test-ssh-through-the-tunnel-before-closing-port-22">7.1 Test SSH through the tunnel</a></li>
+      <li><a href="#72-close-port-22">7.2 Close port 22</a></li>
+      <li><a href="#73-customise-the-landing-page">7.3 Customise the landing page</a></li>
+    </ul>
+  </li>
+  <li><a href="#8-github-actions-self-hosted-runner">GitHub Actions Self-Hosted Runner</a></li>
+  <li><a href="#9-github-repository-secrets-via-secretspy">GitHub Repository Secrets (via secrets.py)</a></li>
+  <li><a href="#10-triggering-a-deployment">Triggering a Deployment</a></li>
+  <li><a href="#11-deployment-methods-explained">Deployment Methods Explained</a></li>
+  <li><a href="#12-monitoring--logs">Monitoring &amp; Logs</a></li>
+  <li><a href="#13-rollback-procedure">Rollback Procedure</a></li>
+  <li><a href="#14-emergency-server-access">Emergency Server Access</a></li>
+  <li><a href="#15-firewall-reference">Firewall Reference</a></li>
+  <li><a href="#16-re-running-setuppy">Re-running setup.py</a></li>
+  <li><a href="#17-troubleshooting">Troubleshooting</a></li>
+</ol>
+
+<hr />
+
+<h2 id="1-prerequisites">1. Prerequisites</h2>
+
+<h3 id="accounts-and-services-required">Accounts and services required</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Purpose</th>
+      <th>Where to create</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DigitalOcean (or any VPS)</td>
+      <td>Production server</td>
+      <td><a href="https://digitalocean.com">digitalocean.com</a></td>
+    </tr>
+    <tr>
+      <td>GitHub</td>
+      <td>Repository + Actions runner + GHCR image registry</td>
+      <td><a href="https://github.com">github.com</a></td>
+    </tr>
+    <tr>
+      <td>Cloudflare</td>
+      <td>DNS + Zero Trust tunnel</td>
+      <td><a href="https://cloudflare.com">cloudflare.com</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="local-machine-requirements">Local machine requirements</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ssh</code> and <code class="language-plaintext highlighter-rouge">ssh-keygen</code> available in the terminal</li>
+  <li><code class="language-plaintext highlighter-rouge">git</code> installed</li>
+  <li>A domain pointed to Cloudflare nameservers</li>
+  <li>A password manager — for storing the credentials gathered in <a href="#2-one-time-cloudflare-credentials">Section 2</a></li>
+</ul>
+
+<hr />
+
+<h2 id="2-one-time-cloudflare-credentials">2. One-time Cloudflare credentials</h2>
+
+<p>These are gathered once, stored in a password manager, and reused for every <code class="language-plaintext highlighter-rouge">setup.py</code> run. They are <strong>never</strong> committed to a repo or pushed to GitHub.</p>
+
+<h3 id="21-api-token">2.1 API Token</h3>
+
+<p>Cloudflare → <strong>My Profile → API Tokens → Create Token → Custom token</strong>.</p>
+
+<p>Required permissions:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>Permission</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Zone — DNS</td>
+      <td>Edit</td>
+    </tr>
+    <tr>
+      <td>Account — Cloudflare Tunnel</td>
+      <td>Edit</td>
+    </tr>
+    <tr>
+      <td>Account — Access: Apps and Policies</td>
+      <td>Edit</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Set zone resources to <strong>All zones</strong> (or list each zone explicitly). Copy the token at the end of the creation flow — it is shown only once. This is <code class="language-plaintext highlighter-rouge">--cf-api-token</code>.</p>
+
+<h3 id="22-account-id">2.2 Account ID</h3>
+
+<p>Cloudflare dashboard → any zone → right sidebar → <strong>Account ID</strong>. Permanent; doesn’t change. This is <code class="language-plaintext highlighter-rouge">--cf-account-id</code>.</p>
+
+<h3 id="23-service-token">2.3 Service Token</h3>
+
+<p>Zero Trust → <strong>Access → Service Auth → Service Tokens → Create Service Token</strong>.</p>
+
+<ul>
+  <li>Name it something memorable, e.g. <code class="language-plaintext highlighter-rouge">deploy-pipeline</code></li>
+  <li>Set an expiry (1 year recommended; set a calendar reminder)</li>
+  <li>Copy both the <strong>Client ID</strong> (ends in <code class="language-plaintext highlighter-rouge">.access</code>) and <strong>Client Secret</strong> — the secret is shown only once</li>
+</ul>
+
+<p>These become <code class="language-plaintext highlighter-rouge">--cf-service-token-id</code> and <code class="language-plaintext highlighter-rouge">--cf-service-token-secret</code> for <code class="language-plaintext highlighter-rouge">setup.py</code>, and the matching <code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_ID</code> / <code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_SECRET</code> in each app’s <code class="language-plaintext highlighter-rouge">.env</code>. <strong>Same token in both places.</strong> It identifies the deploy pipeline as a whole — bootstrap and deploy are the same actor.</p>
+
+<blockquote>
+  <p>Why is the service token created by hand and not by <code class="language-plaintext highlighter-rouge">setup.py</code>?</p>
+
+  <p>Cloudflare returns the secret exactly once, at creation. If <code class="language-plaintext highlighter-rouge">setup.py</code> generated it, the secret would have to be captured to a file or printed to stdout, and lost values would force a rotation that invalidates every app’s GitHub secret simultaneously. By creating the token once in the dashboard and storing it in a password manager, the same value can be reused across VM rebuilds, multiple <code class="language-plaintext highlighter-rouge">setup.py</code> runs, and every app repo’s deploy pipeline — with no irrecoverable state on the VM.</p>
+</blockquote>
+
+<h3 id="24-r2-api-token-for-rclone">2.4 R2 API Token (for rclone)</h3>
+
+<p><code class="language-plaintext highlighter-rouge">setup.py</code> installs <code class="language-plaintext highlighter-rouge">rclone</code> unconditionally and writes a pre-configured R2 remote at <code class="language-plaintext highlighter-rouge">~/.config/rclone/rclone.conf</code> whenever R2 credentials are passed. This is what powers ad-hoc bucket copies, restore drills, and the project’s backup tooling.</p>
+
+<p>Cloudflare dashboard → <strong>R2 → Manage R2 API Tokens → Create API Token</strong>:</p>
+
+<ul>
+  <li><strong>Permissions:</strong> <em>Object Read &amp; Write</em> (or read-only if this VM should never push to buckets)</li>
+  <li><strong>Specify bucket(s):</strong> scope to the buckets the server actually needs, not “Apply to all buckets”</li>
+  <li><strong>TTL:</strong> open-ended is fine; rotate when team changes</li>
+</ul>
+
+<p>Cloudflare returns three values:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Used as</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Access Key ID</td>
+      <td><code class="language-plaintext highlighter-rouge">--r2-access-key-id</code></td>
+    </tr>
+    <tr>
+      <td>Secret Access Key</td>
+      <td><code class="language-plaintext highlighter-rouge">--r2-secret-access-key</code></td>
+    </tr>
+    <tr>
+      <td>Endpoint</td>
+      <td>Constructed from the account ID — no flag needed</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Both the Access Key ID and Secret Access Key are shown only once. Store them in the password manager alongside the other bootstrap credentials.</p>
+
+<p>The endpoint URL is <code class="language-plaintext highlighter-rouge">https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code>. <code class="language-plaintext highlighter-rouge">setup.py</code> builds it from <code class="language-plaintext highlighter-rouge">--cf-account-id</code> automatically; pass <code class="language-plaintext highlighter-rouge">--r2-account-id</code> only to use a different account for R2 than for the tunnel (rare).</p>
+
+<h3 id="store-these-safely">Store these safely</h3>
+
+<p>Suggested password-manager entry:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Production server bootstrap
+  CF_API_TOKEN              cfut_...
+  CF_ACCOUNT_ID             f47...
+  CF_SERVICE_TOKEN_ID       xxxx.access
+  CF_SERVICE_TOKEN_SECRET   yyyy
+  R2_ACCESS_KEY_ID          aaaa...
+  R2_SECRET_ACCESS_KEY      bbbb...
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="3-server-provisioning">3. Server Provisioning</h2>
+
+<h3 id="create-the-droplet">Create the droplet</h3>
+
+<p>Provision a fresh <strong>Ubuntu 22.04 LTS</strong> or <strong>Debian 12</strong> server. Minimum recommended specs:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>Minimum</th>
+      <th>Recommended</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CPU</td>
+      <td>1 vCPU</td>
+      <td>2 vCPU</td>
+    </tr>
+    <tr>
+      <td>RAM</td>
+      <td>1 GB</td>
+      <td>2 GB</td>
+    </tr>
+    <tr>
+      <td>Disk</td>
+      <td>25 GB SSD</td>
+      <td>50 GB SSD</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="generate-an-ssh-key-pair">Generate an SSH key pair</h3>
+
+<p>On the local machine:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen <span class="nt">-t</span> ed25519 <span class="nt">-C</span> <span class="s2">"prod-server-deploy"</span> <span class="nt">-f</span> ~/.ssh/prod_server
+</code></pre></div></div>
+
+<p>This produces two files:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">~/.ssh/prod_server</code> — <strong>private key</strong> (never shared, added to GitHub secrets later via <code class="language-plaintext highlighter-rouge">secrets.py</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">~/.ssh/prod_server.pub</code> — <strong>public key</strong> (added to the server)</li>
+</ul>
+
+<h3 id="add-the-public-key-to-the-server">Add the public key to the server</h3>
+
+<p>When provisioning through DigitalOcean, paste the contents of <code class="language-plaintext highlighter-rouge">~/.ssh/prod_server.pub</code> into the SSH key field. Alternatively, after the server is running:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-copy-id <span class="nt">-i</span> ~/.ssh/prod_server.pub root@&lt;server-ip&gt;
+</code></pre></div></div>
+
+<h3 id="verify-ssh-access">Verify SSH access</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-i</span> ~/.ssh/prod_server root@&lt;server-ip&gt;
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="4-running-the-setup-script">4. Running the Setup Script</h2>
+
+<p><code class="language-plaintext highlighter-rouge">server/setup.py</code> handles most of the provisioning: installs Docker, configures UFW, creates application directories, brings up the Cloudflare Tunnel and the landing-page nginx, creates DNS records, and configures the Access application that gates SSH.</p>
+
+<p>There are two ways to run it: from GitHub Actions (preferred — secrets come from <code class="language-plaintext highlighter-rouge">.env</code> synced to GitHub Secrets, no hand-typing), or by hand on the server (the traditional way; same script, same flags).</p>
+
+<h3 id="option-a--dispatch-from-github-actions-preferred">Option A — Dispatch from GitHub Actions (preferred)</h3>
+
+<ol>
+  <li>Confirm <code class="language-plaintext highlighter-rouge">.env</code> at the repo root has the required values (see <code class="language-plaintext highlighter-rouge">.env.example</code>).</li>
+  <li>Sync them to GitHub Secrets: <code class="language-plaintext highlighter-rouge">python3 script/secrets.py --push</code>.</li>
+  <li>In the GitHub UI: <strong>Actions → server-setup → Run workflow</strong>. Fill in the form (target host, optional <code class="language-plaintext highlighter-rouge">force</code>/<code class="language-plaintext highlighter-rouge">dry-run</code>).</li>
+  <li>The workflow ships <code class="language-plaintext highlighter-rouge">server/setup.py</code> to the target via SSH and runs it with all the secrets as flags. Output appears in the workflow log.</li>
+</ol>
+
+<p>This route suits provisioning a new server: every credential comes from the same source of truth (<code class="language-plaintext highlighter-rouge">.env</code>), with nothing to mistype.</p>
+
+<h3 id="option-b--run-by-hand-on-the-server">Option B — Run by hand on the server</h3>
+
+<p>Transfer the script and run it directly. Useful for one-off debugging or when GitHub Actions isn’t available.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp <span class="nt">-i</span> ~/.ssh/prod_server server/setup.py root@&lt;server-ip&gt;:/root/setup.py
+</code></pre></div></div>
+
+<h3 id="robotic-mode--recommended">Robotic mode — recommended</h3>
+
+<p>Run with all five required credentials. <code class="language-plaintext highlighter-rouge">--app-domain</code> is repeatable; supply one per public hostname the apps need. <code class="language-plaintext highlighter-rouge">--r2-access-key-id</code> and <code class="language-plaintext highlighter-rouge">--r2-secret-access-key</code> are optional — supply them to have <code class="language-plaintext highlighter-rouge">setup.py</code> write a pre-configured rclone remote for R2.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>python3 setup.py <span class="se">\</span>
+  <span class="nt">--cf-api-token</span>             <span class="s2">"cfut_..."</span> <span class="se">\</span>
+  <span class="nt">--cf-account-id</span>            <span class="s2">"f47..."</span> <span class="se">\</span>
+  <span class="nt">--cf-service-token-id</span>      <span class="s2">"xxxx.access"</span> <span class="se">\</span>
+  <span class="nt">--cf-service-token-secret</span>  <span class="s2">"yyyy"</span> <span class="se">\</span>
+  <span class="nt">--domain</span>                   <span class="s2">"example.com"</span> <span class="se">\</span>
+  <span class="nt">--tunnel-name</span>              <span class="s2">"prod-server"</span> <span class="se">\</span>
+  <span class="nt">--app-domain</span>               <span class="s2">"myordbok.com:http://localhost:8000"</span> <span class="se">\</span>
+  <span class="nt">--app-domain</span>               <span class="s2">"zaideih.com:http://localhost:8080"</span> <span class="se">\</span>
+  <span class="nt">--r2-access-key-id</span>         <span class="s2">"aaaa..."</span> <span class="se">\</span>
+  <span class="nt">--r2-secret-access-key</span>     <span class="s2">"bbbb..."</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">rclone</code> itself is installed even when the R2 flags are omitted — the binary is useful for ad-hoc work regardless. Only the <code class="language-plaintext highlighter-rouge">[r2]</code> remote in <code class="language-plaintext highlighter-rouge">~/.config/rclone/rclone.conf</code> is gated on the credentials being present.</p>
+
+<h3 id="manual-tunnel-mode-legacy">Manual-tunnel mode (legacy)</h3>
+
+<p>If the tunnel already exists in the Cloudflare dashboard and only the server-side install is needed (Docker, tunnel container, landing nginx), pass the tunnel token directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>python3 setup.py <span class="nt">--cloudflare-token</span> &lt;TUNNEL_TOKEN_FROM_DASHBOARD&gt;
+</code></pre></div></div>
+
+<p>This skips all robotic steps; public hostnames, the Access application, the Access policy, and the DNS records must then be added by hand. <strong>Robotic mode is preferred</strong> — manual mode exists for migration cases where the tunnel and DNS already exist.</p>
+
+<h3 id="other-options">Other options</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--swap 4G</code></td>
+      <td>Override the default 2 GB swap allocation</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--dry-run</code></td>
+      <td>Print every action without making changes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--force</code></td>
+      <td>Recreate an existing tunnel (destroys connections; use cautiously)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="adding-or-renaming-admin-subdomains">Adding or renaming admin subdomains</h3>
+
+<p>Every admin subdomain (DNS record + tunnel ingress + optional Access app) is declared in a single dict named <code class="language-plaintext highlighter-rouge">admin_subdomains</code> near the top of <code class="language-plaintext highlighter-rouge">main()</code> in <code class="language-plaintext highlighter-rouge">setup.py</code>. Edit one place and DNS, ingress, Access wiring, and the post-install summary all follow.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">admin_subdomains</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"ssh"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"service"</span><span class="p">:</span> <span class="s">"tcp://localhost:22"</span><span class="p">,</span>
+        <span class="s">"protect_with_access_app"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">"app_name"</span><span class="p">:</span> <span class="sa">f</span><span class="s">"SSH — </span><span class="si">{</span><span class="n">admin_domain</span><span class="si">}</span><span class="s">"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1"># Browser-rendered SSH terminal — DNS + ingress only (see below).
+</span>    <span class="s">"terminal"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"service"</span><span class="p">:</span> <span class="s">"ssh://localhost:22"</span><span class="p">,</span>
+        <span class="s">"ca_cert"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>   <span class="c1"># app holding the short-lived certificate CA
+</span>    <span class="p">},</span>
+    <span class="c1"># Add new internal proxies here, e.g.:
+</span>    <span class="c1"># "grafana":   {"service": "http://localhost:3000"},
+</span>    <span class="c1"># "portainer": {"service": "https://localhost:9443"},
+</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>To rename <code class="language-plaintext highlighter-rouge">ssh</code> to something else (e.g. <code class="language-plaintext highlighter-rouge">access</code>), just change the dict key — <code class="language-plaintext highlighter-rouge">setup.py</code> will create a DNS record, ingress rule, Access app, and Service Auth policy on the new hostname. The old Cloudflare resources at the previous hostname stay in place and need manual cleanup in the dashboard.</p>
+
+<p>SSH uses the <code class="language-plaintext highlighter-rouge">tcp://</code> scheme, not <code class="language-plaintext highlighter-rouge">ssh://</code>. Remotely managed tunnels — configured through the API, as this script does — route SSH as a raw TCP service; the <code class="language-plaintext highlighter-rouge">ssh://</code> scheme belongs to the older local-config-file model and is silently ignored. The operator-side connection still uses <code class="language-plaintext highlighter-rouge">cloudflared access tcp</code> (see Section 7).</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">terminal</code> entry is different. It uses <code class="language-plaintext highlighter-rouge">ssh://</code> deliberately (the browser-render flow expects it) and omits <code class="language-plaintext highlighter-rouge">protect_with_access_app</code>, so <code class="language-plaintext highlighter-rouge">setup.py</code> creates only its DNS record and ingress rule — no Access app, policy, or service-token wiring. The rest of the browser-terminal setup (the self-hosted app and its email policy) is configured once in the dashboard. The short-lived-certificate CA it relies on, however, can be trusted on the server automatically: pass <code class="language-plaintext highlighter-rouge">--add-ca-public-key</code> (see below). The CA itself is still generated by hand in the dashboard — <code class="language-plaintext highlighter-rouge">setup.py</code> only resolves the Access app flagged <code class="language-plaintext highlighter-rouge">ca_cert</code> in <code class="language-plaintext highlighter-rouge">admin_subdomains</code> (the terminal app), fetches that app’s CA, and trusts an existing one. It never creates the CA.</p>
+
+<p>The one-time dashboard setup for <code class="language-plaintext highlighter-rouge">terminal.&lt;admin_domain&gt;</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Where</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Create app</td>
+      <td>Zero Trust → Access → Applications</td>
+      <td>Self-hosted app on <code class="language-plaintext highlighter-rouge">terminal.&lt;admin_domain&gt;</code>; set Browser rendering to SSH</td>
+    </tr>
+    <tr>
+      <td>Add policy</td>
+      <td>The app’s Policies tab</td>
+      <td>Allow policy with an email rule for the operator (Service Auth and Bypass are not supported for browser-rendered apps)</td>
+    </tr>
+    <tr>
+      <td>Generate CA</td>
+      <td>Zero Trust → Access controls → Service credentials → SSH</td>
+      <td>Select Add a certificate, choose the terminal app in the Application dropdown, Generate certificate. A row named after the app appears (Certificate type: Application). One-time, by hand</td>
+    </tr>
+    <tr>
+      <td>Trust the CA</td>
+      <td>The server</td>
+      <td>Automated: run <code class="language-plaintext highlighter-rouge">setup.py --add-ca-public-key</code> (robotic mode), which resolves the <code class="language-plaintext highlighter-rouge">ca_cert</code>-flagged app, fetches its CA, and wires <code class="language-plaintext highlighter-rouge">/etc/ssh/ca.pub</code> + <code class="language-plaintext highlighter-rouge">sshd_config</code>. Or pass the key directly with <code class="language-plaintext highlighter-rouge">--ca-public-key "ecdsa-sha2-nistp256 AAAA... open-ssh-ca@cloudflareaccess.org"</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Two requirements that are easy to miss. The operator’s login email prefix must match a Unix username on the server (for example, <code class="language-plaintext highlighter-rouge">jdoe@example.com</code> logs in as <code class="language-plaintext highlighter-rouge">jdoe</code>), or the certificate principal will not match. And the browser terminal needs these sshd key-exchange algorithms; add them if absent: <code class="language-plaintext highlighter-rouge">curve25519-sha256</code>, <code class="language-plaintext highlighter-rouge">curve25519-sha256@libssh.org</code>, <code class="language-plaintext highlighter-rouge">ecdh-sha2-nistp256</code>, <code class="language-plaintext highlighter-rouge">ecdh-sha2-nistp384</code>, <code class="language-plaintext highlighter-rouge">ecdh-sha2-nistp521</code>.</p>
+
+<h3 id="what-the-script-does">What the script does</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>What happens</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Python alias</td>
+      <td>Links <code class="language-plaintext highlighter-rouge">python3</code> → <code class="language-plaintext highlighter-rouge">python</code></td>
+    </tr>
+    <tr>
+      <td>Swap</td>
+      <td>Allocates a 2 GB swap file at <code class="language-plaintext highlighter-rouge">/swapfile</code> (configurable)</td>
+    </tr>
+    <tr>
+      <td>Security</td>
+      <td>Installs <code class="language-plaintext highlighter-rouge">fail2ban</code>, <code class="language-plaintext highlighter-rouge">unattended-upgrades</code>, <code class="language-plaintext highlighter-rouge">jq</code>, <code class="language-plaintext highlighter-rouge">python3-boto3</code></td>
+    </tr>
+    <tr>
+      <td>Firewall</td>
+      <td>Configures UFW: allows SSH, 80, 443</td>
+    </tr>
+    <tr>
+      <td>Directories</td>
+      <td>Creates <code class="language-plaintext highlighter-rouge">/opt/bucket</code>, <code class="language-plaintext highlighter-rouge">/opt/apps/html</code>, <code class="language-plaintext highlighter-rouge">/opt/myordbok</code>, <code class="language-plaintext highlighter-rouge">/opt/zaideih</code>, <code class="language-plaintext highlighter-rouge">/opt/django/media</code>, <code class="language-plaintext highlighter-rouge">/opt/mysql/data</code></td>
+    </tr>
+    <tr>
+      <td>rclone</td>
+      <td>Installs the rclone binary via the official installer; writes an R2 remote to <code class="language-plaintext highlighter-rouge">~/.config/rclone/rclone.conf</code> (600) if R2 credentials were supplied</td>
+    </tr>
+    <tr>
+      <td>Docker CE</td>
+      <td>Installs Docker Engine + Compose plugin + Buildx; configures log rotation; adds the invoking user to the <code class="language-plaintext highlighter-rouge">docker</code> group so <code class="language-plaintext highlighter-rouge">docker</code> works without <code class="language-plaintext highlighter-rouge">sudo</code> (run <code class="language-plaintext highlighter-rouge">newgrp docker</code> after install to activate it in the current shell without re-login)</td>
+    </tr>
+    <tr>
+      <td>Docker Swarm</td>
+      <td>Initialises a single-node swarm; creates the <code class="language-plaintext highlighter-rouge">gateway</code> overlay network</td>
+    </tr>
+    <tr>
+      <td>Cloudflare Tunnel</td>
+      <td>Deploys the cloudflared container as its own Docker Compose stack at <code class="language-plaintext highlighter-rouge">/opt/cloudflare-tunnel/</code> (network_mode: host so the tunnel reaches every service via <code class="language-plaintext highlighter-rouge">localhost:&lt;port&gt;</code>)</td>
+    </tr>
+    <tr>
+      <td>Landing nginx</td>
+      <td>Deploys an <code class="language-plaintext highlighter-rouge">nginx:alpine</code> container at <code class="language-plaintext highlighter-rouge">/opt/infra/landing/</code> listening on port 80, serving <code class="language-plaintext highlighter-rouge">/opt/apps/html</code> as a static site with SPA <code class="language-plaintext highlighter-rouge">try_files</code> fallback. This is the catch-all for any request the tunnel ingress doesn’t route somewhere specific</td>
+    </tr>
+    <tr>
+      <td>Cloudflare API</td>
+      <td>Validates token, verifies the supplied service token exists in this account</td>
+    </tr>
+    <tr>
+      <td>Tunnel</td>
+      <td>Creates the named tunnel and returns its connection token</td>
+    </tr>
+    <tr>
+      <td>Ingress</td>
+      <td>Pushes tunnel ingress routing rules for every entry in <code class="language-plaintext highlighter-rouge">admin_subdomains</code> (default: <code class="language-plaintext highlighter-rouge">ssh.&lt;domain&gt;</code> and <code class="language-plaintext highlighter-rouge">terminal.&lt;domain&gt;</code>), every <code class="language-plaintext highlighter-rouge">--app-domain</code>, and a catch-all to <code class="language-plaintext highlighter-rouge">localhost:80</code> (the landing nginx)</td>
+    </tr>
+    <tr>
+      <td>DNS</td>
+      <td>Upserts proxied CNAMEs in each domain’s zone, pointing at the tunnel</td>
+    </tr>
+    <tr>
+      <td>Access app</td>
+      <td>For every <code class="language-plaintext highlighter-rouge">admin_subdomains</code> entry flagged <code class="language-plaintext highlighter-rouge">protect_with_access_app: True</code> (default: <code class="language-plaintext highlighter-rouge">ssh.&lt;domain&gt;</code> only), creates a self-hosted Access application and attaches a Service Auth policy referencing the supplied service token</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="verify-the-install-completed">Verify the install completed</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker info
+docker compose version
+docker service <span class="nb">ls
+</span>ufw status
+</code></pre></div></div>
+
+<p>Setup logs are written to <code class="language-plaintext highlighter-rouge">/var/log/setup.log</code>.</p>
+
+<hr />
+
+<h2 id="5-directory-structure">5. Directory Structure</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/
+├── infra/
+│   └── landing/               <span class="c"># Vanilla nginx landing-page stack</span>
+│       ├── docker-compose.yml <span class="c"># nginx:alpine, port 80, mounts the two below</span>
+│       └── conf/
+│           └── nginx.conf     <span class="c"># The server block (try_files, root, etc.)</span>
+│
+├── cloudflare-tunnel/         <span class="c"># Cloudflare Tunnel as its own stack</span>
+│   ├── docker-compose.yml     <span class="c"># cloudflared:latest, network_mode: host</span>
+│   └── .env                   <span class="c"># TUNNEL_TOKEN (chmod 600)</span>
+│
+├── myordbok/                  <span class="c"># Application deployment directory</span>
+│   ├── docker.production.yml  <span class="c"># Copied here by deploy.yml on each deploy</span>
+│   └── .env                   <span class="c"># Recreated from GitHub secret on each deploy</span>
+│
+├── zaideih/                   <span class="c"># Second application — same shape</span>
+│   ├── docker.production.yml
+│   └── .env
+│
+├── apps/
+│   └── html/                  <span class="c"># Landing page document root (mounted ro into landing nginx)</span>
+│
+├── bucket/                    <span class="c"># Shared persistent storage</span>
+│   ├── storage/
+│   └── media/
+│
+├── django/
+│   └── media/                 <span class="c"># Django media file uploads</span>
+│
+└── mysql/
+    └── data/                  <span class="c"># MySQL data directory (owned by uid 999)</span>
+
+~/.config/rclone/
+└── rclone.conf                <span class="c"># R2 remote, mode 600, owned by SUDO_USER</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">/opt/&lt;app&gt;/.env</code> is <strong>not</strong> a manually managed file. It is recreated from the <code class="language-plaintext highlighter-rouge">ENV_FILE_CONTENT</code> GitHub secret on every deployment run. The marker that an app has been deployed to this host is the existence of <code class="language-plaintext highlighter-rouge">/opt/&lt;app&gt;/.env</code>.</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">~/.config/rclone/rclone.conf</code> is owned by the user who invoked <code class="language-plaintext highlighter-rouge">sudo python3 setup.py</code> (resolved via <code class="language-plaintext highlighter-rouge">$SUDO_USER</code>), not root — so <code class="language-plaintext highlighter-rouge">rclone lsd r2:</code> works without sudo from the operator’s shell.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="6-manual-cloudflare-steps-still-required">6. Manual Cloudflare steps still required</h2>
+
+<p>Robotic mode handles SSH-related Access configuration end-to-end. One thing still benefits from a quick dashboard check:</p>
+
+<h3 id="61-verify-the-tunnel-is-healthy">6.1 Verify the tunnel is healthy</h3>
+
+<p>Zero Trust → <strong>Networks → Tunnels</strong> — find the tunnel named in <code class="language-plaintext highlighter-rouge">--tunnel-name</code>. Status should read <strong>Healthy</strong> with one connector. If it reads <strong>Inactive</strong>, check the cloudflared container on the server:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker logs <span class="nt">--tail</span> 50 cloudflare-tunnel
+</code></pre></div></div>
+
+<p>The most common cause of an inactive tunnel after <code class="language-plaintext highlighter-rouge">setup.py</code> finishes is a wrong tunnel token in <code class="language-plaintext highlighter-rouge">/opt/cloudflare-tunnel/.env</code> — usually because robotic mode was bypassed and the manual <code class="language-plaintext highlighter-rouge">--cloudflare-token</code> value didn’t match the named tunnel.</p>
+
+<hr />
+
+<h2 id="7-post-install-ssh-cutover-and-landing-page">7. Post-install: SSH cutover and landing page</h2>
+
+<p>With <code class="language-plaintext highlighter-rouge">setup.py</code> complete, the Cloudflare tunnel is up, ingress rules are routing, and a placeholder landing page is serving on port 80. Two items remain before the server is done.</p>
+
+<h3 id="71-test-ssh-through-the-tunnel-before-closing-port-22">7.1 Test SSH through the tunnel (before closing port 22)</h3>
+
+<p>Install <code class="language-plaintext highlighter-rouge">cloudflared</code> on the <strong>local machine</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># macOS</span>
+brew <span class="nb">install </span>cloudflared
+
+<span class="c"># Linux (Debian/Ubuntu)</span>
+wget <span class="nt">-q</span> https://github.com/cloudflare/cloudflared/releases/download/2025.4.0/cloudflared-linux-amd64.deb
+<span class="nb">sudo </span>dpkg <span class="nt">-i</span> <span class="nt">--force-overwrite</span> cloudflared-linux-amd64.deb
+</code></pre></div></div>
+
+<p>Open a local listener that forwards a localhost port through the tunnel:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared access tcp <span class="nt">--hostname</span> ssh.&lt;admin-domain&gt; <span class="nt">--url</span> localhost:2222 &amp;
+</code></pre></div></div>
+
+<p>Then SSH to the local forward in another terminal:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh <span class="nt">-p</span> 2222 <span class="nt">-i</span> ~/.ssh/prod_server root@localhost
+</code></pre></div></div>
+
+<p>For interactive (browser) login, Cloudflare opens a tab the first time the listener starts. For service-token-based testing (matching what the deploy pipeline does), pass the token to the listener:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared access tcp <span class="se">\</span>
+    <span class="nt">--hostname</span> ssh.&lt;admin-domain&gt; <span class="se">\</span>
+    <span class="nt">--url</span> localhost:2222 <span class="se">\</span>
+    <span class="nt">--service-token-id</span> &lt;YOUR_TOKEN_ID&gt; <span class="se">\</span>
+    <span class="nt">--service-token-secret</span> &lt;YOUR_TOKEN_SECRET&gt; &amp;
+ssh <span class="nt">-p</span> 2222 <span class="nt">-i</span> ~/.ssh/prod_server root@localhost
+</code></pre></div></div>
+
+<p>If this connects without prompting for a browser login, the Service Auth policy created by <code class="language-plaintext highlighter-rouge">setup.py</code> is working correctly and the deploy pipeline will authenticate the same way. Stop the listener with <code class="language-plaintext highlighter-rouge">kill %1</code> when done.</p>
+
+<h3 id="72-close-port-22">7.2 Close port 22</h3>
+
+<blockquote>
+  <p>Only close port 22 after the tunnel-based SSH test above succeeds.</p>
+</blockquote>
+
+<p>From an active SSH session on the server:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw delete allow ssh
+<span class="nb">sudo </span>ufw status
+</code></pre></div></div>
+
+<p>Port 22 is now closed. Future terminal access goes through the tunnel. The DigitalOcean web console remains as an emergency fallback (see Section 14).</p>
+
+<h3 id="73-customise-the-landing-page">7.3 Customise the landing page</h3>
+
+<p>Anything not matched by a specific tunnel ingress rule falls through the catch-all to <code class="language-plaintext highlighter-rouge">localhost:80</code>, where the landing-page nginx serves whatever is in <code class="language-plaintext highlighter-rouge">/opt/apps/html/</code>. This is the lightweight <code class="language-plaintext highlighter-rouge">nginx:alpine</code> container at <code class="language-plaintext highlighter-rouge">/opt/infra/landing/</code>. There is no admin UI, no DB, no template injection points. The container does one thing: serve <code class="language-plaintext highlighter-rouge">/opt/apps/html</code> as a static site.</p>
+
+<p>The repo’s <code class="language-plaintext highlighter-rouge">apps/html/</code> is the source for that page. Edit files there, commit, then dispatch the <code class="language-plaintext highlighter-rouge">apps-deploy</code> workflow from GitHub Actions — it builds (if <code class="language-plaintext highlighter-rouge">apps/html/package.json</code> exists) and rsyncs to <code class="language-plaintext highlighter-rouge">/opt/apps/html</code> on the server. That’s the preferred update path: edit-in-repo → workflow → done.</p>
+
+<p>For one-off changes without going through the repo:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single file</span>
+<span class="nb">sudo cp </span>my-landing.html /opt/apps/html/index.html
+
+<span class="c"># Or a whole SPA / static-site build output</span>
+<span class="nb">sudo </span>rsync <span class="nt">-av</span> ./dist/ /opt/apps/html/
+</code></pre></div></div>
+
+<p>But anything that doesn’t come from the repo will be overwritten by the next <code class="language-plaintext highlighter-rouge">apps-deploy</code> run, so use sparingly.</p>
+
+<p>No restart, no reload — nginx reads files from the bind mount on every request. The server block uses <code class="language-plaintext highlighter-rouge">try_files $uri $uri/ /index.html =404;</code>, which means:</p>
+
+<ul>
+  <li>Concrete files (<code class="language-plaintext highlighter-rouge">style.css</code>, <code class="language-plaintext highlighter-rouge">script.js</code>, <code class="language-plaintext highlighter-rouge">favicon.ico</code>, <code class="language-plaintext highlighter-rouge">assets/logo.png</code>, etc.) resolve via <code class="language-plaintext highlighter-rouge">$uri</code> and serve as static files directly from disk.</li>
+  <li>Requests for client-side-routed SPA paths (e.g. <code class="language-plaintext highlighter-rouge">/about</code>, <code class="language-plaintext highlighter-rouge">/users/42</code>) don’t match a file or directory, so they fall back to <code class="language-plaintext highlighter-rouge">/index.html</code> — the SPA shell — which then handles routing in the browser.</li>
+  <li>Genuinely missing paths with no SPA shell to fall back to return 404, not an infinite loop.</li>
+</ul>
+
+<p>To change the nginx server block itself (custom headers, gzip, additional locations), edit <code class="language-plaintext highlighter-rouge">/opt/infra/landing/conf/nginx.conf</code> on the host and recreate the container:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /opt/infra/landing <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>docker compose up <span class="nt">-d</span> <span class="nt">--force-recreate</span> landing
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong>What hits this landing page?</strong> Three things:</p>
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">http://&lt;server-ip&gt;/</code> — direct HTTP to the server’s public IP</li>
+    <li><code class="language-plaintext highlighter-rouge">https://&lt;server-ip&gt;/</code> — direct HTTPS won’t reach here (no TLS on the host); Cloudflare’s edge handles HTTPS for domains pointed at this server</li>
+    <li>Any unknown-hostname request that reaches the tunnel — Cloudflare routes via the catch-all ingress rule to <code class="language-plaintext highlighter-rouge">localhost:80</code></li>
+  </ul>
+
+  <p>Per-app domains (<code class="language-plaintext highlighter-rouge">myordbok.example.com</code>, <code class="language-plaintext highlighter-rouge">zaideih.example.com</code>) and admin domains (<code class="language-plaintext highlighter-rouge">ssh.&lt;domain&gt;</code>) bypass the landing page entirely — they match specific tunnel ingress rules that route to their app/SSH ports directly.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Why a vanilla nginx container?</strong> The landing layer only serves static files — TLS terminates at the Cloudflare edge and host-to-app routing happens at the tunnel via <code class="language-plaintext highlighter-rouge">localhost:&lt;port&gt;</code>. So the container does one thing: serve <code class="language-plaintext highlighter-rouge">/opt/apps/html</code> as a static site with an SPA <code class="language-plaintext highlighter-rouge">try_files</code> fallback. The config is deliberately minimal — one server block, one root, one try_files.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="8-github-actions-self-hosted-runner">8. GitHub Actions Self-Hosted Runner</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">deploy_local_vm</code> job in <code class="language-plaintext highlighter-rouge">deploy.yml</code> runs directly on the production server using a self-hosted runner. This runner is <strong>not installed by <code class="language-plaintext highlighter-rouge">setup.py</code></strong> and must be registered manually.</p>
+
+<h3 id="register-the-runner">Register the runner</h3>
+
+<ol>
+  <li>GitHub repository → <strong>Settings → Actions → Runners</strong></li>
+  <li>Click <strong>New self-hosted runner</strong> → <strong>Linux</strong> / <strong>x64</strong></li>
+  <li>Run the displayed commands on the production server:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>actions-runner <span class="o">&amp;&amp;</span> <span class="nb">cd </span>actions-runner
+curl <span class="nt">-o</span> actions-runner-linux-x64-2.x.x.tar.gz <span class="nt">-L</span> <span class="se">\</span>
+    https://github.com/actions/runner/releases/download/...
+<span class="nb">tar </span>xzf ./actions-runner-linux-x64-2.x.x.tar.gz
+./config.sh <span class="nt">--url</span> https://github.com/&lt;org&gt;/&lt;repo&gt; <span class="nt">--token</span> &lt;RUNNER_TOKEN&gt;
+</code></pre></div></div>
+
+<h3 id="install-as-a-system-service">Install as a system service</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> ./svc.sh <span class="nb">install
+sudo</span> ./svc.sh start
+<span class="nb">sudo</span> ./svc.sh status
+</code></pre></div></div>
+
+<p>The runner should show as <strong>Idle</strong> at <strong>Settings → Actions → Runners</strong> in GitHub.</p>
+
+<h3 id="create-the-pat-for-runner-status-checks">Create the PAT for runner status checks</h3>
+
+<p><code class="language-plaintext highlighter-rouge">check_local_vm_runner</code> polls the GitHub API to detect whether the runner is online before attempting a local deploy.</p>
+
+<ol>
+  <li>GitHub → <strong>Settings (account) → Developer settings → Personal access tokens → Fine-grained tokens</strong></li>
+  <li>Repository access: the deployment repository</li>
+  <li>Grant <strong>read-only</strong> permission for <strong>Actions</strong></li>
+  <li>Copy the token. It goes into each app’s <code class="language-plaintext highlighter-rouge">.env</code> as <code class="language-plaintext highlighter-rouge">VM_RUNNER_STATUS_PAT</code> and <code class="language-plaintext highlighter-rouge">secrets.py --push</code> ships it to GitHub.</li>
+</ol>
+
+<hr />
+
+<h2 id="9-github-repository-secrets-via-secretspy">9. GitHub Repository Secrets (via secrets.py)</h2>
+
+<blockquote>
+  <p><strong>Two <code class="language-plaintext highlighter-rouge">secrets.py</code> scripts exist.</strong> This section is about the <strong>per-app</strong> one — it lives in each Django app repo (e.g. myordbok, zaideih), reads that app’s own <code class="language-plaintext highlighter-rouge">.env</code>, and pushes secrets to that app’s GitHub repo so its deploy pipeline (<code class="language-plaintext highlighter-rouge">deploy.yml</code>) can authenticate. There is also <code class="language-plaintext highlighter-rouge">lethil/script/secrets.py</code> which does the same kind of thing but for the <code class="language-plaintext highlighter-rouge">lethil</code> infra repo’s own <code class="language-plaintext highlighter-rouge">.env</code> — driving the <code class="language-plaintext highlighter-rouge">server-setup</code> and <code class="language-plaintext highlighter-rouge">apps-deploy</code> workflows. Different <code class="language-plaintext highlighter-rouge">.env</code> files, different target repos, same idea.</p>
+</blockquote>
+
+<p>Repository secrets are managed by <code class="language-plaintext highlighter-rouge">secrets.py</code>, which lives alongside (or inside) each app repo. The source of truth is each app’s <code class="language-plaintext highlighter-rouge">.env</code>. See <strong>secrets.md</strong> for the full reference.</p>
+
+<h3 id="how-values-flow">How values flow</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Password manager        Each app's .env (Zone 3)        GitHub Actions Secrets
+────────────────        ────────────────────────        ──────────────────────
+SERVER_HOSTNAME    ──→  SERVER_HOSTNAME           ──→  SERVER_HOSTNAME
+                        SSH_PRIVATE_KEY_PATH      ──→  SSH_PRIVATE_KEY  (file contents)
+                        VM_RUNNER_STATUS_PAT      ──→  VM_RUNNER_STATUS_PAT
+CF_SERVICE_TOKEN_ID──→  CF_SERVICE_TOKEN_ID       ──→  CF_SERVICE_TOKEN_ID
+CF_SERVICE_TOKEN_SECRET→ CF_SERVICE_TOKEN_SECRET  ──→  CF_SERVICE_TOKEN_SECRET
+                        (Zone 1 lines bundled)    ──→  ENV_FILE_CONTENT
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_ID</code> / <code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_SECRET</code> are the same values passed to <code class="language-plaintext highlighter-rouge">setup.py</code>. One credential, three locations: password manager (durable), <code class="language-plaintext highlighter-rouge">.env</code> (per-app local working copy), GitHub Secret (consumed by the runner).</p>
+
+<h3 id="push-secrets">Push secrets</h3>
+
+<p>In each app repo:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>secrets.py <span class="nt">--check</span>                <span class="c"># confirm gh CLI auth + .env parses</span>
+secrets.py <span class="nt">--status</span>               <span class="c"># see what would change</span>
+secrets.py <span class="nt">--push</span> <span class="nt">--dry-run</span>       <span class="c"># preview</span>
+secrets.py <span class="nt">--push</span>                 <span class="c"># ship to GitHub</span>
+</code></pre></div></div>
+
+<h3 id="required-secrets">Required secrets</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Secret</th>
+      <th>Source</th>
+      <th>Used by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ENV_FILE_CONTENT</code></td>
+      <td>Zone 1 of app <code class="language-plaintext highlighter-rouge">.env</code></td>
+      <td>All deploy paths</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">SSH_PRIVATE_KEY</code></td>
+      <td>File pointed to by <code class="language-plaintext highlighter-rouge">SSH_PRIVATE_KEY_PATH</code> in <code class="language-plaintext highlighter-rouge">.env</code></td>
+      <td><code class="language-plaintext highlighter-rouge">deploy_via_tunnel</code>, <code class="language-plaintext highlighter-rouge">deploy_via_ssh</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">SERVER_HOSTNAME</code></td>
+      <td><code class="language-plaintext highlighter-rouge">.env</code> Zone 3 — usually <code class="language-plaintext highlighter-rouge">ssh.&lt;admin-domain&gt;</code></td>
+      <td><code class="language-plaintext highlighter-rouge">deploy_via_tunnel</code>, <code class="language-plaintext highlighter-rouge">deploy_via_ssh</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">SERVER_USERNAME</code></td>
+      <td><code class="language-plaintext highlighter-rouge">.env</code> Zone 3</td>
+      <td><code class="language-plaintext highlighter-rouge">deploy_via_tunnel</code>, <code class="language-plaintext highlighter-rouge">deploy_via_ssh</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">VM_RUNNER_STATUS_PAT</code></td>
+      <td><code class="language-plaintext highlighter-rouge">.env</code> Zone 3 — fine-grained PAT, Actions read-only</td>
+      <td><code class="language-plaintext highlighter-rouge">check_local_vm_runner</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_ID</code></td>
+      <td><code class="language-plaintext highlighter-rouge">.env</code> Zone 3</td>
+      <td><code class="language-plaintext highlighter-rouge">deploy_via_tunnel</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_SECRET</code></td>
+      <td><code class="language-plaintext highlighter-rouge">.env</code> Zone 3</td>
+      <td><code class="language-plaintext highlighter-rouge">deploy_via_tunnel</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GITHUB_TOKEN</code></td>
+      <td>Auto-provided by GitHub</td>
+      <td>Build phase — never set manually</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="github-environments">GitHub environments</h3>
+
+<p>Tunnel and SSH deploy jobs are scoped to named environments. Create these once per repo:</p>
+
+<p><strong>Repository → Settings → Environments → New environment</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Environment name</th>
+      <th>Used by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">production-tunnel</code></td>
+      <td><code class="language-plaintext highlighter-rouge">deploy_via_tunnel</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">production-ssh</code></td>
+      <td><code class="language-plaintext highlighter-rouge">deploy_via_ssh</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Environments support deployment gates (required reviewers, wait timers, environment-scoped secrets).</p>
+
+<h3 id="verify-secrets-are-set">Verify secrets are set</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>secrets.py <span class="nt">--list</span>
+</code></pre></div></div>
+
+<p>Prints all secret names currently on the repo. Values are never shown.</p>
+
+<hr />
+
+<h2 id="10-triggering-a-deployment">10. Triggering a Deployment</h2>
+
+<p>Deployments are triggered by pushing to the <code class="language-plaintext highlighter-rouge">master</code> branch with a commit message starting with <code class="language-plaintext highlighter-rouge">deploy:</code>.</p>
+
+<h3 id="commit-message-format">Commit message format</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>deploy: &lt;description&gt; [optional-tag]
+</code></pre></div></div>
+
+<h3 id="deployment-method-selection">Deployment method selection</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Commit message</th>
+      <th>What runs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">deploy: fix login bug</code></td>
+      <td>Local VM runner only (if online)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">deploy: fix login bug [tunnel]</code></td>
+      <td>Cloudflare Tunnel deploy</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">deploy: fix login bug [ssh]</code></td>
+      <td>Native SSH deploy</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">deploy: fix login bug [tunnel] [ssh]</code></td>
+      <td><code class="language-plaintext highlighter-rouge">[tunnel]</code> wins, <code class="language-plaintext highlighter-rouge">[ssh]</code> is suppressed</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">[tunnel]</code> and <code class="language-plaintext highlighter-rouge">[ssh]</code> are mutually exclusive. If both appear in the same commit, <code class="language-plaintext highlighter-rouge">[tunnel]</code> takes priority and <code class="language-plaintext highlighter-rouge">[ssh]</code> is ignored.</p>
+
+  <p>Of these, only <code class="language-plaintext highlighter-rouge">[ssh]</code> is implemented today. The untagged self-hosted path and <code class="language-plaintext highlighter-rouge">[tunnel]</code> are planned — see <a href="#11-deployment-methods-explained">Section 11</a>. The selection logic above describes the intended end state.</p>
+</blockquote>
+
+<h3 id="example">Example</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"deploy: update homepage layout [ssh]"</span>
+git push origin master
+</code></pre></div></div>
+
+<h3 id="watch-the-pipeline">Watch the pipeline</h3>
+
+<p>Repository → <strong>Actions</strong> tab → most recent run.</p>
+
+<hr />
+
+<h2 id="11-deployment-methods-explained">11. Deployment Methods Explained</h2>
+
+<blockquote>
+  <p>The deploy methods below are driven by the <strong>application repository’s</strong> workflow, not by lethil. lethil provisions the server; the app repo deploys to it. Of the three, only native SSH is implemented today — self-hosted and tunnel are planned.</p>
+</blockquote>
+
+<h3 id="method-1--local-vm-self-hosted-runner--planned">Method 1 — Local VM (self-hosted runner) — <em>planned</em></h3>
+
+<p><strong>Status:</strong> not yet implemented. Runner registration and the self-hosted deploy path live in the application repository.</p>
+
+<p><strong>Intended behaviour:</strong> a self-hosted runner on the target executes the deploy locally, with no SSH or network tunnelling involved. Intended as a free, real target for testing production-ready apps.</p>
+
+<h3 id="method-2--cloudflare-tunnel-tunnel--planned">Method 2 — Cloudflare Tunnel (<code class="language-plaintext highlighter-rouge">[tunnel]</code>) — <em>planned</em></h3>
+
+<p><strong>Status:</strong> not yet implemented. Deferred as a later hardening step once the SSH path is proven in regular use.</p>
+
+<p><strong>Intended behaviour:</strong> the GitHub-hosted runner opens a <code class="language-plaintext highlighter-rouge">cloudflared access tcp</code> listener authenticated by the Service Token configured by <code class="language-plaintext highlighter-rouge">setup.py</code>, SSHes to the forwarded local port, copies the compose file and <code class="language-plaintext highlighter-rouge">.env</code>, and runs the deploy. Port 22 stays closed. The server side is already wired up by <code class="language-plaintext highlighter-rouge">setup.py</code> (Access app + Service Auth policy on <code class="language-plaintext highlighter-rouge">ssh.&lt;domain&gt;</code>); only the workflow side is outstanding.</p>
+
+<p><strong>Best for:</strong> remote servers behind closed firewalls.</p>
+
+<h3 id="method-3--native-ssh-ssh">Method 3 — Native SSH (<code class="language-plaintext highlighter-rouge">[ssh]</code>)</h3>
+
+<p><strong>When:</strong> <code class="language-plaintext highlighter-rouge">[ssh]</code> in the commit message and <code class="language-plaintext highlighter-rouge">[tunnel]</code> not present.</p>
+
+<p><strong>How:</strong> uses <code class="language-plaintext highlighter-rouge">appleboy/scp-action</code> and <code class="language-plaintext highlighter-rouge">appleboy/ssh-action</code> over standard SSH. Requires port 22 reachable from GitHub Actions IP ranges.</p>
+
+<p><strong>Best for:</strong> environments without Cloudflare Tunnel, or initial setup before the tunnel is configured.</p>
+
+<h3 id="docker-image-tagging">Docker image tagging</h3>
+
+<p>Every build pushes two tags per image:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ghcr.io/&lt;repo&gt;/django-app:latest
+ghcr.io/&lt;repo&gt;/django-app:&lt;commit-sha&gt;
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">:latest</code> is what the running stack uses. The SHA tag stays in the registry for rollbacks.</p>
+
+<hr />
+
+<h2 id="12-monitoring--logs">12. Monitoring &amp; Logs</h2>
+
+<h3 id="github-actions-deployment-summary">GitHub Actions deployment summary</h3>
+
+<p>After each successful deploy, a summary is written to the job page: <strong>Actions → &lt;run&gt; → &lt;job&gt; → Summary</strong>.</p>
+
+<h3 id="docker-service-status">Docker service status</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker service <span class="nb">ls
+</span>docker service <span class="nb">ls</span> <span class="nt">--filter</span> <span class="nv">name</span><span class="o">=</span>myordbok_web
+docker service ps myordbok_web
+</code></pre></div></div>
+
+<h3 id="application-logs">Application logs</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker service logs myordbok_web <span class="nt">--follow</span>
+docker service logs myordbok_nginx <span class="nt">--follow</span>
+docker service logs myordbok_db <span class="nt">--follow</span>
+docker service logs myordbok_web <span class="nt">--tail</span> 100
+</code></pre></div></div>
+
+<h3 id="cloudflare-tunnel-logs">Cloudflare Tunnel logs</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker logs <span class="nt">-f</span> cloudflare-tunnel
+docker <span class="nb">exec </span>cloudflare-tunnel cloudflared tunnel info
+</code></pre></div></div>
+
+<h3 id="system-resource-usage">System resource usage</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>free <span class="nt">-h</span>
+<span class="nb">df</span> <span class="nt">-h</span>
+docker system <span class="nb">df</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="13-rollback-procedure">13. Rollback Procedure</h2>
+
+<p>Every build tags images with the commit SHA. To roll back:</p>
+
+<ol>
+  <li><strong>Find the target SHA</strong> — from the Actions deploy summary, or <code class="language-plaintext highlighter-rouge">git log --oneline</code>.</li>
+  <li><strong>Pull the tagged image:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull ghcr.io/&lt;repo&gt;/django-app:&lt;target-sha&gt;
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Pin the tag:</strong> edit <code class="language-plaintext highlighter-rouge">/opt/&lt;app&gt;/docker.production.yml</code> to replace <code class="language-plaintext highlighter-rouge">:latest</code> with <code class="language-plaintext highlighter-rouge">:&lt;target-sha&gt;</code> for the django-app service, then redeploy:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /opt/&lt;app&gt;
+docker stack deploy <span class="nt">-c</span> docker.production.yml <span class="nt">--with-registry-auth</span> <span class="nt">--detach</span><span class="o">=</span><span class="nb">false</span> &lt;app&gt;
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Verify:</strong>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker service <span class="nb">ls</span> <span class="nt">--filter</span> <span class="nv">name</span><span class="o">=</span>&lt;app&gt;_web
+docker service logs &lt;app&gt;_web <span class="nt">--tail</span> 50
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="14-emergency-server-access">14. Emergency Server Access</h2>
+
+<h3 id="via-cloudflare-tunnel-ssh-primary-remote-method">Via Cloudflare Tunnel SSH (primary remote method)</h3>
+
+<p>Open a listener forwarding a local port through the tunnel (see <a href="#71-test-ssh-through-the-tunnel-before-closing-port-22">Section 7.1</a>), then SSH to it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared access tcp <span class="nt">--hostname</span> ssh.&lt;admin-domain&gt; <span class="nt">--url</span> localhost:2222 &amp;
+ssh <span class="nt">-p</span> 2222 <span class="nt">-i</span> ~/.ssh/prod_server root@localhost
+</code></pre></div></div>
+
+<p>For non-interactive access (no browser login), add the service token to the listener:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared access tcp <span class="se">\</span>
+    <span class="nt">--hostname</span> ssh.&lt;admin-domain&gt; <span class="se">\</span>
+    <span class="nt">--url</span> localhost:2222 <span class="se">\</span>
+    <span class="nt">--service-token-id</span> &lt;YOUR_TOKEN_ID&gt; <span class="se">\</span>
+    <span class="nt">--service-token-secret</span> &lt;YOUR_TOKEN_SECRET&gt; &amp;
+ssh <span class="nt">-p</span> 2222 <span class="nt">-i</span> ~/.ssh/prod_server root@localhost
+</code></pre></div></div>
+
+<h3 id="via-digitalocean-web-console-no-network-required">Via DigitalOcean Web Console (no network required)</h3>
+
+<p>Connects directly through the hypervisor — bypasses UFW, closed ports, and broken networking.</p>
+
+<ol>
+  <li><strong>Droplets → &lt;name&gt; → Access</strong></li>
+  <li><strong>Launch Droplet Console</strong></li>
+</ol>
+
+<h3 id="re-opening-port-22-if-needed">Re-opening port 22 if needed</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw allow ssh
+<span class="nb">sudo </span>ufw status
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="15-firewall-reference">15. Firewall Reference</h2>
+
+<p>UFW is configured by <code class="language-plaintext highlighter-rouge">setup.py</code>. Rules in effect after setup:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Port</th>
+      <th>Protocol</th>
+      <th>Status</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>22</td>
+      <td>TCP</td>
+      <td>Open (initially)</td>
+      <td>SSH access — close after tunnel is verified</td>
+    </tr>
+    <tr>
+      <td>80</td>
+      <td>TCP</td>
+      <td>Open</td>
+      <td>Landing-page nginx; also useful for direct debugging</td>
+    </tr>
+    <tr>
+      <td>443</td>
+      <td>TCP</td>
+      <td>Open</td>
+      <td>No service listens here on the host; Cloudflare terminates TLS at the edge and the tunnel forwards plain HTTP to localhost:80. Kept open as a no-op escape valve</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw status verbose
+<span class="nb">sudo </span>ufw allow &lt;port&gt;/tcp
+<span class="nb">sudo </span>ufw delete allow &lt;port&gt;/tcp
+<span class="nb">sudo </span>ufw reload
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="16-re-running-setuppy">16. Re-running setup.py</h2>
+
+<p><code class="language-plaintext highlighter-rouge">setup.py</code> is a one-shot bootstrap, but most steps are idempotent — apt installs, swap, UFW rules, directory creation, Docker install, swarm init, compose stacks. Running it again is safe for picking up incremental fixes.</p>
+
+<p>The Cloudflare-side operations are partly idempotent:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>On re-run</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tunnel</td>
+      <td><strong>Aborts</strong> if a tunnel with the same name already exists. Use <code class="language-plaintext highlighter-rouge">--force</code> to delete and recreate (drops all current connections).</td>
+    </tr>
+    <tr>
+      <td>DNS records</td>
+      <td>Updates in place if a CNAME at the hostname already exists; replaces only A/AAAA conflicts under <code class="language-plaintext highlighter-rouge">--force</code>.</td>
+    </tr>
+    <tr>
+      <td>Access app for <code class="language-plaintext highlighter-rouge">ssh.&lt;domain&gt;</code></td>
+      <td>Reused if one already exists for that hostname.</td>
+    </tr>
+    <tr>
+      <td>Service Auth policy</td>
+      <td>Reused if one already references this service token.</td>
+    </tr>
+    <tr>
+      <td>Service token</td>
+      <td>Never created — it’s an input, not an output.</td>
+    </tr>
+    <tr>
+      <td>rclone config</td>
+      <td>Skipped if <code class="language-plaintext highlighter-rouge">~/.config/rclone/rclone.conf</code> already contains an <code class="language-plaintext highlighter-rouge">[r2]</code> section, unless <code class="language-plaintext highlighter-rouge">--force</code> is passed.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">/opt/apps/html/index.html</code></td>
+      <td>Seeded only if <code class="language-plaintext highlighter-rouge">/opt/apps/html</code> is empty. Existing content is never overwritten.</td>
+    </tr>
+    <tr>
+      <td>Cloudflare Tunnel stack</td>
+      <td><code class="language-plaintext highlighter-rouge">/opt/cloudflare-tunnel/.env</code> and <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> are rewritten on every run. <code class="language-plaintext highlighter-rouge">--force</code> brings the container down first; otherwise <code class="language-plaintext highlighter-rouge">docker compose up -d</code> is a no-op if nothing changed.</td>
+    </tr>
+    <tr>
+      <td>Landing nginx stack</td>
+      <td><code class="language-plaintext highlighter-rouge">/opt/infra/landing/conf/nginx.conf</code> and <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> are rewritten on every run. The <code class="language-plaintext highlighter-rouge">landing</code> service is always force-recreated so a freshly written nginx.conf takes effect.</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>The service token is durable.</strong> Its credentials are inputs to <code class="language-plaintext highlighter-rouge">setup.py</code>, stored in the password manager and reused across runs. There is no secret on the VM that gets lost on reinstall. Tearing down the VM and provisioning a fresh one with the same flags reattaches the same service token to a fresh Access policy on a fresh tunnel — the apps’ GitHub secrets continue to work without rotation.</p>
+</blockquote>
+
+<h3 id="rotating-the-service-token-when-required">Rotating the service token (when required)</h3>
+
+<p>Service tokens expire, and proactive rotation after team changes is sometimes warranted. The flow:</p>
+
+<ol>
+  <li>Cloudflare dashboard → <strong>Zero Trust → Access → Service Auth → Service Tokens</strong> → <strong>Create Service Token</strong> (or <strong>Refresh</strong> an existing one — same effect, secret returned once)</li>
+  <li>Update the password manager with the new ID and secret</li>
+  <li>Update each app’s <code class="language-plaintext highlighter-rouge">.env</code> (Zone 3): new <code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_ID</code> and <code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_SECRET</code></li>
+  <li>In each app repo: <code class="language-plaintext highlighter-rouge">secrets.py --push</code> (use <code class="language-plaintext highlighter-rouge">--only CF_SERVICE_TOKEN</code> to scope it)</li>
+  <li>Re-run <code class="language-plaintext highlighter-rouge">setup.py</code> with the new credentials so the Access policy is re-pointed at the new token</li>
+  <li>Delete the old token in the dashboard</li>
+</ol>
+
+<p>Order matters: keep the old token until step 5 succeeds, or in-flight deploys will fail.</p>
+
+<hr />
+
+<h2 id="17-troubleshooting">17. Troubleshooting</h2>
+
+<h3 id="build-job-does-not-start">Build job does not start</h3>
+
+<p>The commit message must start with <code class="language-plaintext highlighter-rouge">deploy:</code> (lowercase, colon, space). The <code class="language-plaintext highlighter-rouge">build</code> job has this condition:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">if</span><span class="pi">:</span> <span class="s">startsWith(github.event.head_commit.message, 'deploy:')</span>
+</code></pre></div></div>
+
+<p>A message like <code class="language-plaintext highlighter-rouge">Deploy: ...</code> or <code class="language-plaintext highlighter-rouge">deploy ...</code> (no colon) will not trigger.</p>
+
+<h3 id="check_local_vm_runner-reports-runner-as-offline"><code class="language-plaintext highlighter-rouge">check_local_vm_runner</code> reports runner as offline</h3>
+
+<p><strong>Check 1:</strong> verify the runner service:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/actions-runner <span class="o">&amp;&amp;</span> <span class="nb">sudo</span> ./svc.sh status
+<span class="nb">sudo</span> ./svc.sh start    <span class="c"># if stopped</span>
+</code></pre></div></div>
+
+<p><strong>Check 2:</strong> verify <code class="language-plaintext highlighter-rouge">VM_RUNNER_STATUS_PAT</code> is set and not expired. A missing or expired token causes the API call to return an error, treated as offline.</p>
+
+<h3 id="cloudflare-tunnel-deploy-fails-with-websocket-bad-handshake">Cloudflare Tunnel deploy fails with <code class="language-plaintext highlighter-rouge">websocket: bad handshake</code></h3>
+
+<p>This is the auth layer — Cloudflare Access rejected the service token at the WebSocket handshake. Check, in order:</p>
+
+<p><strong>1.</strong> The Access application for <code class="language-plaintext highlighter-rouge">ssh.&lt;domain&gt;</code> exists (Zero Trust → Access → Applications). It should — <code class="language-plaintext highlighter-rouge">setup.py</code> creates it. If it’s missing, re-run <code class="language-plaintext highlighter-rouge">setup.py</code>.</p>
+
+<p><strong>2.</strong> The Access app has a <strong>Service Auth</strong> policy (not “Allow”) referencing the service token. Click the app → Policies tab. The policy’s <strong>Action</strong> must be <strong>Service Auth</strong>; <strong>Action: Allow</strong> with a service token in the include rule will produce this exact error.</p>
+
+<p><strong>3.</strong> The token in GitHub Secrets matches the one attached to the policy. <code class="language-plaintext highlighter-rouge">CF_SERVICE_TOKEN_ID</code> ends in <code class="language-plaintext highlighter-rouge">.access</code>. If they drifted (e.g. the token was rotated in the dashboard but <code class="language-plaintext highlighter-rouge">secrets.py --push</code> wasn’t run), redeploys fail until they’re resynced.</p>
+
+<p><strong>4.</strong> Tunnel is healthy:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker logs <span class="nt">--tail</span> 50 cloudflare-tunnel
+</code></pre></div></div>
+
+<h3 id="mysql-readiness-check-times-out">MySQL readiness check times out</h3>
+
+<p>The pipeline waits up to 100 seconds for MySQL to accept connections.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker service logs &lt;app&gt;_db <span class="nt">--tail</span> 100
+</code></pre></div></div>
+
+<p>Common causes: wrong <code class="language-plaintext highlighter-rouge">MYSQL_ROOT_PASSWORD</code> in <code class="language-plaintext highlighter-rouge">ENV_FILE_CONTENT</code>, or insufficient disk space at <code class="language-plaintext highlighter-rouge">/opt/mysql/data</code>.</p>
+
+<h3 id="deployment-health-check-fails-replicas-02-or-12">Deployment health check fails (<code class="language-plaintext highlighter-rouge">Replicas: 0/2</code> or <code class="language-plaintext highlighter-rouge">1/2</code>)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker service logs &lt;app&gt;_web <span class="nt">--tail</span> 100
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">Dump Service Logs on Failure</code> step in the pipeline captures these automatically and displays them in the Actions run output.</p>
+
+<h3 id="cp-fails-when-installing-cloudflared-in-ci"><code class="language-plaintext highlighter-rouge">cp</code> fails when installing cloudflared in CI</h3>
+
+<p>If the GitHub Actions run shows <code class="language-plaintext highlighter-rouge">cp: '/usr/bin/cloudflared' and '/usr/local/bin/cloudflared' are the same file</code>, the runner image already has <code class="language-plaintext highlighter-rouge">cloudflared</code> preinstalled as a symlink. Use <code class="language-plaintext highlighter-rouge">dpkg -i --force-overwrite</code> and drop any manual <code class="language-plaintext highlighter-rouge">cp</code> step — <code class="language-plaintext highlighter-rouge">dpkg</code> will manage the binary location itself.</p>
+
+<h3 id="service-token-verification-fails-at-the-start-of-setuppy">Service token verification fails at the start of <code class="language-plaintext highlighter-rouge">setup.py</code></h3>
+
+<blockquote>
+  <p>Service token with client_id ‘xxxx.access’ was not found in account …</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">setup.py</code> looks up the token in the supplied account before doing anything else. Causes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--cf-service-token-id</code> is wrong (typo, or the token name/UUID was copied instead of the Client ID — Client ID always ends in <code class="language-plaintext highlighter-rouge">.access</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">--cf-account-id</code> is wrong (wrong account, or token created in a different account)</li>
+  <li>The token was deleted in the dashboard</li>
+</ul>
+
+<p>Fix any of those and re-run.</p>
+
+<h3 id="rclone-lsd-r2-returns-nosuchbucket-or-invalidaccesskeyid"><code class="language-plaintext highlighter-rouge">rclone lsd r2:</code> returns <code class="language-plaintext highlighter-rouge">NoSuchBucket</code> or <code class="language-plaintext highlighter-rouge">InvalidAccessKeyId</code></h3>
+
+<p>The remote is configured but the credentials aren’t matching what Cloudflare expects.</p>
+
+<p><strong>1.</strong> Check the config file exists and is owned by the user running rclone (not root):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-l</span> ~/.config/rclone/rclone.conf
+<span class="c"># Expected: -rw------- 1 &lt;user&gt; &lt;user&gt; ...</span>
+<span class="nb">cat</span> ~/.config/rclone/rclone.conf
+</code></pre></div></div>
+
+<p><strong>2.</strong> Confirm the endpoint matches the account ID. The line should read <code class="language-plaintext highlighter-rouge">endpoint = https://&lt;account-id&gt;.r2.cloudflarestorage.com</code>. Account ID is the same one in the Cloudflare dashboard sidebar, not the zone ID.</p>
+
+<p><strong>3.</strong> Confirm the R2 API token has access to the bucket being listed. R2 tokens can be scoped per-bucket — <code class="language-plaintext highlighter-rouge">Apply to all buckets</code> is permissive but auditable; per-bucket scoping is safer but easier to misconfigure.</p>
+
+<p><strong>4.</strong> Verify with a one-shot call:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rclone <span class="nt">--config</span> ~/.config/rclone/rclone.conf lsd r2:
+</code></pre></div></div>
+
+<p>To rewrite the config, re-run <code class="language-plaintext highlighter-rouge">setup.py --force</code> with the R2 flags. Without <code class="language-plaintext highlighter-rouge">--force</code>, the existing <code class="language-plaintext highlighter-rouge">[r2]</code> section is preserved.</p>
+
+<h3 id="docker-permission-denied-while-trying-to-connect-to-the-docker-api"><code class="language-plaintext highlighter-rouge">docker: permission denied while trying to connect to the docker API</code></h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>permission denied while trying to connect to the docker API at unix:///var/run/docker.sock
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">setup.py</code> adds the invoking user to the <code class="language-plaintext highlighter-rouge">docker</code> group, but Linux only refreshes group memberships when a process starts. The current shell started before <code class="language-plaintext highlighter-rouge">setup.py</code> ran, so it still has the old groups.</p>
+
+<p>Two options:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Activate the group in the current shell only:</span>
+newgrp docker
+
+<span class="c"># Or pick it up everywhere by re-logging in:</span>
+<span class="nb">exit</span>       <span class="c"># then SSH back in</span>
+</code></pre></div></div>
+
+<p>After either of those, <code class="language-plaintext highlighter-rouge">docker ps</code> works without <code class="language-plaintext highlighter-rouge">sudo</code>. Confirm with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">groups</span> | <span class="nb">grep</span> <span class="nt">-o</span> docker
+</code></pre></div></div>
+
+<p>If <code class="language-plaintext highlighter-rouge">docker</code> appears in the output, the membership is active. If <code class="language-plaintext highlighter-rouge">setup.py</code> ran but did not add the account to the group (for example, run directly as root with no <code class="language-plaintext highlighter-rouge">SUDO_USER</code> set), add it manually:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+newgrp docker
+</code></pre></div></div>
+
+<p>The watch-out: shell scripts and command substitutions like <code class="language-plaintext highlighter-rouge">$(docker ps -q -f name=...)</code> run in <em>subshells</em>, which inherit the parent shell’s groups. So <code class="language-plaintext highlighter-rouge">sudo docker exec $(docker ps -q ...)</code> runs the outer command as root but the inner one as the normal user — and the inner one fails with the permission error above, leaving the outer <code class="language-plaintext highlighter-rouge">docker exec</code> with no container ID to operate on. Fix the group membership instead of sprinkling <code class="language-plaintext highlighter-rouge">sudo</code> inside command substitutions.</p>
+
+<h3 id="landing-page-doesnt-show-or-assets-return-502">Landing page doesn’t show, or assets return 502</h3>
+
+<p>The landing page should appear when the server is reached over plain HTTP, with or without a hostname header:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-sI</span> http://&lt;server-ip&gt;/
+curl <span class="nt">-sI</span> <span class="nt">-H</span> <span class="s2">"Host: nothing.invalid"</span> http://&lt;server-ip&gt;/
+</code></pre></div></div>
+
+<p>Both should return <code class="language-plaintext highlighter-rouge">200 OK</code> with <code class="language-plaintext highlighter-rouge">Server: nginx/...</code> and a <code class="language-plaintext highlighter-rouge">Content-Length</code> matching the <code class="language-plaintext highlighter-rouge">/opt/apps/html/index.html</code> file size.</p>
+
+<p><strong>Container running?</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps <span class="nt">--filter</span> <span class="nv">name</span><span class="o">=</span>landing
+<span class="c"># Expected: STATUS shows 'Up &lt;duration&gt;'</span>
+</code></pre></div></div>
+
+<p>If it’s not running, check the logs:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker logs <span class="nt">--tail</span> 50 landing
+</code></pre></div></div>
+
+<p>The most common reason for the container failing to start is a syntax error in <code class="language-plaintext highlighter-rouge">/opt/infra/landing/conf/nginx.conf</code>. <code class="language-plaintext highlighter-rouge">nginx -t</code> runs at startup and the error will be in the logs verbatim.</p>
+
+<p><strong>Wrong files served (or empty 403 Forbidden)?</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># What's on the host?</span>
+<span class="nb">ls</span> <span class="nt">-la</span> /opt/apps/html/
+
+<span class="c"># What does the container see?</span>
+docker <span class="nb">exec </span>landing <span class="nb">ls</span> <span class="nt">-la</span> /usr/share/nginx/html/
+</code></pre></div></div>
+
+<p>The two listings should match. If the container is empty or shows different files, the bind mount didn’t apply — <code class="language-plaintext highlighter-rouge">docker compose up -d --force-recreate landing</code> from <code class="language-plaintext highlighter-rouge">/opt/infra/landing/</code> will rebuild with the mount.</p>
+
+<p><strong>Port conflict?</strong></p>
+
+<p>If <code class="language-plaintext highlighter-rouge">docker logs landing</code> shows <code class="language-plaintext highlighter-rouge">bind() to 0.0.0.0:80 failed (98: Address already in use)</code>, something else is already listening on port 80. Find what:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>lsof <span class="nt">-i</span> :80
+<span class="c"># or</span>
+<span class="nb">sudo </span>ss <span class="nt">-tlnp</span> | <span class="nb">grep</span> <span class="s1">':80'</span>
+</code></pre></div></div>
+
+<p>If <code class="language-plaintext highlighter-rouge">nginx-proxy-manager</code> appears in the output, follow the upgrade-cleanup note in Section 5.</p>
+
+<p><strong>SPA deep links return 404?</strong></p>
+
+<p>The server block uses <code class="language-plaintext highlighter-rouge">try_files $uri $uri/ /index.html =404;</code>. Deep links work as long as <code class="language-plaintext highlighter-rouge">/opt/apps/html/index.html</code> exists. If it doesn’t, deep links 404 because the fallback target doesn’t exist. Drop a real <code class="language-plaintext highlighter-rouge">index.html</code> into the directory and reload the browser.</p>
+
+<footer class="docs__tags" aria-label="Tags">
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=deployment">deployment</a></footer></article>
+</div>
+
+<footer class="docfoot inset">
+  <div class="docfoot__inner">
+    <span class="mono muted docfoot__built">
+      Lethil · built with
+      <a class="docfoot__jekyll" href="https://jekyllrb.com" rel="noopener" target="_blank" aria-label="Jekyll">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 3h6"/>
+          <path d="M10 3v6.5L5.6 18.2A2 2 0 0 0 7.4 21h9.2a2 2 0 0 0 1.8-2.8L14 9.5V3"/>
+          <path d="M7.7 14h8.6"/>
+        </svg>
+      </a>
+    </span>
+    <span class="mono muted">© 2026</span>
+  </div>
+</footer>
+
+    </main>
+  </div>
+
+  <script src="/assets/js/app.js?v=1786513643" defer></script>
+  <script src="/assets/js/search.js?v=1786513643" defer></script>
+  <script src="/assets/js/activity.js?v=1786513643" defer></script>
+  <script src="/assets/js/stars.js?v=1786513643" defer></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!doctype html><html lang="en" data-theme="light" data-theme-pref="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Handoff summary — Lethil</title>
+  <meta name="description" content="Locked architecture decisions, current repo layout, and outstanding work.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+
+  <!-- Resolve theme before first paint to avoid a flash. Must stay inline. -->
+  <script>
+    (function () {
+      try {
+        var pref = localStorage.getItem('theme') || 'auto';
+        var dark = pref === 'dark' ||
+          (pref === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+        var r = document.documentElement;
+        r.setAttribute('data-theme', dark ? 'dark' : 'light');
+        r.setAttribute('data-theme-pref', pref);
+      } catch (e) {}
+    })();
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1786513643">
+  <script>window.SITE = { searchUrl: "/search.json?v=1786513643" };</script>
+</head>
+<body class="is-docs" data-nav="closed">
+  <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
+  <script>
+    (function () {
+      try {
+        var b = document.body;
+        var wide = matchMedia('(min-width: 700px)').matches;
+        if (!wide) return; /* mobile always starts closed */
+        if (b.classList.contains('is-docs')) {
+          var stored = sessionStorage.getItem('nav:docs');
+          if (stored !== 'closed') b.setAttribute('data-nav', 'open');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <aside id="sidebar" class="sidebar" aria-label="Site navigation">
+  <div class="sidebar__head">
+    
+    <a class="brand" href="/">
+      <svg class="brand__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 11.2 12 4l8 7.2"/><path d="M6 10v9.2h12V10"/><path d="M10 19v-5h4v5"/>
+      </svg>
+      <span class="brand-name">Home</span>
+    </a>
+    <button class="theme-toggle theme-toggle--icon" type="button" aria-label="Color theme: auto">
+      <svg class="ico ico-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+      </svg>
+      <svg class="ico ico-dark" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.5 14.2A8 8 0 0 1 9.8 3.5 8 8 0 1 0 20.5 14.2Z"/>
+      </svg>
+      <svg class="ico ico-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="12" cy="12" r="8.5"/>
+        <path d="M12 3.5a8.5 8.5 0 0 0 0 17Z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar__body">
+    <p class="sidebar__title mono muted">Docs</p>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
+           href="/docs/getting-started/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Getting started</span>
+        </a><a class="sidebar__link"
+           href="/docs/deployment/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Deployment guide</span>
+        </a><a class="sidebar__link"
+           href="/docs/secrets/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Secrets manager</span>
+        </a><a class="sidebar__link is-active"
+           href="/docs/summary/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Handoff summary</span>
+        </a></nav>
+
+    
+  </div><div class="sidebar__foot" hidden></div>
+</aside>
+
+
+  <div class="shell">
+    <header class="topbar">
+      <div class="topbar__cluster">
+        <button class="navbtn" type="button"
+                aria-controls="sidebar" aria-expanded="false"
+                aria-label="Toggle navigation" data-nav-toggle>
+          <span class="navbtn__icon" aria-hidden="true">
+            <span class="navbtn__bar"></span>
+            <span class="navbtn__bar"></span>
+            <span class="navbtn__bar"></span>
+          </span>
+        </button>
+
+        <a class="brand" href="/docs/">
+          <span class="brand-name">Docs</span>
+        </a>
+        <div class="search" data-search>
+  <div class="search__bar">
+    <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="11" cy="11" r="6.5"/><path d="M20.5 20.5 16 16"/>
+      </svg>
+    </button>
+    <div class="search__field">
+      <button type="button" class="search__back" data-search-close aria-label="Close search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <input
+        type="search"
+        class="search__input"
+        placeholder="Search"
+        aria-label="Search"
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input>
+      <span class="search__hint" data-search-hint aria-hidden="true" title="Press / or Ctrl+K to search">
+        <kbd>/</kbd>
+        <span class="search__hint-sep">or</span>
+        <kbd data-search-hint-mod>Ctrl</kbd><span class="search__hint-plus">+</span><kbd>K</kbd>
+      </span>
+    </div>
+  </div>
+  <div class="search__panel" data-search-panel hidden>
+    <ul class="search__results" data-search-results role="listbox"></ul>
+  </div>
+</div>
+
+        
+      </div>
+
+      <div class="topbar__cluster">
+        
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="docs inset">
+  <article class="docs__content prose">
+    <header class="docs__head">
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Guide">Guide</a>
+      <h1>Handoff summary</h1>
+      <p class="docs__lede">Locked architecture decisions, current repo layout, and outstanding work.</p>
+    </header>
+    
+    <h2 id="what-this-project-is">What this project is</h2>
+
+<p>A personal infrastructure monorepo (<code class="language-plaintext highlighter-rouge">github.com/khensolomon/lethil</code>) that consolidates server-provisioning scripts, static-site/SPA sources, GitHub Actions dispatch workflows, and operator helper scripts into one place. The goal is to replace hand-typed terminal commands (error-prone, inconsistent across machines) with dispatchable, repeatable tasks — while every script remains independently runnable by hand.</p>
+
+<p>The owner is a solo developer (<code class="language-plaintext highlighter-rouge">khensolomon</code>). Production runs Django + MySQL apps in Docker Swarm behind a Cloudflare Tunnel, on a server reached via that tunnel.</p>
+
+<hr />
+
+<h2 id="architecture-decisions-locked">Architecture decisions (LOCKED)</h2>
+
+<h3 id="reverse-proxy--landing">Reverse-proxy / landing</h3>
+
+<ul>
+  <li><strong>Nginx Proxy Manager (NPM) removed entirely.</strong> It was doing nothing useful: TLS terminates at Cloudflare’s edge, and the tunnel routes host→app via <code class="language-plaintext highlighter-rouge">localhost:&lt;port&gt;</code>. Its only remaining role (a landing page) was fragile.</li>
+  <li>Replaced by <strong>vanilla <code class="language-plaintext highlighter-rouge">nginx:alpine</code></strong> at <code class="language-plaintext highlighter-rouge">/opt/landing/</code>, serving <code class="language-plaintext highlighter-rouge">/opt/bucket/html</code> as the catch-all landing page (port 80). One server block, <code class="language-plaintext highlighter-rouge">try_files $uri $uri/ /index.html</code>. No admin UI, no DB, no template-injection fragility.</li>
+  <li><strong>Cloudflare Tunnel</strong> is its own compose stack at <code class="language-plaintext highlighter-rouge">/opt/cloudflare-tunnel/</code>, <code class="language-plaintext highlighter-rouge">network_mode: host</code> (so <code class="language-plaintext highlighter-rouge">localhost</code> inside the container is the Docker host). Routes: specific hostnames → app ports; catch-all → <code class="language-plaintext highlighter-rouge">localhost:80</code> (landing).</li>
+</ul>
+
+<h3 id="setuppy-server-bootstrap">setup.py (server bootstrap)</h3>
+
+<ul>
+  <li>The CORE. Workflows/runner are dumb dispatchers — they pass parameters and report done/error/why. Same script runs identically by hand.</li>
+  <li><code class="language-plaintext highlighter-rouge">admin_subdomains</code> dict in <code class="language-plaintext highlighter-rouge">main()</code> is the <strong>single source of truth</strong> for admin subdomains. Each entry: <code class="language-plaintext highlighter-rouge">{"service": ..., "protect_with_access_app": bool, "app_name": ...}</code>. Drives DNS + tunnel ingress + Cloudflare Access app + post-install summary. Rename a key → everything follows.</li>
+  <li><code class="language-plaintext highlighter-rouge">--app-domain</code> accepts BOTH repeated flags AND one semicolon-separated value (<code class="language-plaintext highlighter-rouge">"a.com:http://localhost:80;b.com:http://localhost:81"</code>) for CI use from a single secret.</li>
+  <li>rclone installed unconditionally; R2 remote written to <code class="language-plaintext highlighter-rouge">~/.config/rclone/rclone.conf</code> (owner <code class="language-plaintext highlighter-rouge">SUDO_USER</code>, mode 600) only if R2 creds supplied.</li>
+  <li><code class="language-plaintext highlighter-rouge">usermod -aG docker</code> added; <code class="language-plaintext highlighter-rouge">newgrp docker</code> documented (cannot run from inside the script — only affects the shell that calls it).</li>
+  <li>Firewall: 22 (closed after tunnel verified), 80 (landing), 443 (no host service; Cloudflare terminates TLS; kept as no-op).</li>
+</ul>
+
+<h3 id="secretspy-env--github-secrets--generalized--merged-">secrets.py (.env → GitHub Secrets) — GENERALIZED &amp; MERGED ✅</h3>
+
+<ul>
+  <li>ONE script now serves both lethil AND the Django app repos (previously two separate scripts; merged per owner’s requirement).</li>
+  <li>Git-root aware: run from anywhere inside a repo, finds that repo’s <code class="language-plaintext highlighter-rouge">.env</code>.</li>
+  <li><strong>Zone model</strong> via marker lines of the form <code class="language-plaintext highlighter-rouge">#@ &lt;mode&gt;</code>:
+    <ul>
+      <li><strong>Bundle</strong> (content before first marker) → concatenated, pushed as ONE secret <code class="language-plaintext highlighter-rouge">ENV_BASE</code> (name is LOAD-BEARING — consumed by <code class="language-plaintext highlighter-rouge">action.yml</code>/<code class="language-plaintext highlighter-rouge">deploy.yml</code> in app repos; do not rename).</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">#@ individual</code></strong> → each key pushed as its own secret. <strong>Path-1 generalization</strong>: pushes WHATEVER keys are in the zone — no hardcoded allowlist. <code class="language-plaintext highlighter-rouge">SSH_PRIVATE_KEY_PATH</code> is special-cased: the file it points to is read and its CONTENTS pushed as <code class="language-plaintext highlighter-rouge">SSH_PRIVATE_KEY</code> (path itself never pushed).</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">#@ local</code></strong> → never pushed; read by script only (<code class="language-plaintext highlighter-rouge">REPO_OWNER</code>, <code class="language-plaintext highlighter-rouge">REPO_NAME</code>).</li>
+    </ul>
+  </li>
+  <li>Markers must appear in order (bundle → individual → local); any may be absent. Unknown mode after <code class="language-plaintext highlighter-rouge">#@</code> = fatal error (catches typos). Marker regex: <code class="language-plaintext highlighter-rouge">^#@\s*([A-Za-z][A-Za-z0-9_-]*)\s*$</code>. House style uses a space: <code class="language-plaintext highlighter-rouge">#@ individual</code>.</li>
+  <li>Sensitive masking is pattern-based (<code class="language-plaintext highlighter-rouge">_PWD</code>, <code class="language-plaintext highlighter-rouge">_PASSWORD</code>, <code class="language-plaintext highlighter-rouge">_SECRET</code>, <code class="language-plaintext highlighter-rouge">_KEY</code>, <code class="language-plaintext highlighter-rouge">_TOKEN</code>, <code class="language-plaintext highlighter-rouge">_PAT</code>) plus always-mask <code class="language-plaintext highlighter-rouge">ENV_BASE</code>, <code class="language-plaintext highlighter-rouge">SSH_PRIVATE_KEY</code>.</li>
+  <li>All original commands preserved &amp; adapted: <code class="language-plaintext highlighter-rouge">--push</code> (+ <code class="language-plaintext highlighter-rouge">--only</code>, <code class="language-plaintext highlighter-rouge">--dry-run</code>, <code class="language-plaintext highlighter-rouge">--force</code>, stale detection), <code class="language-plaintext highlighter-rouge">--status</code>, <code class="language-plaintext highlighter-rouge">--diff</code>, <code class="language-plaintext highlighter-rouge">--restore</code>, <code class="language-plaintext highlighter-rouge">--rotate</code>, <code class="language-plaintext highlighter-rouge">--check</code>, <code class="language-plaintext highlighter-rouge">--list</code>, <code class="language-plaintext highlighter-rouge">--env-preview</code>, <code class="language-plaintext highlighter-rouge">--init</code> (rewritten to scaffold the generic three-zone skeleton), <code class="language-plaintext highlighter-rouge">--env</code>, <code class="language-plaintext highlighter-rouge">--repo</code>.</li>
+  <li><strong>VERIFIED</strong>: produces identical secrets for a Django-shape <code class="language-plaintext highlighter-rouge">.env</code> (ENV_BASE + SSH_PRIVATE_KEY + individual CF tokens) — backward compatible, won’t break live deploys. Also verified for lethil shape and for error cases (typo’d marker, out-of-order markers).</li>
+</ul>
+
+<h3 id="repo-conventions">Repo conventions</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">apps/&lt;name&gt;/</code> = static-site/SPA source. Deploy is GENERIC (build if <code class="language-plaintext highlighter-rouge">package.json</code> present → <code class="language-plaintext highlighter-rouge">dist/</code>, else rsync as-is). The workflow owns build-and-deploy logic; no per-app <code class="language-plaintext highlighter-rouge">build.py</code>. <code class="language-plaintext highlighter-rouge">default</code> → <code class="language-plaintext highlighter-rouge">/opt/bucket/html</code>; others → <code class="language-plaintext highlighter-rouge">/opt/bucket/&lt;name&gt;/</code>.</li>
+  <li>A committed <code class="language-plaintext highlighter-rouge">config.yml</code> holds non-sensitive indexing (apps list, server profiles). No hardcoding in workflows; free-text inputs validated against the repo.</li>
+  <li><code class="language-plaintext highlighter-rouge">me/</code> directory was MERGED into <code class="language-plaintext highlighter-rouge">script/</code> (single helper-scripts dir).</li>
+  <li>Workflows v1 support SSH method only; <code class="language-plaintext highlighter-rouge">self-hosted</code> and <code class="language-plaintext highlighter-rouge">tunnel</code> appear in dispatch forms as placeholders that error cleanly until implemented.</li>
+</ul>
+
+<hr />
+
+<h2 id="repo-structure-current-state-in-the-delivered-zip">Repo structure (current state in the delivered zip)</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lethil/
+├── README.md                      ✅ front door
+├── config.yml                     ✅ non-sensitive index
+├── .env.example                   ✅ #@ marker format, canonical names
+├── .gitignore                     ✅ ignores .env, dist/, node_modules, pycache
+├── server/
+│   ├── README.md                  ✅
+│   └── setup.py                   ✅ current (NPM removed; tunnel+landing split;
+│                                     admin_subdomains dict; ;-separated app-domain;
+│                                     rclone; docker group)
+├── apps/
+│   ├── README.md                  ✅
+│   └── default/                   ✅ index.html, style.css, script.js (placeholders), README
+├── script/
+│   ├── README.md                  ✅ documents the merged secrets.py + zone model
+│   └── secrets.py                 ✅ GENERALIZED, MERGED, VERIFIED
+├── docs/
+│   └── setup.md                   ✅ moved here; paths updated; GH Actions option added
+│                                     (still needs pronoun/hype sweep + new flow section)
+└── .github/workflows/
+    ├── server-setup.yml           ✅ SSH only; tunnel/self-hosted = placeholders
+    └── apps-deploy.yml            ✅ SSH only; tunnel/self-hosted = placeholders
+</code></pre></div></div>
+
+<p>Delivered as <code class="language-plaintext highlighter-rouge">lethil.zip</code> in outputs.</p>
+
+<hr />
+
+<h2 id="deferred-to-a-separate-future-session-not-now">DEFERRED to a separate future session (NOT now)</h2>
+
+<ul>
+  <li><strong>Config-model naming rethink</strong>: <code class="language-plaintext highlighter-rouge">ENV_BASE</code> / <code class="language-plaintext highlighter-rouge">VAR_BASE</code> / <code class="language-plaintext highlighter-rouge">ENV_OVERRIDES</code> (the three-layer merge in app-repo <code class="language-plaintext highlighter-rouge">action.yml</code>) → toward “one CONFIG, per-environment override (default/ssh/tunnel/self-hosted)”. This touches <code class="language-plaintext highlighter-rouge">action.yml</code> + <code class="language-plaintext highlighter-rouge">deploy.yml</code> in the APP repos (live production deploys) — needs its own focused session with app-repo context loaded. <code class="language-plaintext highlighter-rouge">VAR_BASE</code>/<code class="language-plaintext highlighter-rouge">ENV_OVERRIDES</code> are currently managed by hand in the GitHub UI.</li>
+  <li><strong>Container-cleanup workflows</strong> (<code class="language-plaintext highlighter-rouge">clean-containers.yml</code>, <code class="language-plaintext highlighter-rouge">bulk-delete-containers.yml</code>, <code class="language-plaintext highlighter-rouge">DELETE_PACKAGES_TOKEN</code>) stay in the APP repos, NOT lethil. (<code class="language-plaintext highlighter-rouge">DELETE_PACKAGES_TOKEN</code> is a write-only GitHub PAT with <code class="language-plaintext highlighter-rouge">delete:packages</code> scope; its value can’t be read back.)</li>
+</ul>
+
+<hr />
+
+<h2 id="outstanding-tasks-remaining-path-a-work">OUTSTANDING tasks (remaining Path A work)</h2>
+
+<ol>
+  <li><strong>Implement <code class="language-plaintext highlighter-rouge">tunnel</code> + <code class="language-plaintext highlighter-rouge">self-hosted</code> methods</strong> in both workflows (<code class="language-plaintext highlighter-rouge">server-setup.yml</code>, <code class="language-plaintext highlighter-rouge">apps-deploy.yml</code>). Currently placeholders that error. SSH method already works.</li>
+  <li><strong>Pronoun + hype-register sweep</strong> across ALL comments and docs: remove personal pronouns (you/your/we/I/my/they → impersonal: “the project”, “working directory”, “the Cloudflare account ID”); remove hype register (must/absolutely/100%/guarantee/tutorial-voice).</li>
+  <li><strong>New docs section</strong>: how <code class="language-plaintext highlighter-rouge">.env</code> values flow to GitHub Secrets, which script reads what (the secrets.py zone model end-to-end).</li>
+  <li><strong>Apply workflow display names</strong>: <code class="language-plaintext highlighter-rouge">name: Server · Provision</code>, <code class="language-plaintext highlighter-rouge">name: App · Deploy</code> (Noun · Verb form chosen for sidebar legibility as workflows grow).</li>
+</ol>
+
+<hr />
+
+<h2 id="next-immediate-step">NEXT IMMEDIATE STEP</h2>
+
+<p>Implement the <code class="language-plaintext highlighter-rouge">tunnel</code> and <code class="language-plaintext highlighter-rouge">self-hosted</code> methods in <code class="language-plaintext highlighter-rouge">server-setup.yml</code> and <code class="language-plaintext highlighter-rouge">apps-deploy.yml</code>. Decisions still needed before writing:</p>
+
+<ul>
+  <li><strong>self-hosted</strong>: assumes a runner already registered on the target server (chicken-and-egg — only valid for re-provisioning an existing server, not first bootstrap). Repo-scoped runners only (owner uses a personal GitHub account, not an org).</li>
+  <li><strong>tunnel</strong>: SSH through <code class="language-plaintext highlighter-rouge">cloudflared access ssh</code> with the service token; requires the tunnel + Access app to already exist (so also not valid for first bootstrap). Needs the service-token-id / service-token-secret available to the runner from secrets.</li>
+  <li>Confirm: which methods are valid for which workflow, and whether each workflow should refuse invalid method+context combos.</li>
+</ul>
+
+<hr />
+
+<h2 id="key-working-file-locations">Key working-file locations</h2>
+
+<ul>
+  <li>Repo skeleton (authoritative current state): <code class="language-plaintext highlighter-rouge">lethil.zip</code> in outputs; working copy at <code class="language-plaintext highlighter-rouge">/home/claude/lethil/</code></li>
+  <li>Latest standalone <code class="language-plaintext highlighter-rouge">setup.py</code> + <code class="language-plaintext highlighter-rouge">setup.md</code>: also in outputs (mirror of <code class="language-plaintext highlighter-rouge">lethil/server/setup.py</code> and <code class="language-plaintext highlighter-rouge">lethil/docs/setup.md</code>)</li>
+  <li>Original <code class="language-plaintext highlighter-rouge">secrets.py</code> that was adopted/generalized: was at <code class="language-plaintext highlighter-rouge">/mnt/project/secrets.py</code></li>
+  <li>App-repo reference workflows (for the deferred config-model work): <code class="language-plaintext highlighter-rouge">deploy.yml</code>, <code class="language-plaintext highlighter-rouge">action.yml</code>, <code class="language-plaintext highlighter-rouge">clean-containers.yml</code>, <code class="language-plaintext highlighter-rouge">bulk-delete-containers.yml</code> (were uploaded)</li>
+</ul>
+
+<hr />
+
+<h2 id="verification-commands-for-the-current-secretspy">Verification commands (for the current secrets.py)</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>lethil
+python3 <span class="nt">-m</span> py_compile script/secrets.py        <span class="c"># compiles</span>
+python3 script/secrets.py <span class="nt">--check</span>              <span class="c"># validates .env structure + gh auth</span>
+python3 script/secrets.py <span class="nt">--push</span> <span class="nt">--dry-run</span>     <span class="c"># preview without pushing</span>
+</code></pre></div></div>
+
+<p>A Django-shape <code class="language-plaintext highlighter-rouge">.env</code> (bundle content + <code class="language-plaintext highlighter-rouge">#@ individual</code> + <code class="language-plaintext highlighter-rouge">#@ local</code>) and a lethil-shape <code class="language-plaintext highlighter-rouge">.env</code> (no bundle, only individual + local) both parse and resolve correctly. <code class="language-plaintext highlighter-rouge">SSH_PRIVATE_KEY_PATH</code> → file contents as <code class="language-plaintext highlighter-rouge">SSH_PRIVATE_KEY</code> confirmed.</p>
+
+<footer class="docs__tags" aria-label="Tags">
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=summary">summary</a></footer></article>
+</div>
+
+<footer class="docfoot inset">
+  <div class="docfoot__inner">
+    <span class="mono muted docfoot__built">
+      Lethil · built with
+      <a class="docfoot__jekyll" href="https://jekyllrb.com" rel="noopener" target="_blank" aria-label="Jekyll">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 3h6"/>
+          <path d="M10 3v6.5L5.6 18.2A2 2 0 0 0 7.4 21h9.2a2 2 0 0 0 1.8-2.8L14 9.5V3"/>
+          <path d="M7.7 14h8.6"/>
+        </svg>
+      </a>
+    </span>
+    <span class="mono muted">© 2026</span>
+  </div>
+</footer>
+
+    </main>
+  </div>
+
+  <script src="/assets/js/app.js?v=1786513643" defer></script>
+  <script src="/assets/js/search.js?v=1786513643" defer></script>
+  <script src="/assets/js/activity.js?v=1786513643" defer></script>
+  <script src="/assets/js/stars.js?v=1786513643" defer></script>
+</body>
+</html>

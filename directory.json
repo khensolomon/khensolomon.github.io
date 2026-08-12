@@ -1,0 +1,113 @@
+[{
+    "title": "Getting started",
+    "url": "/docs/getting-started/",
+    "description": "Bring the stack up, then learn how these docs are built.",
+    "section": "Docs",
+    "sectionKey": "docs",
+    "category": "Guide",
+    "tags": []
+  },{
+    "title": "Deployment guide",
+    "url": "/docs/deployment/",
+    "description": "Provision a production server from a fresh Ubuntu/Debian host to an automated Docker Swarm deploy pipeline.",
+    "section": "Docs",
+    "sectionKey": "docs",
+    "category": "Guide",
+    "tags": ["deployment"]
+  },{
+    "title": "Secrets manager",
+    "url": "/docs/secrets/",
+    "description": "Validate a project's .env and push the right pieces to GitHub Actions as repository secrets.",
+    "section": "Docs",
+    "sectionKey": "docs",
+    "category": "Guide",
+    "tags": ["secrets"]
+  },{
+    "title": "Handoff summary",
+    "url": "/docs/summary/",
+    "description": "Locked architecture decisions, current repo layout, and outstanding work.",
+    "section": "Docs",
+    "sectionKey": "docs",
+    "category": "Guide",
+    "tags": ["summary"]
+  },{
+    "title": "Docker Swarm",
+    "url": "/server/docker-swarm/",
+    "description": "Single-node swarm.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","docker","swarm"]
+  },{
+    "title": "Cloudflare Tunnel",
+    "url": "/server/cloudflare/",
+    "description": "Zero-trust ingress.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","cloudflare","networking"]
+  },{
+    "title": "Managing fstab",
+    "url": "/linux/fstab/",
+    "description": "Declarative mounts.",
+    "section": "Linux",
+    "sectionKey": "linux",
+    "category": "Linux",
+    "tags": ["linux","storage","mergerfs"]
+  },{
+    "title": "Static networking",
+    "url": "/linux/netplan/",
+    "description": "netplan for static IPs.",
+    "section": "Linux",
+    "sectionKey": "linux",
+    "category": "Linux",
+    "tags": ["linux","networking","netplan"]
+  },{
+    "title": "Environment setup",
+    "url": "/python/setup/",
+    "description": "venv, pip, and project layout.",
+    "section": "Python",
+    "sectionKey": "python",
+    "category": "Python",
+    "tags": ["python","venv","tooling"]
+  },{
+    "title": "Packaging scripts",
+    "url": "/python/packaging/",
+    "description": "Shipping small CLI tools.",
+    "section": "Python",
+    "sectionKey": "python",
+    "category": "Python",
+    "tags": ["python","packaging","cli"]
+  },{
+    "title": "Joins",
+    "url": "/sql/joins/",
+    "description": "INNER, LEFT, and friends.",
+    "section": "SQL",
+    "sectionKey": "sql",
+    "category": "SQL",
+    "tags": []
+  },{
+    "title": "Library layout",
+    "url": "/plex/library/",
+    "description": "Organizing media.",
+    "section": "Plex",
+    "sectionKey": "plex",
+    "category": "Plex",
+    "tags": ["plex","media","mergerfs"]
+  },{
+    "title": "Scratch notes",
+    "url": "/note/scratch/",
+    "description": "Working notes.",
+    "section": "Notes",
+    "sectionKey": "note",
+    "category": "Notes",
+    "tags": []
+  },{
+    "title": "Favorites",
+    "url": "/quote/favorites/",
+    "description": "Collected quotes.",
+    "section": "Quotes",
+    "sectionKey": "quote",
+    "category": "Quotes",
+    "tags": []
+  }]
