@@ -47,6 +47,12 @@
     "section": "Linux",
     "content": "Setting a static IP with netplan on Ubuntu Server. Useful before configuringthe [[Docker Swarm]] node so its address doesn’t move."
   },{
+    "title": "GNOME",
+    "url": "/linux/gnome/",
+    "category": "linux",
+    "section": "Linux",
+    "content": "GNOME extensions clignome-extensions enable uuidgnome-extensions disable uuidgnome-extensions uninstall uuidgnome-extensions prefs uuid"
+  },{
     "title": "Environment setup",
     "url": "/python/setup/",
     "category": "Python",

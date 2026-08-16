@@ -63,6 +63,14 @@
     "category": "Linux",
     "tags": ["linux","networking","netplan"]
   },{
+    "title": "GNOME",
+    "url": "/linux/gnome/",
+    "description": "GNOME guide",
+    "section": "Linux",
+    "sectionKey": "linux",
+    "category": "linux",
+    "tags": ["gnome"]
+  },{
     "title": "Environment setup",
     "url": "/python/setup/",
     "description": "venv, pip, and project layout.",

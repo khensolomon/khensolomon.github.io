@@ -2,12 +2,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Server — Lethil</title>
-  <meta name="description" content="Infrastructure, tooling, and self-hosted systems.">
+  <title>GNOME — Lethil</title>
+  <meta name="description" content="GNOME guide">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
-  <meta http-equiv="refresh" content="0; url=/server/docker-swarm/">
-  <script>location.replace("/server/docker-swarm/");</script>
 
   <!-- Resolve theme before first paint to avoid a flash. Must stay inline. -->
   <script>
@@ -65,15 +63,19 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Server</p>
+    <p class="sidebar__title mono muted">Linux</p>
     <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
-           href="/server/docker-swarm/">
+           href="/linux/fstab/">
           <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Docker Swarm</span>
+          <span class="sidebar__link-text">Managing fstab</span>
         </a><a class="sidebar__link"
-           href="/server/cloudflare/">
+           href="/linux/netplan/">
           <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Cloudflare Tunnel</span>
+          <span class="sidebar__link-text">Static networking</span>
+        </a><a class="sidebar__link is-active"
+           href="/linux/gnome/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">GNOME</span>
         </a></nav>
 
     
@@ -94,8 +96,8 @@
           </span>
         </button>
 
-        <a class="brand" href="/server/">
-          <span class="brand-name">Server</span>
+        <a class="brand" href="/linux/">
+          <span class="brand-name">Linux</span>
         </a>
         <div class="search" data-search>
   <div class="search__bar">
@@ -142,14 +144,21 @@
       <div class="docs inset">
   <article class="docs__content prose">
     <header class="docs__head">
-      
-      <h1>Server</h1>
-      
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=linux">linux</a>
+      <h1>GNOME</h1>
+      <p class="docs__lede">GNOME guide</p>
     </header>
     
-    <p>Redirecting to the first page in Server…</p>
+    <h2 id="gnome-extensions-cli">GNOME extensions cli</h2>
 
-</article>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gnome-extensions <span class="nb">enable </span>uuid
+gnome-extensions disable uuid
+gnome-extensions uninstall uuid
+gnome-extensions prefs uuid
+</code></pre></div></div>
+
+<footer class="docs__tags" aria-label="Tags">
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=gnome">gnome</a></footer></article>
 </div>
 
 <footer class="docfoot inset">
