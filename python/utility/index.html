@@ -2,8 +2,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cloudflare Tunnel — Lethil</title>
-  <meta name="description" content="Zero-trust ingress.">
+  <title>Utility — Lethil</title>
+  <meta name="description" content="Shipping small CLI tools.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 
@@ -63,15 +63,19 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Server</p>
+    <p class="sidebar__title mono muted">Python</p>
     <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
-           href="/server/docker-swarm/">
+           href="/python/setup/">
           <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Docker Swarm</span>
+          <span class="sidebar__link-text">Environment setup</span>
         </a><a class="sidebar__link is-active"
-           href="/server/cloudflare/">
+           href="/python/utility/">
           <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Cloudflare Tunnel</span>
+          <span class="sidebar__link-text">Utility</span>
+        </a><a class="sidebar__link"
+           href="/python/packaging/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Packaging scripts</span>
         </a></nav>
 
     
@@ -92,8 +96,8 @@
           </span>
         </button>
 
-        <a class="brand" href="/server/">
-          <span class="brand-name">Server</span>
+        <a class="brand" href="/python/">
+          <span class="brand-name">Python</span>
         </a>
         <div class="search" data-search>
   <div class="search__bar">
@@ -140,16 +144,45 @@
       <div class="docs inset">
   <article class="docs__content prose">
     <header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Server">Server</a>
-      <h1>Cloudflare Tunnel</h1>
-      <p class="docs__lede">Zero-trust ingress.</p>
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Python">Python</a>
+      <h1>Utility</h1>
+      <p class="docs__lede">Shipping small CLI tools.</p>
     </header>
     
-    <p>Exposing services through Cloudflare Tunnel without opening ports. Pairs with
-<a class="wikilink" href="/server/docker-swarm/">Docker Swarm</a> running in host-network mode.</p>
+    <h2 id="xyz">XYZ</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Make the Python XYZ executable:</span>
+<span class="nb">chmod</span> +x XYZ.py
+
+<span class="c"># Run it as a normal user:</span>
+./XYZ.py
+</code></pre></div></div>
+
+<h2 id="placing-xyzpy-into-system-binary-path-usrlocalbin-so-it-runs-anywhere-as-xyz">placing XYZ.py into system binary path (/usr/local/bin) so it runs anywhere as ‘XYZ’?</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Move the XYZ to /usr/local/bin and rename it:</span>
+<span class="nb">sudo cp </span>XYZ.py /usr/local/bin/XYZ
+
+<span class="c"># Grant execution permissions:</span>
+<span class="nb">sudo chmod</span> +x /usr/local/bin/XYZ
+
+<span class="c"># Verify ownership:</span>
+<span class="nb">sudo chown </span>root:root /usr/local/bin/XYZ
+<span class="c"># Now run XYZ from any directory in terminal.</span>
+</code></pre></div></div>
+
+<hr />
+<p>thank you. lets make the script for actual requirement.
+lets prompt,
+if user want to change logo wallpaper or both then lets show the default path/file and provide input for a new file
+check these new configuration like is the file exist, if it can be use, then apply accordingly like if no file or not an image file skip applying..</p>
+
+<p>and its important that we have docstring of version (v{yy.mm.dd.change}) a short description, usage. and these content are also reflected as h, –help content..</p>
+
+<p>do not use term like you, you, i, me, we, they, them etc… in the anywhere..</p>
 
 <footer class="docs__tags" aria-label="Tags">
-      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=server">server</a><a class="docs__tag mono" href="/directory/#tag=cloudflare">cloudflare</a><a class="docs__tag mono" href="/directory/#tag=networking">networking</a></footer></article>
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=python">python</a><a class="docs__tag mono" href="/directory/#tag=packaging">packaging</a><a class="docs__tag mono" href="/directory/#tag=cli">cli</a></footer></article>
 </div>
 
 <footer class="docfoot inset">

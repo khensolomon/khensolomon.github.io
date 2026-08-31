@@ -51,13 +51,25 @@
     "url": "/linux/gnome/",
     "category": "linux",
     "section": "Linux",
-    "content": "GNOME extensions clignome-extensions enable uuidgnome-extensions disable uuidgnome-extensions uninstall uuidgnome-extensions prefs uuid"
+    "content": "logo and wallpaper# 1. Change/Remove the logo via native GSettingssudo gsettings set org.gnome.login-screen logo '/path/to/logo.png'# 2. Update system dconf databasesudo dconf updateGNOME extensions clignome-extensions enable uuidgnome-extensions disable uuidgnome-extensions uninstall uuidgnome-extensions prefs uuidgnome-extensions install --force hornbill@lethil.me.shell-extension.zip"
+  },{
+    "title": "Utility",
+    "url": "/linux/utility/",
+    "category": "linux",
+    "section": "Linux",
+    "content": "ABC# Make the Python ABC executable:chmod +x ABC.py# Run it as a normal user:./ABC.pyplacing ABC.py into system binary path (/usr/local/bin) so it runs anywhere as ‘ABC’?# Move the ABC to /usr/local/bin and rename it:sudo cp ABC.py /usr/local/bin/ABC# Grant execution permissions:sudo chmod +x /usr/local/bin/ABC# Verify ownership:sudo chown root:root /usr/local/bin/ABC# Now run ABC from any directory in terminal.Clickable Desktop Shortcut for non-terminal users[Desktop Entry]Type=ApplicationName=GDM ABC CustomizerComment=Customize Ubuntu Login Logo and WallpaperExec=gnome-terminal -- /usr/local/bin/ABCIcon=preferences-desktop-wallpaperTerminal=falseCategories=Utility;Settings;"
   },{
     "title": "Environment setup",
     "url": "/python/setup/",
     "category": "Python",
     "section": "Python",
     "content": "Notes on setting up a clean Python environment with venv and stdlib-onlytooling. Once the environment is ready, see [[Packaging scripts]] for how theCLI tools are structured.These scripts often run on the [[Docker Swarm]] host, so the same Pythonversion should be available there."
+  },{
+    "title": "Utility",
+    "url": "/python/utility/",
+    "category": "Python",
+    "section": "Python",
+    "content": "XYZ# Make the Python XYZ executable:chmod +x XYZ.py# Run it as a normal user:./XYZ.pyplacing XYZ.py into system binary path (/usr/local/bin) so it runs anywhere as ‘XYZ’?# Move the XYZ to /usr/local/bin and rename it:sudo cp XYZ.py /usr/local/bin/XYZ# Grant execution permissions:sudo chmod +x /usr/local/bin/XYZ# Verify ownership:sudo chown root:root /usr/local/bin/XYZ# Now run XYZ from any directory in terminal.thank you. lets make the script for actual requirement.lets prompt,if user want to change logo wallpaper or both then lets show the default path/file and provide input for a new filecheck these new configuration like is the file exist, if it can be use, then apply accordingly like if no file or not an image file skip applying..and its important that we have docstring of version (v{yy.mm.dd.change}) a short description, usage. and these content are also reflected as h, –help content..do not use term like you, you, i, me, we, they, them etc… in the anywhere.."
   },{
     "title": "Packaging scripts",
     "url": "/python/packaging/",

@@ -2,8 +2,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cloudflare Tunnel — Lethil</title>
-  <meta name="description" content="Zero-trust ingress.">
+  <title>Utility — Lethil</title>
+  <meta name="description" content="guide">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 
@@ -63,15 +63,23 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Server</p>
+    <p class="sidebar__title mono muted">Linux</p>
     <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
-           href="/server/docker-swarm/">
+           href="/linux/fstab/">
           <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Docker Swarm</span>
+          <span class="sidebar__link-text">Managing fstab</span>
+        </a><a class="sidebar__link"
+           href="/linux/netplan/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Static networking</span>
+        </a><a class="sidebar__link"
+           href="/linux/gnome/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">GNOME</span>
         </a><a class="sidebar__link is-active"
-           href="/server/cloudflare/">
+           href="/linux/utility/">
           <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Cloudflare Tunnel</span>
+          <span class="sidebar__link-text">Utility</span>
         </a></nav>
 
     
@@ -92,8 +100,8 @@
           </span>
         </button>
 
-        <a class="brand" href="/server/">
-          <span class="brand-name">Server</span>
+        <a class="brand" href="/linux/">
+          <span class="brand-name">Linux</span>
         </a>
         <div class="search" data-search>
   <div class="search__bar">
@@ -140,16 +148,47 @@
       <div class="docs inset">
   <article class="docs__content prose">
     <header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Server">Server</a>
-      <h1>Cloudflare Tunnel</h1>
-      <p class="docs__lede">Zero-trust ingress.</p>
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=linux">linux</a>
+      <h1>Utility</h1>
+      <p class="docs__lede">guide</p>
     </header>
     
-    <p>Exposing services through Cloudflare Tunnel without opening ports. Pairs with
-<a class="wikilink" href="/server/docker-swarm/">Docker Swarm</a> running in host-network mode.</p>
+    <h2 id="abc">ABC</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Make the Python ABC executable:</span>
+<span class="nb">chmod</span> +x ABC.py
+
+<span class="c"># Run it as a normal user:</span>
+./ABC.py
+</code></pre></div></div>
+
+<h2 id="placing-abcpy-into-system-binary-path-usrlocalbin-so-it-runs-anywhere-as-abc">placing ABC.py into system binary path (/usr/local/bin) so it runs anywhere as ‘ABC’?</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Move the ABC to /usr/local/bin and rename it:</span>
+<span class="nb">sudo cp </span>ABC.py /usr/local/bin/ABC
+
+<span class="c"># Grant execution permissions:</span>
+<span class="nb">sudo chmod</span> +x /usr/local/bin/ABC
+
+<span class="c"># Verify ownership:</span>
+<span class="nb">sudo chown </span>root:root /usr/local/bin/ABC
+<span class="c"># Now run ABC from any directory in terminal.</span>
+</code></pre></div></div>
+
+<h2 id="clickable-desktop-shortcut-for-non-terminal-users">Clickable Desktop Shortcut for non-terminal users</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Desktop Entry]
+<span class="nv">Type</span><span class="o">=</span>Application
+<span class="nv">Name</span><span class="o">=</span>GDM ABC Customizer
+<span class="nv">Comment</span><span class="o">=</span>Customize Ubuntu Login Logo and Wallpaper
+<span class="nv">Exec</span><span class="o">=</span>gnome-terminal <span class="nt">--</span> /usr/local/bin/ABC
+<span class="nv">Icon</span><span class="o">=</span>preferences-desktop-wallpaper
+<span class="nv">Terminal</span><span class="o">=</span><span class="nb">false
+</span><span class="nv">Categories</span><span class="o">=</span>Utility<span class="p">;</span>Settings<span class="p">;</span>
+</code></pre></div></div>
 
 <footer class="docs__tags" aria-label="Tags">
-      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=server">server</a><a class="docs__tag mono" href="/directory/#tag=cloudflare">cloudflare</a><a class="docs__tag mono" href="/directory/#tag=networking">networking</a></footer></article>
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=utility">utility</a><a class="docs__tag mono" href="/directory/#tag=customization">customization</a><a class="docs__tag mono" href="/directory/#tag=UI">UI</a></footer></article>
 </div>
 
 <footer class="docfoot inset">

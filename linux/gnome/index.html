@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1786882635">
-  <script>window.SITE = { searchUrl: "/search.json?v=1786882635" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -76,6 +76,10 @@
            href="/linux/gnome/">
           <span class="sidebar__marker" aria-hidden="true"></span>
           <span class="sidebar__link-text">GNOME</span>
+        </a><a class="sidebar__link"
+           href="/linux/utility/">
+          <span class="sidebar__marker" aria-hidden="true"></span>
+          <span class="sidebar__link-text">Utility</span>
         </a></nav>
 
     
@@ -149,12 +153,23 @@
       <p class="docs__lede">GNOME guide</p>
     </header>
     
-    <h2 id="gnome-extensions-cli">GNOME extensions cli</h2>
+    <h2 id="logo-and-wallpaper">logo and wallpaper</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Change/Remove the logo via native GSettings</span>
+<span class="nb">sudo </span>gsettings <span class="nb">set </span>org.gnome.login-screen logo <span class="s1">'/path/to/logo.png'</span>
+
+<span class="c"># 2. Update system dconf database</span>
+<span class="nb">sudo </span>dconf update
+</code></pre></div></div>
+
+<h2 id="gnome-extensions-cli">GNOME extensions cli</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gnome-extensions <span class="nb">enable </span>uuid
 gnome-extensions disable uuid
 gnome-extensions uninstall uuid
 gnome-extensions prefs uuid
+
+gnome-extensions <span class="nb">install</span> <span class="nt">--force</span> hornbill@lethil.me.shell-extension.zip
 </code></pre></div></div>
 
 <footer class="docs__tags" aria-label="Tags">
@@ -180,9 +195,9 @@ gnome-extensions prefs uuid
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1786882635" defer></script>
-  <script src="/assets/js/search.js?v=1786882635" defer></script>
-  <script src="/assets/js/activity.js?v=1786882635" defer></script>
-  <script src="/assets/js/stars.js?v=1786882635" defer></script>
+  <script src="/assets/js/app.js?v=1788190682" defer></script>
+  <script src="/assets/js/search.js?v=1788190682" defer></script>
+  <script src="/assets/js/activity.js?v=1788190682" defer></script>
+  <script src="/assets/js/stars.js?v=1788190682" defer></script>
 </body>
 </html>

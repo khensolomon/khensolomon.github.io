@@ -71,6 +71,14 @@
     "category": "linux",
     "tags": ["gnome"]
   },{
+    "title": "Utility",
+    "url": "/linux/utility/",
+    "description": "guide",
+    "section": "Linux",
+    "sectionKey": "linux",
+    "category": "linux",
+    "tags": ["utility","customization","UI"]
+  },{
     "title": "Environment setup",
     "url": "/python/setup/",
     "description": "venv, pip, and project layout.",
@@ -78,6 +86,14 @@
     "sectionKey": "python",
     "category": "Python",
     "tags": ["python","venv","tooling"]
+  },{
+    "title": "Utility",
+    "url": "/python/utility/",
+    "description": "Shipping small CLI tools.",
+    "section": "Python",
+    "sectionKey": "python",
+    "category": "Python",
+    "tags": ["python","packaging","cli"]
   },{
     "title": "Packaging scripts",
     "url": "/python/packaging/",
