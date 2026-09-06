@@ -6,8 +6,6 @@
   <meta name="description" content="Infrastructure, tooling, and self-hosted systems.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
-  <meta http-equiv="refresh" content="0; url=/quote/favorites/">
-  <script>location.replace("/quote/favorites/");</script>
 
   <!-- Resolve theme before first paint to avoid a flash. Must stay inline. -->
   <script>
@@ -21,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -65,11 +63,11 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Quotes</p>
-    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
-           href="/quote/favorites/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Favorites</span>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview is-active"
+           href="/quote/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><a class="sidebar__link" href="/quote/favorites/">
+          <span class="sidebar__link-text" data-text="Favorites">Favorites</span>
         </a></nav>
 
     
@@ -93,6 +91,8 @@
         <a class="brand" href="/quote/">
           <span class="brand-name">Quotes</span>
         </a>
+        
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -126,27 +126,22 @@
   </div>
 </div>
 
-        
-      </div>
-
-      <div class="topbar__cluster">
-        
       </div>
     </header>
 
     <main class="page">
-      <div class="docs inset">
-  <article class="docs__content prose">
-    <header class="docs__head">
-      
-      <h1>Quotes</h1>
-      
-    </header>
-    
-    <p>Redirecting to the first page in Quotes…</p>
-
-</article>
-</div>
+      <div class="section-index">
+  <header class="section-index__head">
+    <h1 class="section-index__title">Quotes</h1>
+    <p class="section-index__lede">Collected quotes</p>
+    <p class="section-index__count mono muted">
+      1 page
+    </p>
+  </header><ul class="section-index__list"><li class="section-index__item">
+        <a class="section-index__link" href="/quote/favorites/">
+          <span class="section-index__name">Favorites</span>
+          <span class="section-index__desc">Collected quotes.</span></a>
+      </li></ul></div>
 
 <footer class="docfoot inset">
   <div class="docfoot__inner">
@@ -167,9 +162,9 @@
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

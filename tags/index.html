@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
 <body class="is-home is-taxonomy" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -73,6 +73,14 @@
         </span>
         <span class="sidebar__fixed-label">Graph View</span>
       </a>
+      <a class="sidebar__fixed-item" href="/todo/">
+        <span class="sidebar__fixed-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6.5 6 8.5 9.5 5"/><path d="M4 17.5 6 19.5 9.5 16"/><path d="M13 7h7M13 18h7"/>
+          </svg>
+        </span>
+        <span class="sidebar__fixed-label">Todo</span>
+      </a>
       <a class="sidebar__fixed-item" href="/docs/">
         <span class="sidebar__fixed-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -107,9 +115,21 @@
       <path d="M9 6l6 6-6 6"/>
     </svg>
     <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Todo<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">What's next, in progress, and shipped</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/todo/bible/" data-text="Lai Siangtho — e-book &amp; presentation suite">Lai Siangtho — e-book & presentation suite</a><a class="sidebar-sect__page" href="/todo/migration/" data-text="Move off Google Cloud">Move off Google Cloud</a><a class="sidebar-sect__page" href="/todo/domains/" data-text="Domain names">Domain names</a><a class="sidebar-sect__page" href="/todo/obsidian-import/" data-text="Import the Obsidian vault">Import the Obsidian vault</a><a class="sidebar-sect__page" href="/todo/auto-index/" data-text="Drop the manual index bookkeeping">Drop the manual index bookkeeping</a><a class="sidebar-sect__page" href="/todo/subsystem/" data-text="Disposable Linux subsystems">Disposable Linux subsystems</a><a class="sidebar-sect__more" href="/todo/">Open Todo →</a>
+  </div>
+</details>
+<details class="sidebar-sect is-highlight">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 6l6 6-6 6"/>
+    </svg>
+    <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Docs<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">Building & running this site</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/docs/getting-started/">Getting started</a><a class="sidebar-sect__page" href="/docs/deployment/">Deployment guide</a><a class="sidebar-sect__page" href="/docs/secrets/">Secrets manager</a><a class="sidebar-sect__page" href="/docs/summary/">Handoff summary</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/docs/getting-started/" data-text="Getting started">Getting started</a><a class="sidebar-sect__page" href="/docs/deployment/" data-text="Deployment guide">Deployment guide</a><a class="sidebar-sect__page" href="/docs/secrets/" data-text="Secrets manager">Secrets manager</a><a class="sidebar-sect__page" href="/docs/summary/" data-text="Handoff summary">Handoff summary</a><a class="sidebar-sect__page" href="/docs/authoring/" data-text="Authoring these docs">Authoring these docs</a><a class="sidebar-sect__page" href="/docs/git/" data-text="Git">Git</a><a class="sidebar-sect__more" href="/docs/">All 7 pages →</a>
+  </div>
 </details>
 <details class="sidebar-sect is-highlight">
   <summary class="sidebar-sect__summary">
@@ -119,7 +139,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Server<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">Self-hosted infrastructure</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/server/docker-swarm/">Docker Swarm</a><a class="sidebar-sect__page" href="/server/cloudflare/">Cloudflare Tunnel</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/server/docker-install/" data-text="Docker installation">Docker installation</a><a class="sidebar-sect__page" href="/server/docker-compose/" data-text="Docker Compose">Docker Compose</a><a class="sidebar-sect__page" href="/server/docker-swarm/" data-text="Docker Swarm">Docker Swarm</a><a class="sidebar-sect__page" href="/server/cloudflare/" data-text="Cloudflare Tunnel">Cloudflare Tunnel</a><a class="sidebar-sect__page" href="/server/cloudflare-access/" data-text="Cloudflare Access">Cloudflare Access</a><a class="sidebar-sect__page" href="/server/nginx-proxy-manager/" data-text="Nginx Proxy Manager">Nginx Proxy Manager</a><a class="sidebar-sect__more" href="/server/">All 10 pages →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -129,7 +150,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Linux</span><span class="sidebar-sect__blurb">System administration</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/linux/fstab/">Managing fstab</a><a class="sidebar-sect__page" href="/linux/netplan/">Static networking</a><a class="sidebar-sect__page" href="/linux/gnome/">GNOME</a><a class="sidebar-sect__page" href="/linux/utility/">Utility</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/linux/fstab/" data-text="Managing fstab">Managing fstab</a><a class="sidebar-sect__page" href="/linux/netplan/" data-text="Static networking">Static networking</a><a class="sidebar-sect__page" href="/linux/utility/" data-text="Linux utilities">Linux utilities</a><a class="sidebar-sect__page" href="/linux/gnome/" data-text="GNOME">GNOME</a><a class="sidebar-sect__page" href="/linux/remote-access/" data-text="Remote access">Remote access</a><a class="sidebar-sect__page" href="/linux/virt-manager/" data-text="Virtual Machine Manager">Virtual Machine Manager</a><a class="sidebar-sect__more" href="/linux/">All 8 pages →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -139,7 +161,19 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Python</span><span class="sidebar-sect__blurb">Scripts & tooling</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/python/setup/">Environment setup</a><a class="sidebar-sect__page" href="/python/utility/">Utility</a><a class="sidebar-sect__page" href="/python/packaging/">Packaging scripts</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/python/setup/" data-text="Environment setup">Environment setup</a><a class="sidebar-sect__page" href="/python/packaging/" data-text="Packaging scripts">Packaging scripts</a><a class="sidebar-sect__page" href="/python/utility/" data-text="Python utilities">Python utilities</a><a class="sidebar-sect__page" href="/python/django/" data-text="Django">Django</a><a class="sidebar-sect__more" href="/python/">Open Python →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 6l6 6-6 6"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Mobile</span><span class="sidebar-sect__blurb">Android & Flutter toolchain</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/mobile/android/" data-text="Android toolchain">Android toolchain</a><a class="sidebar-sect__page" href="/mobile/flutter/" data-text="Flutter">Flutter</a><a class="sidebar-sect__more" href="/mobile/">Open Mobile →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -149,7 +183,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">SQL</span><span class="sidebar-sect__blurb">Queries & schema</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/sql/joins/">Joins</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/sql/joins/" data-text="Joins">Joins</a><a class="sidebar-sect__page" href="/sql/mysql-backup/" data-text="MySQL backups">MySQL backups</a><a class="sidebar-sect__page" href="/sql/mariadb/" data-text="MariaDB setup">MariaDB setup</a><a class="sidebar-sect__page" href="/sql/spam-cleanup/" data-text="Clearing bot spam">Clearing bot spam</a><a class="sidebar-sect__more" href="/sql/">Open SQL →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -159,7 +194,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Plex</span><span class="sidebar-sect__blurb">Media server</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/plex/library/">Library layout</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/plex/library/" data-text="Library layout">Library layout</a><a class="sidebar-sect__more" href="/plex/">Open Plex →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -169,7 +205,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Notes</span><span class="sidebar-sect__blurb">Working notes</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/note/scratch/">Scratch notes</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/note/scratch/" data-text="Scratch notes">Scratch notes</a><a class="sidebar-sect__page" href="/note/infrastructure-log/" data-text="Infrastructure log">Infrastructure log</a><a class="sidebar-sect__page" href="/note/running-costs/" data-text="Running costs">Running costs</a><a class="sidebar-sect__more" href="/note/">Open Notes →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -179,7 +216,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Quotes</span><span class="sidebar-sect__blurb">Collected quotes</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/quote/favorites/">Favorites</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/quote/favorites/" data-text="Favorites">Favorites</a><a class="sidebar-sect__more" href="/quote/">Open Quotes →</a>
+  </div>
 </details>
 </nav>
     
@@ -205,9 +243,7 @@
           <span class="brand-name">Lethil</span>
         </a>
         
-      </div>
-
-      <div class="topbar__cluster">
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -254,71 +290,269 @@
   <div class="taxonomy__cloud"><a class="taxonomy__item" href="/directory/#tag=UI">
           <span class="taxonomy__item-label">UI</span>
           <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=access">
+          <span class="taxonomy__item-label">access</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=android">
+          <span class="taxonomy__item-label">android</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=authoring">
+          <span class="taxonomy__item-label">authoring</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=backup">
+          <span class="taxonomy__item-label">backup</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=ci">
+          <span class="taxonomy__item-label">ci</span>
+          <span class="taxonomy__item-count mono">3</span>
         </a><a class="taxonomy__item" href="/directory/#tag=cli">
           <span class="taxonomy__item-label">cli</span>
           <span class="taxonomy__item-count mono">2</span>
         </a><a class="taxonomy__item" href="/directory/#tag=cloudflare">
           <span class="taxonomy__item-label">cloudflare</span>
+          <span class="taxonomy__item-count mono">4</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=compose">
+          <span class="taxonomy__item-label">compose</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=containers">
+          <span class="taxonomy__item-label">containers</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=costs">
+          <span class="taxonomy__item-label">costs</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=cron">
+          <span class="taxonomy__item-label">cron</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=customization">
           <span class="taxonomy__item-label">customization</span>
           <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=dart">
+          <span class="taxonomy__item-label">dart</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=deployment">
           <span class="taxonomy__item-label">deployment</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=desktop">
+          <span class="taxonomy__item-label">desktop</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=digitalocean">
+          <span class="taxonomy__item-label">digitalocean</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=django">
+          <span class="taxonomy__item-label">django</span>
+          <span class="taxonomy__item-count mono">3</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=dns">
+          <span class="taxonomy__item-label">dns</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=docker">
           <span class="taxonomy__item-label">docker</span>
+          <span class="taxonomy__item-count mono">5</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=docs">
+          <span class="taxonomy__item-label">docs</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=domains">
+          <span class="taxonomy__item-label">domains</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=electron">
+          <span class="taxonomy__item-label">electron</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=emulator">
+          <span class="taxonomy__item-label">emulator</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=flatpak">
+          <span class="taxonomy__item-label">flatpak</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=flutter">
+          <span class="taxonomy__item-label">flutter</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=gce">
+          <span class="taxonomy__item-label">gce</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=git">
+          <span class="taxonomy__item-label">git</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=github-actions">
+          <span class="taxonomy__item-label">github-actions</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=gnome">
           <span class="taxonomy__item-label">gnome</span>
           <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=gunicorn">
+          <span class="taxonomy__item-label">gunicorn</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=history">
+          <span class="taxonomy__item-label">history</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=hosting">
+          <span class="taxonomy__item-label">hosting</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=import">
+          <span class="taxonomy__item-label">import</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=infrastructure">
+          <span class="taxonomy__item-label">infrastructure</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=install">
+          <span class="taxonomy__item-label">install</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=iso">
+          <span class="taxonomy__item-label">iso</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=java">
+          <span class="taxonomy__item-label">java</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=jekyll">
+          <span class="taxonomy__item-label">jekyll</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=kvm">
+          <span class="taxonomy__item-label">kvm</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=linux">
           <span class="taxonomy__item-label">linux</span>
           <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=log">
+          <span class="taxonomy__item-label">log</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=maintenance">
+          <span class="taxonomy__item-label">maintenance</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=mariadb">
+          <span class="taxonomy__item-label">mariadb</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=media">
           <span class="taxonomy__item-label">media</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=mergerfs">
           <span class="taxonomy__item-label">mergerfs</span>
           <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=migration">
+          <span class="taxonomy__item-label">migration</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=multipass">
+          <span class="taxonomy__item-label">multipass</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=mysql">
+          <span class="taxonomy__item-label">mysql</span>
+          <span class="taxonomy__item-count mono">4</span>
         </a><a class="taxonomy__item" href="/directory/#tag=netplan">
           <span class="taxonomy__item-label">netplan</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=networking">
           <span class="taxonomy__item-label">networking</span>
+          <span class="taxonomy__item-count mono">4</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=nginx">
+          <span class="taxonomy__item-label">nginx</span>
           <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=obsidian">
+          <span class="taxonomy__item-label">obsidian</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=packaging">
           <span class="taxonomy__item-label">packaging</span>
-          <span class="taxonomy__item-count mono">2</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=planning">
+          <span class="taxonomy__item-label">planning</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=plex">
           <span class="taxonomy__item-label">plex</span>
           <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=presenter">
+          <span class="taxonomy__item-label">presenter</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=provisioning">
+          <span class="taxonomy__item-label">provisioning</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=proxy">
+          <span class="taxonomy__item-label">proxy</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=python">
           <span class="taxonomy__item-label">python</span>
-          <span class="taxonomy__item-count mono">3</span>
+          <span class="taxonomy__item-count mono">4</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=qemu">
+          <span class="taxonomy__item-label">qemu</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=r2">
+          <span class="taxonomy__item-label">r2</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=rclone">
+          <span class="taxonomy__item-label">rclone</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=rdp">
+          <span class="taxonomy__item-label">rdp</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=regex">
+          <span class="taxonomy__item-label">regex</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=remmina">
+          <span class="taxonomy__item-label">remmina</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=remote">
+          <span class="taxonomy__item-label">remote</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=scripture">
+          <span class="taxonomy__item-label">scripture</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=sdk">
+          <span class="taxonomy__item-label">sdk</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=secrets">
           <span class="taxonomy__item-label">secrets</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=server">
           <span class="taxonomy__item-label">server</span>
+          <span class="taxonomy__item-count mono">10</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=setup">
+          <span class="taxonomy__item-label">setup</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=spam">
+          <span class="taxonomy__item-label">spam</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=ssh">
+          <span class="taxonomy__item-label">ssh</span>
           <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=ssl">
+          <span class="taxonomy__item-label">ssl</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=storage">
           <span class="taxonomy__item-label">storage</span>
-          <span class="taxonomy__item-count mono">1</span>
+          <span class="taxonomy__item-count mono">2</span>
         </a><a class="taxonomy__item" href="/directory/#tag=summary">
           <span class="taxonomy__item-label">summary</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=swarm">
           <span class="taxonomy__item-label">swarm</span>
           <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=systemd">
+          <span class="taxonomy__item-label">systemd</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=testing">
+          <span class="taxonomy__item-label">testing</span>
+          <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=tooling">
           <span class="taxonomy__item-label">tooling</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=tunnel">
+          <span class="taxonomy__item-label">tunnel</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=utility">
           <span class="taxonomy__item-label">utility</span>
+          <span class="taxonomy__item-count mono">2</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=ventoy">
+          <span class="taxonomy__item-label">ventoy</span>
           <span class="taxonomy__item-count mono">1</span>
         </a><a class="taxonomy__item" href="/directory/#tag=venv">
           <span class="taxonomy__item-label">venv</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=virtiofs">
+          <span class="taxonomy__item-label">virtiofs</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=virtualization">
+          <span class="taxonomy__item-label">virtualization</span>
+          <span class="taxonomy__item-count mono">1</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=vm">
+          <span class="taxonomy__item-label">vm</span>
+          <span class="taxonomy__item-count mono">3</span>
+        </a><a class="taxonomy__item" href="/directory/#tag=vnc">
+          <span class="taxonomy__item-label">vnc</span>
           <span class="taxonomy__item-count mono">1</span>
         </a></div>
 
@@ -330,9 +564,9 @@
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

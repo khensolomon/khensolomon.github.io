@@ -1,0 +1,223 @@
+<!doctype html><html lang="en" data-theme="light" data-theme-pref="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Android toolchain — Lethil</title>
+  <meta name="description" content="JDK, command-line SDK, and emulator images without Android Studio.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+
+  <!-- Resolve theme before first paint to avoid a flash. Must stay inline. -->
+  <script>
+    (function () {
+      try {
+        var pref = localStorage.getItem('theme') || 'auto';
+        var dark = pref === 'dark' ||
+          (pref === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+        var r = document.documentElement;
+        r.setAttribute('data-theme', dark ? 'dark' : 'light');
+        r.setAttribute('data-theme-pref', pref);
+      } catch (e) {}
+    })();
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
+</head>
+<body class="is-docs" data-nav="closed">
+  <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
+  <script>
+    (function () {
+      try {
+        var b = document.body;
+        var wide = matchMedia('(min-width: 700px)').matches;
+        if (!wide) return; /* mobile always starts closed */
+        if (b.classList.contains('is-docs')) {
+          var stored = sessionStorage.getItem('nav:docs');
+          if (stored !== 'closed') b.setAttribute('data-nav', 'open');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <aside id="sidebar" class="sidebar" aria-label="Site navigation">
+  <div class="sidebar__head">
+    
+    <a class="brand" href="/">
+      <svg class="brand__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 11.2 12 4l8 7.2"/><path d="M6 10v9.2h12V10"/><path d="M10 19v-5h4v5"/>
+      </svg>
+      <span class="brand-name">Home</span>
+    </a>
+    <button class="theme-toggle theme-toggle--icon" type="button" aria-label="Color theme: auto">
+      <svg class="ico ico-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+      </svg>
+      <svg class="ico ico-dark" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.5 14.2A8 8 0 0 1 9.8 3.5 8 8 0 1 0 20.5 14.2Z"/>
+      </svg>
+      <svg class="ico ico-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="12" cy="12" r="8.5"/>
+        <path d="M12 3.5a8.5 8.5 0 0 0 0 17Z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar__body">
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
+           href="/mobile/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><a class="sidebar__link is-active" href="/mobile/android/">
+          <span class="sidebar__link-text" data-text="Android toolchain">Android toolchain</span>
+        </a><a class="sidebar__link" href="/mobile/flutter/">
+          <span class="sidebar__link-text" data-text="Flutter">Flutter</span>
+        </a></nav>
+
+    
+  </div><div class="sidebar__foot" hidden></div>
+</aside>
+
+
+  <div class="shell">
+    <header class="topbar">
+      <div class="topbar__cluster">
+        <button class="navbtn" type="button"
+                aria-controls="sidebar" aria-expanded="false"
+                aria-label="Toggle navigation" data-nav-toggle>
+          <span class="navbtn__icon" aria-hidden="true">
+            <span class="navbtn__bar"></span>
+            <span class="navbtn__bar"></span>
+            <span class="navbtn__bar"></span>
+          </span>
+        </button>
+
+        <a class="brand" href="/mobile/">
+          <span class="brand-name">Mobile</span>
+        </a>
+        
+      </div><div class="topbar__cluster">
+        <div class="search" data-search>
+  <div class="search__bar">
+    <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="11" cy="11" r="6.5"/><path d="M20.5 20.5 16 16"/>
+      </svg>
+    </button>
+    <div class="search__field">
+      <button type="button" class="search__back" data-search-close aria-label="Close search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <input
+        type="search"
+        class="search__input"
+        placeholder="Search"
+        aria-label="Search"
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input>
+      <span class="search__hint" data-search-hint aria-hidden="true" title="Press / or Ctrl+K to search">
+        <kbd>/</kbd>
+        <span class="search__hint-sep">or</span>
+        <kbd data-search-hint-mod>Ctrl</kbd><span class="search__hint-plus">+</span><kbd>K</kbd>
+      </span>
+    </div>
+  </div>
+  <div class="search__panel" data-search-panel hidden>
+    <ul class="search__results" data-search-results role="listbox"></ul>
+  </div>
+</div>
+
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="docs inset">
+  <article class="docs__content prose">
+    <header class="docs__head">
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Mobile">Mobile</a><h1>Android toolchain</h1><p class="docs__lede">JDK, command-line SDK, and emulator images without Android Studio.</p>
+    </header>
+    
+    <p>Command-line only. Android Studio is never installed — <code class="language-plaintext highlighter-rouge">flutter doctor</code>
+reporting <code class="language-plaintext highlighter-rouge">[!] Android Studio (not installed)</code> is expected and harmless, as
+long as <code class="language-plaintext highlighter-rouge">[✓] Android toolchain</code> passes.</p>
+
+<h2 id="jdk">JDK</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> openjdk-17-jdk
+
+<span class="c"># Find the installed path</span>
+<span class="nb">sudo </span>update-alternatives <span class="nt">--config</span> java
+
+<span class="nb">echo</span> <span class="s1">'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'export PATH=$PATH:$JAVA_HOME/bin'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+
+<span class="nb">echo</span> <span class="nv">$JAVA_HOME</span> <span class="o">&amp;&amp;</span> java <span class="nt">-version</span>
+</code></pre></div></div>
+
+<h2 id="sdk">SDK</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/.sdk/android <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ~/.sdk
+
+<span class="c"># Check developer.android.com for the current URL before pasting</span>
+wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+unzip commandlinetools-linux-<span class="k">*</span>.zip
+
+<span class="nb">echo</span> <span class="s1">'export ANDROID_SDK="$HOME/.sdk/android"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'export PATH="$PATH:$ANDROID_SDK/cmdline-tools/bin"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'export PATH="$PATH:$ANDROID_SDK/platform-tools"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+</code></pre></div></div>
+
+<h2 id="sdk-components">SDK components</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sdkmanager <span class="nt">--sdk_root</span><span class="o">=</span><span class="nv">$ANDROID_SDK</span> <span class="nt">--licenses</span>
+
+sdkmanager <span class="nt">--sdk_root</span><span class="o">=</span><span class="nv">$ANDROID_SDK</span> <span class="se">\</span>
+  <span class="s2">"platform-tools"</span> <span class="se">\</span>
+  <span class="s2">"platforms;android-34"</span> <span class="se">\</span>
+  <span class="s2">"build-tools;34.0.0"</span> <span class="se">\</span>
+  <span class="s2">"emulator"</span> <span class="se">\</span>
+  <span class="s2">"system-images;android-34;google_apis;x86_64"</span>
+</code></pre></div></div>
+
+<p>Bump <code class="language-plaintext highlighter-rouge">android-34</code> and <code class="language-plaintext highlighter-rouge">34.0.0</code> to the current API level as needed.</p>
+
+<h2 id="emulator">Emulator</h2>
+
+<p>Optional — only needed when not testing on a physical device.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>avdmanager create avd <span class="nt">-n</span> flutter_emulator <span class="nt">-k</span> <span class="s2">"system-images;android-34;google_apis;x86_64"</span>
+emulator <span class="nt">-avd</span> flutter_emulator
+</code></pre></div></div>
+
+<footer class="docs__tags" aria-label="Tags">
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=android">android</a><a class="docs__tag mono" href="/directory/#tag=java">java</a><a class="docs__tag mono" href="/directory/#tag=sdk">sdk</a><a class="docs__tag mono" href="/directory/#tag=emulator">emulator</a></footer></article>
+</div>
+
+<footer class="docfoot inset">
+  <div class="docfoot__inner">
+    <span class="mono muted docfoot__built">
+      Lethil · built with
+      <a class="docfoot__jekyll" href="https://jekyllrb.com" rel="noopener" target="_blank" aria-label="Jekyll">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 3h6"/>
+          <path d="M10 3v6.5L5.6 18.2A2 2 0 0 0 7.4 21h9.2a2 2 0 0 0 1.8-2.8L14 9.5V3"/>
+          <path d="M7.7 14h8.6"/>
+        </svg>
+      </a>
+    </span>
+    <span class="mono muted">© 2026</span>
+  </div>
+</footer>
+
+    </main>
+  </div>
+
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
+</body>
+</html>

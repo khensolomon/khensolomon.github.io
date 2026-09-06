@@ -19,10 +19,10 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
-<body class="is-home" data-nav="closed">
+<body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
   <script>
     (function () {
@@ -41,11 +41,11 @@
   <aside id="sidebar" class="sidebar" aria-label="Site navigation">
   <div class="sidebar__head">
     
-    <a class="brand" href="/docs/">
+    <a class="brand" href="/">
       <svg class="brand__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5Z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H12v16h6.5a1.5 1.5 0 0 0 1.5-1.5Z"/>
+        <path d="M4 11.2 12 4l8 7.2"/><path d="M6 10v9.2h12V10"/><path d="M10 19v-5h4v5"/>
       </svg>
-      <span class="brand-name">Library</span>
+      <span class="brand-name">Home</span>
     </a>
     <button class="theme-toggle theme-toggle--icon" type="button" aria-label="Color theme: auto">
       <svg class="ico ico-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
@@ -63,125 +63,25 @@
   </div>
 
   <div class="sidebar__body">
-    <nav class="sidebar__fixed" aria-label="Overview">
-      <a class="sidebar__fixed-item" href="/graph/">
-        <span class="sidebar__fixed-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="16" cy="18" r="2.2"/><circle cx="7" cy="17" r="2.2"/>
-            <path d="M8 8l8-1M8.5 15.5 15 17M7 15l9-7M17 8l-1 8"/>
-          </svg>
-        </span>
-        <span class="sidebar__fixed-label">Graph View</span>
-      </a>
-      <a class="sidebar__fixed-item" href="/docs/">
-        <span class="sidebar__fixed-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 4h9l5 5v11H5z"/><path d="M14 4v5h5"/><path d="M8 13h8M8 16.5h6"/>
-          </svg>
-        </span>
-        <span class="sidebar__fixed-label">Documentation</span>
-      </a>
-      <a class="sidebar__fixed-item" href="/directory/">
-        <span class="sidebar__fixed-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>
-          </svg>
-        </span>
-        <span class="sidebar__fixed-label">Directory</span>
-      </a>
-      <a class="sidebar__fixed-item" href="/tags/">
-        <span class="sidebar__fixed-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 12V5a1 1 0 0 1 1-1h7l8 8-8 8z"/><circle cx="8.5" cy="8.5" r="1.3"/>
-          </svg>
-        </span>
-        <span class="sidebar__fixed-label">Tags</span>
-      </a>
-    </nav>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
+           href="/docs/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><p class="sidebar__group mono">Server</p><a class="sidebar__link" href="/docs/getting-started/">
+            <span class="sidebar__link-text" data-text="Getting started">Getting started</span>
+          </a><a class="sidebar__link" href="/docs/deployment/">
+            <span class="sidebar__link-text" data-text="Deployment guide">Deployment guide</span>
+          </a><a class="sidebar__link" href="/docs/secrets/">
+            <span class="sidebar__link-text" data-text="Secrets manager">Secrets manager</span>
+          </a><a class="sidebar__link" href="/docs/summary/">
+            <span class="sidebar__link-text" data-text="Handoff summary">Handoff summary</span>
+          </a><p class="sidebar__group mono">Documentations</p><a class="sidebar__link" href="/docs/authoring/">
+            <span class="sidebar__link-text" data-text="Authoring these docs">Authoring these docs</span>
+          </a><a class="sidebar__link is-active" href="/changelog/">
+            <span class="sidebar__link-text" data-text="Changelog">Changelog</span>
+          </a><p class="sidebar__group mono">Reference</p><a class="sidebar__link" href="/docs/git/">
+            <span class="sidebar__link-text" data-text="Git">Git</span>
+          </a></nav>
 
-    <div class="sidebar__divider" role="separator"></div>
-
-    <nav class="sidebar__sections" aria-label="Sections"><details class="sidebar-sect is-highlight">
-  <summary class="sidebar-sect__summary">
-    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6"/>
-    </svg>
-    <span class="sidebar-sect__text">
-      <span class="sidebar-sect__label">Docs<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">Building & running this site</span></span>
-  </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/docs/getting-started/">Getting started</a><a class="sidebar-sect__page" href="/docs/deployment/">Deployment guide</a><a class="sidebar-sect__page" href="/docs/secrets/">Secrets manager</a><a class="sidebar-sect__page" href="/docs/summary/">Handoff summary</a></div>
-</details>
-<details class="sidebar-sect is-highlight">
-  <summary class="sidebar-sect__summary">
-    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6"/>
-    </svg>
-    <span class="sidebar-sect__text">
-      <span class="sidebar-sect__label">Server<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">Self-hosted infrastructure</span></span>
-  </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/server/docker-swarm/">Docker Swarm</a><a class="sidebar-sect__page" href="/server/cloudflare/">Cloudflare Tunnel</a></div>
-</details>
-<details class="sidebar-sect">
-  <summary class="sidebar-sect__summary">
-    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6"/>
-    </svg>
-    <span class="sidebar-sect__text">
-      <span class="sidebar-sect__label">Linux</span><span class="sidebar-sect__blurb">System administration</span></span>
-  </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/linux/fstab/">Managing fstab</a><a class="sidebar-sect__page" href="/linux/netplan/">Static networking</a><a class="sidebar-sect__page" href="/linux/gnome/">GNOME</a><a class="sidebar-sect__page" href="/linux/utility/">Utility</a></div>
-</details>
-<details class="sidebar-sect">
-  <summary class="sidebar-sect__summary">
-    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6"/>
-    </svg>
-    <span class="sidebar-sect__text">
-      <span class="sidebar-sect__label">Python</span><span class="sidebar-sect__blurb">Scripts & tooling</span></span>
-  </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/python/setup/">Environment setup</a><a class="sidebar-sect__page" href="/python/utility/">Utility</a><a class="sidebar-sect__page" href="/python/packaging/">Packaging scripts</a></div>
-</details>
-<details class="sidebar-sect">
-  <summary class="sidebar-sect__summary">
-    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6"/>
-    </svg>
-    <span class="sidebar-sect__text">
-      <span class="sidebar-sect__label">SQL</span><span class="sidebar-sect__blurb">Queries & schema</span></span>
-  </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/sql/joins/">Joins</a></div>
-</details>
-<details class="sidebar-sect">
-  <summary class="sidebar-sect__summary">
-    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6"/>
-    </svg>
-    <span class="sidebar-sect__text">
-      <span class="sidebar-sect__label">Plex</span><span class="sidebar-sect__blurb">Media server</span></span>
-  </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/plex/library/">Library layout</a></div>
-</details>
-<details class="sidebar-sect">
-  <summary class="sidebar-sect__summary">
-    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6"/>
-    </svg>
-    <span class="sidebar-sect__text">
-      <span class="sidebar-sect__label">Notes</span><span class="sidebar-sect__blurb">Working notes</span></span>
-  </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/note/scratch/">Scratch notes</a></div>
-</details>
-<details class="sidebar-sect">
-  <summary class="sidebar-sect__summary">
-    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6"/>
-    </svg>
-    <span class="sidebar-sect__text">
-      <span class="sidebar-sect__label">Quotes</span><span class="sidebar-sect__blurb">Collected quotes</span></span>
-  </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/quote/favorites/">Favorites</a></div>
-</details>
-</nav>
     
   </div><div class="sidebar__foot" hidden></div>
 </aside>
@@ -200,14 +100,11 @@
           </span>
         </button>
 
-        
-        <a class="brand" href="/">
-          <span class="brand-name">Lethil</span>
+        <a class="brand" href="/docs/">
+          <span class="brand-name">Docs</span>
         </a>
         
-      </div>
-
-      <div class="topbar__cluster">
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -248,12 +145,218 @@
       <div class="docs inset">
   <article class="docs__content prose">
     <header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Reference">Reference</a>
-      <h1>Changelog</h1>
-      <p class="docs__lede">Notable changes, newest first.</p>
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Reference">Reference</a><h1>Changelog</h1><p class="docs__lede">Notable changes, newest first.</p>
     </header>
     
     <p>Versions use <code class="language-plaintext highlighter-rouge">yy.mm.dd</code> — the date the change shipped. Newest at the top.</p>
+
+<h2 id="260906e">26.09.06e</h2>
+
+<ul>
+  <li>Fixed the menu button’s close animation. <code class="language-plaintext highlighter-rouge">.navbtn__icon</code> had no <code class="language-plaintext highlighter-rouge">transition</code>
+declared, so the open-state hover transform applied instantly — the closed
+state sprang its bar widths while the open state simply snapped, which is why
+one felt considered and the other did not. The reduced-motion block was
+already disabling a transition that never existed.</li>
+  <li>Reworked that hover into a quarter turn inward. An X is symmetric under 90°,
+so the mark lands exactly on itself and the motion reads as complete rather
+than stopping at an arbitrary angle, as the previous 8° tilt did. A slight
+scale-down carries the “collapse” half of the gesture, on the same spring as
+the closed state.</li>
+  <li>Added the GitHub avatar to the home page links.</li>
+  <li>Removed the status stripe from Todo board items. Items already sit under a
+status heading with a coloured pip, so a coloured edge on every row repeated
+what position had already said, and it ran a ragged colour column down the
+left of otherwise flush text. In columns it also fought the card border it
+sat inside. Status still appears where it carries new information: the group
+heading and the per-item task bar.</li>
+</ul>
+
+<h2 id="260906d">26.09.06d</h2>
+
+<ul>
+  <li>Sidebar page links are a step smaller than the brand above them, so the
+brand reads as the column’s heading and the pages as its contents.</li>
+  <li>The active page is bold again, without the label reflowing when it changes.
+Weighting every item highlights nothing; weighting only the active one moves
+the text, because bold glyphs are wider. Each label now carries its own text
+in <code class="language-plaintext highlighter-rouge">data-text</code>, and a zero-height hidden copy is rendered at the bold weight
+inside the same box — it contributes width but no height, so the box is
+always as wide as its bold version and toggling the weight moves nothing.</li>
+  <li>Fixed the connector ticks disappearing from the home sidebar. Truncating long
+titles needs <code class="language-plaintext highlighter-rouge">overflow: hidden</code>, which clipped the ticks because they were
+drawn in a negative margin outside the box. They are left padding now, inside
+it.</li>
+  <li>Leaving home for a section page starts the destination with the sidebar
+collapsed. The home sidebar is a directory of the whole site and a section
+sidebar is a list of one section’s pages; carrying the open state across that
+boundary landed you in a different-looking panel mid-navigation. The state is
+written before navigating and read before the next page paints, so there is
+no flash. Moving between section pages still remembers the choice.</li>
+  <li>Search sits in the trailing topbar cluster on every page. It was in the
+leading cluster on docs pages, so the same control was left-aligned there and
+right-aligned on home.</li>
+  <li>Reworded the Todo section blurb.</li>
+</ul>
+
+<h2 id="260906c">26.09.06c</h2>
+
+<ul>
+  <li>Section indexes are now real landing pages instead of redirects. <code class="language-plaintext highlighter-rouge">/server/</code>,
+<code class="language-plaintext highlighter-rouge">/linux/</code> and the rest list every page in the section with its description,
+grouped the same way the sidebar groups them. The listing is generated from
+the same include the sidebar uses, so the two cannot disagree.</li>
+  <li>Removed the redirect indexes. A redirect meant a section URL existed but
+could never be looked at: the back button bounced forward again, a shared
+link always landed somewhere other than intended, and there was no way to see
+what a section held without opening a page first. The <code class="language-plaintext highlighter-rouge">redirect_to_first_doc</code>
+mechanism is still supported for any page that wants it; nothing uses it now.</li>
+  <li>Every section index gained the sidebar “Overview” link, since every one is
+now worth landing on.</li>
+  <li>Fixed the sidebar’s horizontal scrollbar. Long page titles were wider than
+the column: flex and grid children default to <code class="language-plaintext highlighter-rouge">min-width: auto</code> and refuse to
+shrink below their content, so they overflowed instead of truncating. Text
+nodes now shrink and ellipse, with <code class="language-plaintext highlighter-rouge">overflow-x</code> on the body as a backstop.</li>
+  <li>Renamed the docs groups to “Server” and “Documentations”.</li>
+  <li>The header brand on the home page is text only again, and the sidebar brand
+uses distinct icons: a house for Home, a book for Library. Nothing referenced
+the inlined hornbill symbol afterwards, so the sprite include was removed —
+<code class="language-plaintext highlighter-rouge">assets/logo.svg</code> is still the favicon, and re-adding the sprite is one line.</li>
+  <li>Deleted <code class="language-plaintext highlighter-rouge">docs/Makefile</code>; the repository root Makefile covers it.</li>
+</ul>
+
+<h2 id="260906b">26.09.06b</h2>
+
+<ul>
+  <li>Split <code class="language-plaintext highlighter-rouge">getting-started.md</code> in two. It held a server bring-up runbook and the
+conventions for authoring this site under one title, which is why the Docs
+section read as though it were about one specific deployment. The site half
+is now “Authoring these docs”.</li>
+  <li>Section sidebars can group their pages. A page may declare <code class="language-plaintext highlighter-rouge">group:</code> in front
+matter; the sidebar renders each group under a heading, so a section holding
+several unrelated tracks reads as separate things. Group order follows the
+nav_order of each group’s first page, so no separate registry is needed, and
+pages with no group render first without a heading.</li>
+  <li>Removed the section title from the sidebar. The brand above it already names
+the section, so the same word appeared twice in the same column.</li>
+  <li>Reworked the section page list to match the home sidebar rather than use a
+second visual language. The leading dot markers are gone; the active page is
+marked by a rail on the left edge, which keeps every label starting on the
+same vertical line and lets the list read as a column of text. The rail is a
+pseudo-element, so text does not shift when a page becomes active.</li>
+  <li>Added Todo to the home sidebar’s Overview list, under Graph View.</li>
+  <li>Added a <code class="language-plaintext highlighter-rouge">check</code> target to the Makefile, and moved <code class="language-plaintext highlighter-rouge">check-install.sh</code> into the
+repository so it runs from a checkout.</li>
+  <li>Excluded <code class="language-plaintext highlighter-rouge">Makefile</code>, <code class="language-plaintext highlighter-rouge">check-install.sh</code>, <code class="language-plaintext highlighter-rouge">README.md</code>, <code class="language-plaintext highlighter-rouge">LICENSE</code> and the
+Gemfiles from the build. Jekyll had been copying repo tooling into <code class="language-plaintext highlighter-rouge">_site</code>.</li>
+</ul>
+
+<h2 id="260906">26.09.06</h2>
+
+<ul>
+  <li>Imported 43 notes from the old Obsidian vault, reorganised into sections and
+rewritten as short descriptions with commands rather than prose. Overlapping
+notes were merged: four Docker notes became installation, Compose and Swarm
+pages; four Cloudflare notes became tunnel and Access pages; <code class="language-plaintext highlighter-rouge">commands.md</code>,
+which was 324 lines of six unrelated topics, was split across the pages each
+part belonged to.</li>
+  <li><strong>Redacted two live credentials</strong> that were in the vault unmasked: a GitHub
+personal access token and a Cloudflare API token. Both must be treated as
+compromised and rotated. Also replaced a home public IP, a droplet public IP,
+a tunnel UUID, an Access client ID, container IDs and personal usernames with
+placeholders.</li>
+  <li>Added a <strong>Mobile</strong> section for the Android and Flutter toolchain, which fit
+neither infrastructure nor Linux desktop.</li>
+  <li>Added an “Overview” link to the top of the section sidebar for sections whose
+index is a real page rather than a redirect. Driven by a <code class="language-plaintext highlighter-rouge">section_overview</code>
+flag, so it stays general instead of naming Todo.</li>
+  <li>Notes that were plans became Todo items (the GCE migration, domain transfers,
+disposable subsystems); notes that were history became <code class="language-plaintext highlighter-rouge">_note/</code> pages (the
+infrastructure log, running costs). Empty stubs were dropped.</li>
+</ul>
+
+<h2 id="260905b">26.09.05b</h2>
+
+<ul>
+  <li>Fixed section indexes being unreachable. The “All N pages →” link in the home
+sidebar only rendered for sections with more than six pages, so every smaller
+section had no route to its own index at all. Harmless while every index was
+a redirect to the first page — and invisible until the Todo board became an
+index worth landing on. It now always links, reading “Open &lt;section&gt; →” for
+short sections.</li>
+  <li>Todo items now carry real task progress, counted from the <code class="language-plaintext highlighter-rouge">- [ ]</code> checkboxes
+in the page itself. Kramdown renders these as real checkbox inputs, so both
+the board and the item page can count them with no plugin.</li>
+  <li>Status is now derived when not stated. An explicit <code class="language-plaintext highlighter-rouge">status:</code> still wins; with
+none set, a page is <code class="language-plaintext highlighter-rouge">done</code> when every task is ticked, <code class="language-plaintext highlighter-rouge">active</code> when some are,
+and <code class="language-plaintext highlighter-rouge">planned</code> otherwise. <code class="language-plaintext highlighter-rouge">blocked</code> stays manual — no checkbox can express
+waiting on something else. This keeps the board honest without reintroducing
+the hand-maintained bookkeeping removed earlier today.</li>
+  <li>The board now offers two layouts, columns and list, toggled in its header and
+remembered in localStorage. Both render from identical markup with only CSS
+differing, so they cannot drift apart and the toggle needs no reload. With
+JavaScript off the board stays on columns and remains fully usable.</li>
+  <li>Todo items get their own layout instead of borrowing the docs one: a link
+back to the board, the status as a tinted header band rather than a small
+pill, a task progress bar, and previous/next in board order.</li>
+</ul>
+
+<h2 id="260905">26.09.05</h2>
+
+<ul>
+  <li>Pages no longer need index bookkeeping. <code class="language-plaintext highlighter-rouge">in_nav</code> is now opt-OUT rather than
+opt-in, <code class="language-plaintext highlighter-rouge">nav_order</code> is optional, and <code class="language-plaintext highlighter-rouge">title</code> and <code class="language-plaintext highlighter-rouge">category</code> fall back to the
+filename and the section label. A new page needs an empty front matter block
+and nothing else; it still lands in the sidebar, search, the graph, and the
+directory. Pages that set <code class="language-plaintext highlighter-rouge">nav_order</code> sort first in that order, and
+everything else follows alphabetically, so ordering is total and never
+depends on filesystem order. Set <code class="language-plaintext highlighter-rouge">in_nav: false</code> to hide a draft.</li>
+  <li>Consolidated the seven copies of “which pages are navigable, and in what
+order” into one include, <code class="language-plaintext highlighter-rouge">_includes/nav-docs.html</code>. The sidebar, search feed,
+graph feed, directory feed, tag and category indexes, and the section
+redirects all read from it, so they can no longer disagree. Removed
+<code class="language-plaintext highlighter-rouge">_includes/all-docs.html</code>, which nothing referenced.</li>
+  <li>Added a <strong>Todo</strong> section. Unlike every other section index, <code class="language-plaintext highlighter-rouge">/todo/</code> renders
+a board: items grouped by a <code class="language-plaintext highlighter-rouge">status</code> of <code class="language-plaintext highlighter-rouge">active</code>, <code class="language-plaintext highlighter-rouge">planned</code>, <code class="language-plaintext highlighter-rouge">blocked</code>, or
+<code class="language-plaintext highlighter-rouge">done</code>, with a completion bar. Anything with a missing or unrecognised status
+falls into “planned” rather than disappearing. Any page can now carry a
+<code class="language-plaintext highlighter-rouge">status</code>, which shows as a pill under its title.</li>
+  <li>Moved the e-book and presenter project spec out of <code class="language-plaintext highlighter-rouge">_note/</code> and onto the Todo
+board. It had no front matter, so Jekyll had been treating it as a static
+file — it was never published, and appeared in no index.</li>
+  <li>Fixed the Linux category splitting in two. Two pages used <code class="language-plaintext highlighter-rouge">category: "linux"</code>
+and two used <code class="language-plaintext highlighter-rouge">"Linux"</code>, which the directory showed as separate facets.</li>
+  <li>Renamed the two pages both titled “Utility” to “Python utilities” and “Linux
+utilities”. Beyond being ambiguous to read, a <code class="language-plaintext highlighter-rouge">[[Utility]]</code> wiki-link
+silently resolved to whichever page the resolver reached first. Also replaced
+the Python page’s description and tags, which were copied verbatim from the
+packaging page, and the Linux page’s placeholder description.</li>
+  <li>Moved the changelog into the <code class="language-plaintext highlighter-rouge">_docs</code> collection so it is indexed by search,
+the graph, and the directory like any other page. It keeps its own permalink,
+so the URL is still <code class="language-plaintext highlighter-rouge">/changelog/</code>.</li>
+  <li>Resolved colliding <code class="language-plaintext highlighter-rouge">nav_order</code> values in the docs, python, and linux
+sections. These are now harmless anyway, since ties break alphabetically.</li>
+  <li>Fixed wiki-links being resolved inside code. The resolver runs on rendered
+HTML, so a page that <em>wrote about</em> the syntax — <code class="language-plaintext highlighter-rouge">[[Some page]]</code> in backticks,
+or a fenced block showing Obsidian markup — had its examples silently
+rewritten into real links or broken-link spans. Text inside <code class="language-plaintext highlighter-rouge">&lt;code&gt;</code> is now
+passed through verbatim. This will matter during the Obsidian import, where
+notes about linking are likely.</li>
+  <li>Fixed a build failure on the <code class="language-plaintext highlighter-rouge">github-pages</code> gem. The Todo board grouped its
+“planned” items with a single <code class="language-plaintext highlighter-rouge">where_exp</code> using <code class="language-plaintext highlighter-rouge">and</code>, which needs Jekyll 4;
+on Jekyll 3.10 the expression parser stops after the first comparison and
+raises “Expected end_of_string but found id”. Chained single-comparison
+filters instead, which are equivalent and build on both.</li>
+  <li>Known limitation: the graph feed still scans raw page content for <code class="language-plaintext highlighter-rouge">[[…]]</code>
+without the same code guard, so a link inside a code block can add a phantom
+edge. Nothing in the current content triggers it.</li>
+  <li>The hornbill mark from <code class="language-plaintext highlighter-rouge">assets/logo.svg</code> replaces the generic house and book
+icons in the sidebar, and now sits beside the site name in the header. It is
+defined once per page as an SVG <code class="language-plaintext highlighter-rouge">&lt;symbol&gt;</code> and referenced with <code class="language-plaintext highlighter-rouge">&lt;use&gt;</code>, since
+the path is ~6KB and appears more than once. The file itself gained a
+<code class="language-plaintext highlighter-rouge">viewBox</code> — it had only <code class="language-plaintext highlighter-rouge">width</code>/<code class="language-plaintext highlighter-rouge">height</code>, so it could not be scaled
+reliably — and <code class="language-plaintext highlighter-rouge">fill="currentColor"</code> so it flips with the theme.</li>
+</ul>
 
 <h2 id="260803k">26.08.03k</h2>
 
@@ -983,9 +1086,9 @@ client-side search, left-anchored layout.</li>
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

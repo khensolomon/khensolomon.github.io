@@ -1,11 +1,66 @@
 [{
+    "title": "Lai Siangtho — e-book & presentation suite",
+    "url": "/todo/bible/",
+    "description": "A desktop e-book reader and study app with a native presenter mode for projecting scripture to a second screen.",
+    "section": "Todo",
+    "sectionKey": "todo",
+    "category": "Todo",
+    "tags": ["electron","desktop","scripture","presenter"],
+    "status": "planned"
+  },{
+    "title": "Move off Google Cloud",
+    "url": "/todo/migration/",
+    "description": "GCE commitment ends September 2026 — move compute, storage and domains to Cloudflare and DigitalOcean.",
+    "section": "Todo",
+    "sectionKey": "todo",
+    "category": "Todo",
+    "tags": ["migration","gce","cloudflare","digitalocean"],
+    "status": "active"
+  },{
+    "title": "Domain names",
+    "url": "/todo/domains/",
+    "description": "Registrations, expiry dates, and the Squarespace to Cloudflare transfers.",
+    "section": "Todo",
+    "sectionKey": "todo",
+    "category": "Todo",
+    "tags": ["domains","dns","cloudflare"],
+    "status": "active"
+  },{
+    "title": "Import the Obsidian vault",
+    "url": "/todo/obsidian-import/",
+    "description": "Bring the existing .obsidian notes into the site's collections without losing links, tags, or history.",
+    "section": "Todo",
+    "sectionKey": "todo",
+    "category": "Todo",
+    "tags": ["obsidian","import","migration"],
+    "status": ""
+  },{
+    "title": "Drop the manual index bookkeeping",
+    "url": "/todo/auto-index/",
+    "description": "Make a page navigable and correctly ordered without hand-managed nav_order and in_nav front matter.",
+    "section": "Todo",
+    "sectionKey": "todo",
+    "category": "Todo",
+    "tags": ["authoring","jekyll"],
+    "status": "done"
+  },{
+    "title": "Disposable Linux subsystems",
+    "url": "/todo/subsystem/",
+    "description": "Finding a WSL-like workflow on a Linux desktop — isolated, disposable, easy to tear down.",
+    "section": "Todo",
+    "sectionKey": "todo",
+    "category": "Todo",
+    "tags": ["containers","vm","tooling"],
+    "status": "planned"
+  },{
     "title": "Getting started",
     "url": "/docs/getting-started/",
-    "description": "Bring the stack up, then learn how these docs are built.",
+    "description": "Take a fresh machine to a running deployment.",
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": []
+    "tags": ["setup","deployment"],
+    "status": ""
   },{
     "title": "Deployment guide",
     "url": "/docs/deployment/",
@@ -13,7 +68,8 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": ["deployment"]
+    "tags": ["deployment"],
+    "status": ""
   },{
     "title": "Secrets manager",
     "url": "/docs/secrets/",
@@ -21,7 +77,8 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": ["secrets"]
+    "tags": ["secrets"],
+    "status": ""
   },{
     "title": "Handoff summary",
     "url": "/docs/summary/",
@@ -29,23 +86,125 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": ["summary"]
+    "tags": ["summary"],
+    "status": ""
+  },{
+    "title": "Authoring these docs",
+    "url": "/docs/authoring/",
+    "description": "Conventions behind the docs site - sections, front matter, and wiki-links.",
+    "section": "Docs",
+    "sectionKey": "docs",
+    "category": "Guide",
+    "tags": ["jekyll","authoring","docs"],
+    "status": ""
+  },{
+    "title": "Git",
+    "url": "/docs/git/",
+    "description": "Everyday git commands, setup, and recovering from mistakes.",
+    "section": "Docs",
+    "sectionKey": "docs",
+    "category": "Guide",
+    "tags": ["git"],
+    "status": ""
+  },{
+    "title": "Changelog",
+    "url": "/changelog/",
+    "description": "Notable changes, newest first.",
+    "section": "Docs",
+    "sectionKey": "docs",
+    "category": "Reference",
+    "tags": [],
+    "status": ""
+  },{
+    "title": "Docker installation",
+    "url": "/server/docker-install/",
+    "description": "Installing Docker Engine from the official repository, plus production hardening.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","docker","install"],
+    "status": ""
+  },{
+    "title": "Docker Compose",
+    "url": "/server/docker-compose/",
+    "description": "Everyday Compose commands for the Django stacks, plus cleanup.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","docker","compose","django"],
+    "status": ""
   },{
     "title": "Docker Swarm",
     "url": "/server/docker-swarm/",
-    "description": "Single-node swarm.",
+    "description": "Single-node swarm running the zaideih and myordbok stacks.",
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","docker","swarm"]
+    "tags": ["server","docker","swarm"],
+    "status": ""
   },{
     "title": "Cloudflare Tunnel",
     "url": "/server/cloudflare/",
-    "description": "Zero-trust ingress.",
+    "description": "Outbound-only ingress with cloudflared — no open ports.",
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","cloudflare","networking"]
+    "tags": ["server","cloudflare","networking","tunnel"],
+    "status": ""
+  },{
+    "title": "Cloudflare Access",
+    "url": "/server/cloudflare-access/",
+    "description": "SSH through Access - interactive, CI, and short-lived certificates.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","cloudflare","ssh","access","ci"],
+    "status": ""
+  },{
+    "title": "Nginx Proxy Manager",
+    "url": "/server/nginx-proxy-manager/",
+    "description": "One proxy in front of every stack, on a shared external network.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","nginx","proxy","networking","ssl"],
+    "status": ""
+  },{
+    "title": "Nginx and Gunicorn",
+    "url": "/server/nginx-gunicorn/",
+    "description": "Serving Django directly from systemd, without containers.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","nginx","gunicorn","django","systemd"],
+    "status": ""
+  },{
+    "title": "Storage and buckets",
+    "url": "/server/storage/",
+    "description": "virtiofs shares into a VM, and R2 over rclone.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","storage","rclone","r2","virtiofs"],
+    "status": ""
+  },{
+    "title": "Self-hosted runner",
+    "url": "/server/github-runner/",
+    "description": "Running the GitHub Actions runner on the VM, with Docker access.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","github-actions","ci","docker"],
+    "status": ""
+  },{
+    "title": "Provisioning a host",
+    "url": "/server/provisioning/",
+    "description": "First-boot setup script, hosts entries, and bridge checks.",
+    "section": "Server",
+    "sectionKey": "server",
+    "category": "Server",
+    "tags": ["server","provisioning","networking"],
+    "status": ""
   },{
     "title": "Managing fstab",
     "url": "/linux/fstab/",
@@ -53,7 +212,8 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["linux","storage","mergerfs"]
+    "tags": ["linux","storage","mergerfs"],
+    "status": ""
   },{
     "title": "Static networking",
     "url": "/linux/netplan/",
@@ -61,23 +221,62 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["linux","networking","netplan"]
+    "tags": ["linux","networking","netplan"],
+    "status": ""
+  },{
+    "title": "Linux utilities",
+    "url": "/linux/utility/",
+    "description": "Desktop tweaks and command-line helpers.",
+    "section": "Linux",
+    "sectionKey": "linux",
+    "category": "Linux",
+    "tags": ["utility","customization","UI"],
+    "status": ""
   },{
     "title": "GNOME",
     "url": "/linux/gnome/",
     "description": "GNOME guide",
     "section": "Linux",
     "sectionKey": "linux",
-    "category": "linux",
-    "tags": ["gnome"]
+    "category": "Linux",
+    "tags": ["gnome"],
+    "status": ""
   },{
-    "title": "Utility",
-    "url": "/linux/utility/",
-    "description": "guide",
+    "title": "Remote access",
+    "url": "/linux/remote-access/",
+    "description": "SSH, RDP and VNC into a desktop machine, plus Remmina permissions.",
     "section": "Linux",
     "sectionKey": "linux",
-    "category": "linux",
-    "tags": ["utility","customization","UI"]
+    "category": "Linux",
+    "tags": ["ssh","rdp","vnc","remote","remmina"],
+    "status": ""
+  },{
+    "title": "Virtual Machine Manager",
+    "url": "/linux/virt-manager/",
+    "description": "QEMU/KVM with a GUI - snapshots, ISO installs, bridged networking.",
+    "section": "Linux",
+    "sectionKey": "linux",
+    "category": "Linux",
+    "tags": ["kvm","qemu","virtualization","vm"],
+    "status": ""
+  },{
+    "title": "Multipass",
+    "url": "/linux/multipass/",
+    "description": "Disposable Ubuntu VMs for testing production deploys locally.",
+    "section": "Linux",
+    "sectionKey": "linux",
+    "category": "Linux",
+    "tags": ["multipass","vm","testing","ci"],
+    "status": ""
+  },{
+    "title": "Desktop setup",
+    "url": "/linux/desktop-setup/",
+    "description": "Flatpak, Ventoy install media, and the post-reinstall app checklist.",
+    "section": "Linux",
+    "sectionKey": "linux",
+    "category": "Linux",
+    "tags": ["flatpak","ventoy","desktop","iso"],
+    "status": ""
   },{
     "title": "Environment setup",
     "url": "/python/setup/",
@@ -85,15 +284,8 @@
     "section": "Python",
     "sectionKey": "python",
     "category": "Python",
-    "tags": ["python","venv","tooling"]
-  },{
-    "title": "Utility",
-    "url": "/python/utility/",
-    "description": "Shipping small CLI tools.",
-    "section": "Python",
-    "sectionKey": "python",
-    "category": "Python",
-    "tags": ["python","packaging","cli"]
+    "tags": ["python","venv","tooling"],
+    "status": ""
   },{
     "title": "Packaging scripts",
     "url": "/python/packaging/",
@@ -101,7 +293,44 @@
     "section": "Python",
     "sectionKey": "python",
     "category": "Python",
-    "tags": ["python","packaging","cli"]
+    "tags": ["python","packaging","cli"],
+    "status": ""
+  },{
+    "title": "Python utilities",
+    "url": "/python/utility/",
+    "description": "Small helper scripts kept around between projects.",
+    "section": "Python",
+    "sectionKey": "python",
+    "category": "Python",
+    "tags": ["python","utility","cli"],
+    "status": ""
+  },{
+    "title": "Django",
+    "url": "/python/django/",
+    "description": "Project bootstrap and the management commands used most.",
+    "section": "Python",
+    "sectionKey": "python",
+    "category": "Python",
+    "tags": ["python","django","mysql"],
+    "status": ""
+  },{
+    "title": "Android toolchain",
+    "url": "/mobile/android/",
+    "description": "JDK, command-line SDK, and emulator images without Android Studio.",
+    "section": "Mobile",
+    "sectionKey": "mobile",
+    "category": "Mobile",
+    "tags": ["android","java","sdk","emulator"],
+    "status": ""
+  },{
+    "title": "Flutter",
+    "url": "/mobile/flutter/",
+    "description": "Flutter SDK on top of the command-line Android toolchain.",
+    "section": "Mobile",
+    "sectionKey": "mobile",
+    "category": "Mobile",
+    "tags": ["flutter","dart","android"],
+    "status": ""
   },{
     "title": "Joins",
     "url": "/sql/joins/",
@@ -109,7 +338,35 @@
     "section": "SQL",
     "sectionKey": "sql",
     "category": "SQL",
-    "tags": []
+    "tags": [],
+    "status": ""
+  },{
+    "title": "MySQL backups",
+    "url": "/sql/mysql-backup/",
+    "description": "Dumping and restoring, in containers and on the host.",
+    "section": "SQL",
+    "sectionKey": "sql",
+    "category": "SQL",
+    "tags": ["mysql","backup","docker","cron"],
+    "status": ""
+  },{
+    "title": "MariaDB setup",
+    "url": "/sql/mariadb/",
+    "description": "Installing and securing MariaDB on the host.",
+    "section": "SQL",
+    "sectionKey": "sql",
+    "category": "SQL",
+    "tags": ["mysql","mariadb","install"],
+    "status": ""
+  },{
+    "title": "Clearing bot spam",
+    "url": "/sql/spam-cleanup/",
+    "description": "Deleting bot-inserted keyword rows by Unicode script, in batches.",
+    "section": "SQL",
+    "sectionKey": "sql",
+    "category": "SQL",
+    "tags": ["mysql","regex","spam","maintenance"],
+    "status": ""
   },{
     "title": "Library layout",
     "url": "/plex/library/",
@@ -117,7 +374,8 @@
     "section": "Plex",
     "sectionKey": "plex",
     "category": "Plex",
-    "tags": ["plex","media","mergerfs"]
+    "tags": ["plex","media","mergerfs"],
+    "status": ""
   },{
     "title": "Scratch notes",
     "url": "/note/scratch/",
@@ -125,7 +383,26 @@
     "section": "Notes",
     "sectionKey": "note",
     "category": "Notes",
-    "tags": []
+    "tags": [],
+    "status": ""
+  },{
+    "title": "Infrastructure log",
+    "url": "/note/infrastructure-log/",
+    "description": "Dated record of infrastructure changes.",
+    "section": "Notes",
+    "sectionKey": "note",
+    "category": "Notes",
+    "tags": ["log","infrastructure","history"],
+    "status": ""
+  },{
+    "title": "Running costs",
+    "url": "/note/running-costs/",
+    "description": "Monthly hosting figures used to size the move off GCE.",
+    "section": "Notes",
+    "sectionKey": "note",
+    "category": "Notes",
+    "tags": ["costs","hosting","planning"],
+    "status": ""
   },{
     "title": "Favorites",
     "url": "/quote/favorites/",
@@ -133,5 +410,6 @@
     "section": "Quotes",
     "sectionKey": "quote",
     "category": "Quotes",
-    "tags": []
+    "tags": [],
+    "status": ""
   }]

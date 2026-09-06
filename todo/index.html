@@ -1,0 +1,259 @@
+<!doctype html><html lang="en" data-theme="light" data-theme-pref="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Todo — Lethil</title>
+  <meta name="description" content="Plans and aims — what's being built, what's queued, what's done.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+
+  <!-- Resolve theme before first paint to avoid a flash. Must stay inline. -->
+  <script>
+    (function () {
+      try {
+        var pref = localStorage.getItem('theme') || 'auto';
+        var dark = pref === 'dark' ||
+          (pref === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+        var r = document.documentElement;
+        r.setAttribute('data-theme', dark ? 'dark' : 'light');
+        r.setAttribute('data-theme-pref', pref);
+      } catch (e) {}
+    })();
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
+</head>
+<body class="is-docs is-todo" data-nav="closed">
+  <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
+  <script>
+    (function () {
+      try {
+        var b = document.body;
+        var wide = matchMedia('(min-width: 700px)').matches;
+        if (!wide) return; /* mobile always starts closed */
+        if (b.classList.contains('is-docs')) {
+          var stored = sessionStorage.getItem('nav:docs');
+          if (stored !== 'closed') b.setAttribute('data-nav', 'open');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <aside id="sidebar" class="sidebar" aria-label="Site navigation">
+  <div class="sidebar__head">
+    
+    <a class="brand" href="/">
+      <svg class="brand__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 11.2 12 4l8 7.2"/><path d="M6 10v9.2h12V10"/><path d="M10 19v-5h4v5"/>
+      </svg>
+      <span class="brand-name">Home</span>
+    </a>
+    <button class="theme-toggle theme-toggle--icon" type="button" aria-label="Color theme: auto">
+      <svg class="ico ico-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.6v2.2M12 19.2v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/>
+      </svg>
+      <svg class="ico ico-dark" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.5 14.2A8 8 0 0 1 9.8 3.5 8 8 0 1 0 20.5 14.2Z"/>
+      </svg>
+      <svg class="ico ico-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <circle cx="12" cy="12" r="8.5"/>
+        <path d="M12 3.5a8.5 8.5 0 0 0 0 17Z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="sidebar__body">
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview is-active"
+           href="/todo/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><a class="sidebar__link" href="/todo/bible/">
+          <span class="sidebar__link-text" data-text="Lai Siangtho — e-book &amp; presentation suite">Lai Siangtho — e-book & presentation suite</span>
+        </a><a class="sidebar__link" href="/todo/migration/">
+          <span class="sidebar__link-text" data-text="Move off Google Cloud">Move off Google Cloud</span>
+        </a><a class="sidebar__link" href="/todo/domains/">
+          <span class="sidebar__link-text" data-text="Domain names">Domain names</span>
+        </a><a class="sidebar__link" href="/todo/obsidian-import/">
+          <span class="sidebar__link-text" data-text="Import the Obsidian vault">Import the Obsidian vault</span>
+        </a><a class="sidebar__link" href="/todo/auto-index/">
+          <span class="sidebar__link-text" data-text="Drop the manual index bookkeeping">Drop the manual index bookkeeping</span>
+        </a><a class="sidebar__link" href="/todo/subsystem/">
+          <span class="sidebar__link-text" data-text="Disposable Linux subsystems">Disposable Linux subsystems</span>
+        </a></nav>
+
+    
+  </div><div class="sidebar__foot" hidden></div>
+</aside>
+
+
+  <div class="shell">
+    <header class="topbar">
+      <div class="topbar__cluster">
+        <button class="navbtn" type="button"
+                aria-controls="sidebar" aria-expanded="false"
+                aria-label="Toggle navigation" data-nav-toggle>
+          <span class="navbtn__icon" aria-hidden="true">
+            <span class="navbtn__bar"></span>
+            <span class="navbtn__bar"></span>
+            <span class="navbtn__bar"></span>
+          </span>
+        </button>
+
+        <a class="brand" href="/todo/">
+          <span class="brand-name">Todo</span>
+        </a>
+        
+      </div><div class="topbar__cluster">
+        <div class="search" data-search>
+  <div class="search__bar">
+    <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="11" cy="11" r="6.5"/><path d="M20.5 20.5 16 16"/>
+      </svg>
+    </button>
+    <div class="search__field">
+      <button type="button" class="search__back" data-search-close aria-label="Close search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <input
+        type="search"
+        class="search__input"
+        placeholder="Search"
+        aria-label="Search"
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input>
+      <span class="search__hint" data-search-hint aria-hidden="true" title="Press / or Ctrl+K to search">
+        <kbd>/</kbd>
+        <span class="search__hint-sep">or</span>
+        <kbd data-search-hint-mod>Ctrl</kbd><span class="search__hint-plus">+</span><kbd>K</kbd>
+      </span>
+    </div>
+  </div>
+  <div class="search__panel" data-search-panel hidden>
+    <ul class="search__results" data-search-results role="listbox"></ul>
+  </div>
+</div>
+
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="todo" data-board="" data-board-view="kanban">
+  <header class="todo__head">
+    <div class="todo__head-row">
+      <div>
+        <h1 class="todo__title">Todo</h1>
+        <p class="todo__lede mono muted">Where this is heading, and how far along it is.</p>
+      </div><div class="todo__views" role="group" aria-label="Board layout">
+        <button class="todo__view" type="button" data-board-set="kanban" aria-pressed="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <rect x="3" y="4" width="5" height="16" rx="1" /><rect x="9.5" y="4" width="5" height="16" rx="1" /><rect x="16" y="4" width="5" height="16" rx="1" />
+          </svg>
+          <span>Columns</span>
+        </button>
+        <button class="todo__view" type="button" data-board-set="list" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <span>List</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="todo__progress" role="img" aria-label="1 of 6 items done">
+      <div class="todo__progress-bar">
+        <span class="todo__progress-fill" style="width: 16%"></span>
+      </div>
+      <p class="todo__progress-text mono muted">
+        1 / 6 done · 3 / 31 tasks</p>
+    </div>
+  </header><div class="todo__groups"><section class="todo__group" data-status="active">
+      <header class="todo__group-head">
+        <h2 class="todo__group-title">
+          <span class="todo__pip" aria-hidden="true"></span>
+          In progress
+          <span class="todo__group-count mono">3</span>
+        </h2>
+        <p class="todo__group-blurb mono muted">Being worked on now</p>
+      </header>
+
+      <ul class="todo__list"><li class="todo__item">
+          <a class="todo__item-link" href="/todo/migration/">
+            <span class="todo__item-title">Move off Google Cloud</span>
+            <span class="todo__item-desc">GCE commitment ends September 2026 — move compute, storage and domains to Cloudflare and DigitalOcean.</span></a><span class="todo__item-tasks" title="1 of 11 tasks done">
+            <span class="todo__item-taskbar"><span class="todo__item-taskfill" style="width: 9%"></span></span>
+            <span class="todo__item-taskcount mono">1/11</span>
+          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=migration">migration</a><a class="todo__item-tag mono" href="/directory/#tag=gce">gce</a><a class="todo__item-tag mono" href="/directory/#tag=cloudflare">cloudflare</a><a class="todo__item-tag mono" href="/directory/#tag=digitalocean">digitalocean</a></span></li><li class="todo__item">
+          <a class="todo__item-link" href="/todo/domains/">
+            <span class="todo__item-title">Domain names</span>
+            <span class="todo__item-desc">Registrations, expiry dates, and the Squarespace to Cloudflare transfers.</span></a><span class="todo__item-tasks" title="0 of 5 tasks done">
+            <span class="todo__item-taskbar"><span class="todo__item-taskfill" style="width: 0%"></span></span>
+            <span class="todo__item-taskcount mono">0/5</span>
+          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=domains">domains</a><a class="todo__item-tag mono" href="/directory/#tag=dns">dns</a><a class="todo__item-tag mono" href="/directory/#tag=cloudflare">cloudflare</a></span></li><li class="todo__item">
+          <a class="todo__item-link" href="/todo/obsidian-import/">
+            <span class="todo__item-title">Import the Obsidian vault</span>
+            <span class="todo__item-desc">Bring the existing .obsidian notes into the site's collections without losing links, tags, or history.</span></a><span class="todo__item-tasks" title="2 of 7 tasks done">
+            <span class="todo__item-taskbar"><span class="todo__item-taskfill" style="width: 28%"></span></span>
+            <span class="todo__item-taskcount mono">2/7</span>
+          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=obsidian">obsidian</a><a class="todo__item-tag mono" href="/directory/#tag=import">import</a><a class="todo__item-tag mono" href="/directory/#tag=migration">migration</a></span></li></ul>
+    </section><section class="todo__group" data-status="planned">
+      <header class="todo__group-head">
+        <h2 class="todo__group-title">
+          <span class="todo__pip" aria-hidden="true"></span>
+          Planned
+          <span class="todo__group-count mono">2</span>
+        </h2>
+        <p class="todo__group-blurb mono muted">Queued, not started</p>
+      </header>
+
+      <ul class="todo__list"><li class="todo__item">
+          <a class="todo__item-link" href="/todo/bible/">
+            <span class="todo__item-title">Lai Siangtho — e-book &amp; presentation suite</span>
+            <span class="todo__item-desc">A desktop e-book reader and study app with a native presenter mode for projecting scripture to a second screen.</span></a><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=electron">electron</a><a class="todo__item-tag mono" href="/directory/#tag=desktop">desktop</a><a class="todo__item-tag mono" href="/directory/#tag=scripture">scripture</a><a class="todo__item-tag mono" href="/directory/#tag=presenter">presenter</a></span></li><li class="todo__item">
+          <a class="todo__item-link" href="/todo/subsystem/">
+            <span class="todo__item-title">Disposable Linux subsystems</span>
+            <span class="todo__item-desc">Finding a WSL-like workflow on a Linux desktop — isolated, disposable, easy to tear down.</span></a><span class="todo__item-tasks" title="0 of 8 tasks done">
+            <span class="todo__item-taskbar"><span class="todo__item-taskfill" style="width: 0%"></span></span>
+            <span class="todo__item-taskcount mono">0/8</span>
+          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=containers">containers</a><a class="todo__item-tag mono" href="/directory/#tag=vm">vm</a><a class="todo__item-tag mono" href="/directory/#tag=tooling">tooling</a></span></li></ul>
+    </section><section class="todo__group is-empty" data-status="blocked">
+      <header class="todo__group-head">
+        <h2 class="todo__group-title">
+          <span class="todo__pip" aria-hidden="true"></span>
+          Blocked
+          <span class="todo__group-count mono">0</span>
+        </h2>
+        <p class="todo__group-blurb mono muted">Waiting on something else</p>
+      </header>
+
+      <ul class="todo__list"><li class="todo__item todo__item--placeholder mono muted">Nothing here</li></ul>
+    </section><section class="todo__group" data-status="done">
+      <header class="todo__group-head">
+        <h2 class="todo__group-title">
+          <span class="todo__pip" aria-hidden="true"></span>
+          Done
+          <span class="todo__group-count mono">1</span>
+        </h2>
+        <p class="todo__group-blurb mono muted">Shipped</p>
+      </header>
+
+      <ul class="todo__list"><li class="todo__item">
+          <a class="todo__item-link" href="/todo/auto-index/">
+            <span class="todo__item-title">Drop the manual index bookkeeping</span>
+            <span class="todo__item-desc">Make a page navigable and correctly ordered without hand-managed nav_order and in_nav front matter.</span></a><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=authoring">authoring</a><a class="todo__item-tag mono" href="/directory/#tag=jekyll">jekyll</a></span></li></ul>
+    </section></div></div>
+
+<script src="/assets/js/todo.js?v=1788689264" defer=""></script>
+
+
+    </main>
+  </div>
+
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
+</body>
+</html>

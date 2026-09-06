@@ -3,11 +3,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Docs — Lethil</title>
-  <meta name="description" content="Redirecting to the first guide.">
+  <meta name="description" content="Infrastructure, tooling, and self-hosted systems.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
-  <meta http-equiv="refresh" content="0; url=/docs/getting-started/">
-  <script>location.replace("/docs/getting-started/");</script>
 
   <!-- Resolve theme before first paint to avoid a flash. Must stay inline. -->
   <script>
@@ -21,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -65,24 +63,24 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Docs</p>
-    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
-           href="/docs/getting-started/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Getting started</span>
-        </a><a class="sidebar__link"
-           href="/docs/deployment/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Deployment guide</span>
-        </a><a class="sidebar__link"
-           href="/docs/secrets/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Secrets manager</span>
-        </a><a class="sidebar__link"
-           href="/docs/summary/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Handoff summary</span>
-        </a></nav>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview is-active"
+           href="/docs/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><p class="sidebar__group mono">Server</p><a class="sidebar__link" href="/docs/getting-started/">
+            <span class="sidebar__link-text" data-text="Getting started">Getting started</span>
+          </a><a class="sidebar__link" href="/docs/deployment/">
+            <span class="sidebar__link-text" data-text="Deployment guide">Deployment guide</span>
+          </a><a class="sidebar__link" href="/docs/secrets/">
+            <span class="sidebar__link-text" data-text="Secrets manager">Secrets manager</span>
+          </a><a class="sidebar__link" href="/docs/summary/">
+            <span class="sidebar__link-text" data-text="Handoff summary">Handoff summary</span>
+          </a><p class="sidebar__group mono">Documentations</p><a class="sidebar__link" href="/docs/authoring/">
+            <span class="sidebar__link-text" data-text="Authoring these docs">Authoring these docs</span>
+          </a><a class="sidebar__link" href="/changelog/">
+            <span class="sidebar__link-text" data-text="Changelog">Changelog</span>
+          </a><p class="sidebar__group mono">Reference</p><a class="sidebar__link" href="/docs/git/">
+            <span class="sidebar__link-text" data-text="Git">Git</span>
+          </a></nav>
 
     
   </div><div class="sidebar__foot" hidden></div>
@@ -105,6 +103,8 @@
         <a class="brand" href="/docs/">
           <span class="brand-name">Docs</span>
         </a>
+        
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -138,31 +138,55 @@
   </div>
 </div>
 
-        
-      </div>
-
-      <div class="topbar__cluster">
-        
       </div>
     </header>
 
     <main class="page">
-      <div class="docs inset">
-  <article class="docs__content prose">
-    <header class="docs__head">
-      
-      <h1>Docs</h1>
-      <p class="docs__lede">Redirecting to the first guide.</p>
-    </header>
-    
-    <p>Redirecting…</p>
-
-<p>If nothing happens, use the sidebar on the left — this page exists so <code class="language-plaintext highlighter-rouge">/docs/</code>
-never 404s; it always forwards to whichever page is first in the sidebar
-(sorted by <code class="language-plaintext highlighter-rouge">nav_order</code>), so it stays correct as pages are added or reordered.</p>
-
-</article>
-</div>
+      <div class="section-index">
+  <header class="section-index__head">
+    <h1 class="section-index__title">Docs</h1>
+    <p class="section-index__lede">Building & running this site</p>
+    <p class="section-index__count mono muted">
+      7 pages
+    </p>
+  </header><section class="section-index__group">
+    <h2 class="section-index__group-title mono">Server</h2>
+    <ul class="section-index__list"><li class="section-index__item">
+          <a class="section-index__link" href="/docs/getting-started/">
+            <span class="section-index__name">Getting started</span>
+            <span class="section-index__desc">Take a fresh machine to a running deployment.</span></a>
+        </li><li class="section-index__item">
+          <a class="section-index__link" href="/docs/deployment/">
+            <span class="section-index__name">Deployment guide</span>
+            <span class="section-index__desc">Provision a production server from a fresh Ubuntu/Debian host to an automated Docker Swarm deploy pipeline.</span></a>
+        </li><li class="section-index__item">
+          <a class="section-index__link" href="/docs/secrets/">
+            <span class="section-index__name">Secrets manager</span>
+            <span class="section-index__desc">Validate a project's .env and push the right pieces to GitHub Actions as repository secrets.</span></a>
+        </li><li class="section-index__item">
+          <a class="section-index__link" href="/docs/summary/">
+            <span class="section-index__name">Handoff summary</span>
+            <span class="section-index__desc">Locked architecture decisions, current repo layout, and outstanding work.</span></a>
+        </li></ul>
+  </section><section class="section-index__group">
+    <h2 class="section-index__group-title mono">Documentations</h2>
+    <ul class="section-index__list"><li class="section-index__item">
+          <a class="section-index__link" href="/docs/authoring/">
+            <span class="section-index__name">Authoring these docs</span>
+            <span class="section-index__desc">Conventions behind the docs site - sections, front matter, and wiki-links.</span></a>
+        </li><li class="section-index__item">
+          <a class="section-index__link" href="/changelog/">
+            <span class="section-index__name">Changelog</span>
+            <span class="section-index__desc">Notable changes, newest first.</span></a>
+        </li></ul>
+  </section><section class="section-index__group">
+    <h2 class="section-index__group-title mono">Reference</h2>
+    <ul class="section-index__list"><li class="section-index__item">
+          <a class="section-index__link" href="/docs/git/">
+            <span class="section-index__name">Git</span>
+            <span class="section-index__desc">Everyday git commands, setup, and recovering from mistakes.</span></a>
+        </li></ul>
+  </section></div>
 
 <footer class="docfoot inset">
   <div class="docfoot__inner">
@@ -183,9 +207,9 @@ never 404s; it always forwards to whichever page is first in the sidebar
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

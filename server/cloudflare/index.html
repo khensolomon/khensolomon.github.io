@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cloudflare Tunnel — Lethil</title>
-  <meta name="description" content="Zero-trust ingress.">
+  <meta name="description" content="Outbound-only ingress with cloudflared — no open ports.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 
@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -63,15 +63,29 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Server</p>
-    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
-           href="/server/docker-swarm/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Docker Swarm</span>
-        </a><a class="sidebar__link is-active"
-           href="/server/cloudflare/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Cloudflare Tunnel</span>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
+           href="/server/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><a class="sidebar__link" href="/server/docker-install/">
+          <span class="sidebar__link-text" data-text="Docker installation">Docker installation</span>
+        </a><a class="sidebar__link" href="/server/docker-compose/">
+          <span class="sidebar__link-text" data-text="Docker Compose">Docker Compose</span>
+        </a><a class="sidebar__link" href="/server/docker-swarm/">
+          <span class="sidebar__link-text" data-text="Docker Swarm">Docker Swarm</span>
+        </a><a class="sidebar__link is-active" href="/server/cloudflare/">
+          <span class="sidebar__link-text" data-text="Cloudflare Tunnel">Cloudflare Tunnel</span>
+        </a><a class="sidebar__link" href="/server/cloudflare-access/">
+          <span class="sidebar__link-text" data-text="Cloudflare Access">Cloudflare Access</span>
+        </a><a class="sidebar__link" href="/server/nginx-proxy-manager/">
+          <span class="sidebar__link-text" data-text="Nginx Proxy Manager">Nginx Proxy Manager</span>
+        </a><a class="sidebar__link" href="/server/nginx-gunicorn/">
+          <span class="sidebar__link-text" data-text="Nginx and Gunicorn">Nginx and Gunicorn</span>
+        </a><a class="sidebar__link" href="/server/storage/">
+          <span class="sidebar__link-text" data-text="Storage and buckets">Storage and buckets</span>
+        </a><a class="sidebar__link" href="/server/github-runner/">
+          <span class="sidebar__link-text" data-text="Self-hosted runner">Self-hosted runner</span>
+        </a><a class="sidebar__link" href="/server/provisioning/">
+          <span class="sidebar__link-text" data-text="Provisioning a host">Provisioning a host</span>
         </a></nav>
 
     
@@ -95,6 +109,8 @@
         <a class="brand" href="/server/">
           <span class="brand-name">Server</span>
         </a>
+        
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -128,11 +144,6 @@
   </div>
 </div>
 
-        
-      </div>
-
-      <div class="topbar__cluster">
-        
       </div>
     </header>
 
@@ -140,16 +151,82 @@
       <div class="docs inset">
   <article class="docs__content prose">
     <header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Server">Server</a>
-      <h1>Cloudflare Tunnel</h1>
-      <p class="docs__lede">Zero-trust ingress.</p>
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Server">Server</a><h1>Cloudflare Tunnel</h1><p class="docs__lede">Outbound-only ingress with cloudflared — no open ports.</p>
     </header>
     
-    <p>Exposing services through Cloudflare Tunnel without opening ports. Pairs with
-<a class="wikilink" href="/server/docker-swarm/">Docker Swarm</a> running in host-network mode.</p>
+    <p>The tunnel dials out to Cloudflare, so nothing needs to be exposed inbound.
+Pairs with <a class="wikilink" href="/server/docker-swarm/">Docker Swarm</a>. For SSH and service tokens see
+<a class="wikilink" href="/server/cloudflare-access/">Cloudflare Access</a>.</p>
+
+<h2 id="install">Install</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir</span> <span class="nt">-p</span> <span class="nt">--mode</span><span class="o">=</span>0755 /usr/share/keyrings
+curl <span class="nt">-fsSL</span> https://pkg.cloudflare.com/cloudflare-main.gpg | <span class="nb">sudo tee</span> /usr/share/keyrings/cloudflare-main.gpg <span class="o">&gt;</span>/dev/null
+
+<span class="nb">echo</span> <span class="s1">'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main'</span> | <span class="nb">sudo tee</span> /etc/apt/sources.list.d/cloudflared.list
+
+<span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get <span class="nb">install </span>cloudflared
+</code></pre></div></div>
+
+<p>Or from the release package directly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+<span class="nb">sudo </span>dpkg <span class="nt">-i</span> cloudflared-linux-amd64.deb
+</code></pre></div></div>
+
+<h2 id="create-a-tunnel">Create a tunnel</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared tunnel login
+cloudflared tunnel create github-bridge
+</code></pre></div></div>
+
+<h2 id="configure">Configure</h2>
+
+<p><code class="language-plaintext highlighter-rouge">/etc/cloudflared/config.yml</code> — wildcard, sending everything to
+<a class="wikilink" href="/server/nginx-proxy-manager/">Nginx Proxy Manager</a>:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">tunnel</span><span class="pi">:</span> <span class="s">&lt;TUNNEL_ID&gt;</span>
+<span class="na">credentials-file</span><span class="pi">:</span> <span class="s">/etc/cloudflared/&lt;TUNNEL_ID&gt;.json</span>
+
+<span class="na">ingress</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">hostname</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*.example.com"</span>
+    <span class="na">service</span><span class="pi">:</span> <span class="s">http://localhost:80</span>
+
+  <span class="c1"># Mandatory catch-all, must be last</span>
+  <span class="pi">-</span> <span class="na">service</span><span class="pi">:</span> <span class="s">http_status:404</span>
+</code></pre></div></div>
+
+<p>Per-subdomain instead:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">ingress</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">hostname</span><span class="pi">:</span> <span class="s">zaideih.example.com</span>
+    <span class="na">service</span><span class="pi">:</span> <span class="s">http://localhost:8080</span>
+  <span class="pi">-</span> <span class="na">hostname</span><span class="pi">:</span> <span class="s">myordbok.example.com</span>
+    <span class="na">service</span><span class="pi">:</span> <span class="s">http://localhost:9000</span>
+  <span class="pi">-</span> <span class="na">service</span><span class="pi">:</span> <span class="s">http_status:404</span>
+</code></pre></div></div>
+
+<h2 id="route-dns-and-run">Route DNS and run</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared tunnel ingress validate
+cloudflared tunnel route dns github-bridge <span class="s2">"*.example.com"</span>
+
+<span class="nb">sudo </span>cloudflared service <span class="nb">install</span> &lt;TUNNEL_TOKEN&gt;
+cloudflared tunnel run <span class="nt">--token</span> &lt;TUNNEL_TOKEN&gt;
+<span class="nb">sudo </span>systemctl restart cloudflared
+</code></pre></div></div>
+
+<p>The tunnel token grants full control of the tunnel. Keep it in a secret store,
+never in a config file that gets committed.</p>
+
+<h2 id="once-the-tunnel-works">Once the tunnel works</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw delete allow ssh
+<span class="nb">sudo </span>ufw status
+</code></pre></div></div>
 
 <footer class="docs__tags" aria-label="Tags">
-      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=server">server</a><a class="docs__tag mono" href="/directory/#tag=cloudflare">cloudflare</a><a class="docs__tag mono" href="/directory/#tag=networking">networking</a></footer></article>
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=server">server</a><a class="docs__tag mono" href="/directory/#tag=cloudflare">cloudflare</a><a class="docs__tag mono" href="/directory/#tag=networking">networking</a><a class="docs__tag mono" href="/directory/#tag=tunnel">tunnel</a></footer></article>
 </div>
 
 <footer class="docfoot inset">
@@ -171,9 +248,9 @@
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

@@ -6,8 +6,6 @@
   <meta name="description" content="Infrastructure, tooling, and self-hosted systems.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
-  <meta http-equiv="refresh" content="0; url=/server/docker-swarm/">
-  <script>location.replace("/server/docker-swarm/");</script>
 
   <!-- Resolve theme before first paint to avoid a flash. Must stay inline. -->
   <script>
@@ -21,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -65,15 +63,29 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Server</p>
-    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link"
-           href="/server/docker-swarm/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Docker Swarm</span>
-        </a><a class="sidebar__link"
-           href="/server/cloudflare/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Cloudflare Tunnel</span>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview is-active"
+           href="/server/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><a class="sidebar__link" href="/server/docker-install/">
+          <span class="sidebar__link-text" data-text="Docker installation">Docker installation</span>
+        </a><a class="sidebar__link" href="/server/docker-compose/">
+          <span class="sidebar__link-text" data-text="Docker Compose">Docker Compose</span>
+        </a><a class="sidebar__link" href="/server/docker-swarm/">
+          <span class="sidebar__link-text" data-text="Docker Swarm">Docker Swarm</span>
+        </a><a class="sidebar__link" href="/server/cloudflare/">
+          <span class="sidebar__link-text" data-text="Cloudflare Tunnel">Cloudflare Tunnel</span>
+        </a><a class="sidebar__link" href="/server/cloudflare-access/">
+          <span class="sidebar__link-text" data-text="Cloudflare Access">Cloudflare Access</span>
+        </a><a class="sidebar__link" href="/server/nginx-proxy-manager/">
+          <span class="sidebar__link-text" data-text="Nginx Proxy Manager">Nginx Proxy Manager</span>
+        </a><a class="sidebar__link" href="/server/nginx-gunicorn/">
+          <span class="sidebar__link-text" data-text="Nginx and Gunicorn">Nginx and Gunicorn</span>
+        </a><a class="sidebar__link" href="/server/storage/">
+          <span class="sidebar__link-text" data-text="Storage and buckets">Storage and buckets</span>
+        </a><a class="sidebar__link" href="/server/github-runner/">
+          <span class="sidebar__link-text" data-text="Self-hosted runner">Self-hosted runner</span>
+        </a><a class="sidebar__link" href="/server/provisioning/">
+          <span class="sidebar__link-text" data-text="Provisioning a host">Provisioning a host</span>
         </a></nav>
 
     
@@ -97,6 +109,8 @@
         <a class="brand" href="/server/">
           <span class="brand-name">Server</span>
         </a>
+        
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -130,27 +144,58 @@
   </div>
 </div>
 
-        
-      </div>
-
-      <div class="topbar__cluster">
-        
       </div>
     </header>
 
     <main class="page">
-      <div class="docs inset">
-  <article class="docs__content prose">
-    <header class="docs__head">
-      
-      <h1>Server</h1>
-      
-    </header>
-    
-    <p>Redirecting to the first page in Server…</p>
-
-</article>
-</div>
+      <div class="section-index">
+  <header class="section-index__head">
+    <h1 class="section-index__title">Server</h1>
+    <p class="section-index__lede">Self-hosted infrastructure</p>
+    <p class="section-index__count mono muted">
+      10 pages
+    </p>
+  </header><ul class="section-index__list"><li class="section-index__item">
+        <a class="section-index__link" href="/server/docker-install/">
+          <span class="section-index__name">Docker installation</span>
+          <span class="section-index__desc">Installing Docker Engine from the official repository, plus production hardening.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/docker-compose/">
+          <span class="section-index__name">Docker Compose</span>
+          <span class="section-index__desc">Everyday Compose commands for the Django stacks, plus cleanup.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/docker-swarm/">
+          <span class="section-index__name">Docker Swarm</span>
+          <span class="section-index__desc">Single-node swarm running the zaideih and myordbok stacks.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/cloudflare/">
+          <span class="section-index__name">Cloudflare Tunnel</span>
+          <span class="section-index__desc">Outbound-only ingress with cloudflared — no open ports.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/cloudflare-access/">
+          <span class="section-index__name">Cloudflare Access</span>
+          <span class="section-index__desc">SSH through Access - interactive, CI, and short-lived certificates.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/nginx-proxy-manager/">
+          <span class="section-index__name">Nginx Proxy Manager</span>
+          <span class="section-index__desc">One proxy in front of every stack, on a shared external network.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/nginx-gunicorn/">
+          <span class="section-index__name">Nginx and Gunicorn</span>
+          <span class="section-index__desc">Serving Django directly from systemd, without containers.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/storage/">
+          <span class="section-index__name">Storage and buckets</span>
+          <span class="section-index__desc">virtiofs shares into a VM, and R2 over rclone.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/github-runner/">
+          <span class="section-index__name">Self-hosted runner</span>
+          <span class="section-index__desc">Running the GitHub Actions runner on the VM, with Docker access.</span></a>
+      </li><li class="section-index__item">
+        <a class="section-index__link" href="/server/provisioning/">
+          <span class="section-index__name">Provisioning a host</span>
+          <span class="section-index__desc">First-boot setup script, hosts entries, and bridge checks.</span></a>
+      </li></ul></div>
 
 <footer class="docfoot inset">
   <div class="docfoot__inner">
@@ -171,9 +216,9 @@
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

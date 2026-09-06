@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Docker Swarm — Lethil</title>
-  <meta name="description" content="Single-node swarm.">
+  <meta name="description" content="Single-node swarm running the zaideih and myordbok stacks.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 
@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -63,15 +63,29 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Server</p>
-    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link is-active"
-           href="/server/docker-swarm/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Docker Swarm</span>
-        </a><a class="sidebar__link"
-           href="/server/cloudflare/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Cloudflare Tunnel</span>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
+           href="/server/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><a class="sidebar__link" href="/server/docker-install/">
+          <span class="sidebar__link-text" data-text="Docker installation">Docker installation</span>
+        </a><a class="sidebar__link" href="/server/docker-compose/">
+          <span class="sidebar__link-text" data-text="Docker Compose">Docker Compose</span>
+        </a><a class="sidebar__link is-active" href="/server/docker-swarm/">
+          <span class="sidebar__link-text" data-text="Docker Swarm">Docker Swarm</span>
+        </a><a class="sidebar__link" href="/server/cloudflare/">
+          <span class="sidebar__link-text" data-text="Cloudflare Tunnel">Cloudflare Tunnel</span>
+        </a><a class="sidebar__link" href="/server/cloudflare-access/">
+          <span class="sidebar__link-text" data-text="Cloudflare Access">Cloudflare Access</span>
+        </a><a class="sidebar__link" href="/server/nginx-proxy-manager/">
+          <span class="sidebar__link-text" data-text="Nginx Proxy Manager">Nginx Proxy Manager</span>
+        </a><a class="sidebar__link" href="/server/nginx-gunicorn/">
+          <span class="sidebar__link-text" data-text="Nginx and Gunicorn">Nginx and Gunicorn</span>
+        </a><a class="sidebar__link" href="/server/storage/">
+          <span class="sidebar__link-text" data-text="Storage and buckets">Storage and buckets</span>
+        </a><a class="sidebar__link" href="/server/github-runner/">
+          <span class="sidebar__link-text" data-text="Self-hosted runner">Self-hosted runner</span>
+        </a><a class="sidebar__link" href="/server/provisioning/">
+          <span class="sidebar__link-text" data-text="Provisioning a host">Provisioning a host</span>
         </a></nav>
 
     
@@ -95,6 +109,8 @@
         <a class="brand" href="/server/">
           <span class="brand-name">Server</span>
         </a>
+        
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -128,11 +144,6 @@
   </div>
 </div>
 
-        
-      </div>
-
-      <div class="topbar__cluster">
-        
       </div>
     </header>
 
@@ -140,15 +151,80 @@
       <div class="docs inset">
   <article class="docs__content prose">
     <header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Server">Server</a>
-      <h1>Docker Swarm</h1>
-      <p class="docs__lede">Single-node swarm.</p>
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Server">Server</a><h1>Docker Swarm</h1><p class="docs__lede">Single-node swarm running the zaideih and myordbok stacks.</p>
     </header>
     
-    <p>Running a single-node Docker Swarm with <a class="wikilink" href="/server/cloudflare/">Cloudflare Tunnel</a> for ingress.
-Give the node a stable address first — see <a class="wikilink" href="/linux/netplan/">Static networking</a>.</p>
+    <p>Production runs a single-node swarm with <a class="wikilink" href="/server/cloudflare/">Cloudflare Tunnel</a> for ingress, so
+no port is published to the internet. Give the node a stable address first —
+see <a class="wikilink" href="/linux/netplan/">Static networking</a>. Deployment scripts are Python; see
+<a class="wikilink" href="/python/packaging/">Packaging scripts</a>.</p>
 
-<p>Deployment scripts are written in Python; see <a class="wikilink" href="/python/packaging/">Packaging scripts</a>.</p>
+<h2 id="init">Init</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>docker swarm init
+<span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+docker compose config          <span class="c"># validate before deploying</span>
+</code></pre></div></div>
+
+<h2 id="deploy-and-watch">Deploy and watch</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stack deploy <span class="nt">-c</span> docker-compose.yml zaideih
+watch docker service <span class="nb">ls
+
+</span>docker service ps zaideih_web <span class="nt">--no-trunc</span>
+docker inspect <span class="nt">--format</span> <span class="s1">'{{.Status.Err}}'</span> &lt;task-id&gt;
+</code></pre></div></div>
+
+<h2 id="logs">Logs</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker service logs <span class="nt">-f</span> zaideih_web
+docker service logs <span class="nt">--since</span> 1h zaideih_web
+docker service logs <span class="nt">-f</span> zaideih_web <span class="nt">--tail</span> 100
+docker service logs <span class="nt">-f</span> myordbok_web <span class="nt">--tail</span> 100
+</code></pre></div></div>
+
+<h2 id="updates-and-rollback">Updates and rollback</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker service update <span class="nt">--force</span> zaideih_web
+docker service update <span class="nt">--rollback</span> zaideih_web
+</code></pre></div></div>
+
+<h2 id="checking-a-running-task">Checking a running task</h2>
+
+<p>Swarm assigns new container IDs on every deploy, so look the ID up rather than
+keeping one around.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">CONTAINER_ID</span><span class="o">=</span><span class="si">$(</span>docker ps <span class="nt">-q</span> <span class="nt">-f</span> <span class="nv">name</span><span class="o">=</span>zaideih_web<span class="si">)</span>
+
+docker <span class="nb">exec</span> <span class="nt">-it</span> <span class="nv">$CONTAINER_ID</span> python manage.py check
+docker <span class="nb">exec</span> <span class="nv">$CONTAINER_ID</span> <span class="nb">env</span> | <span class="nb">grep </span>DEBUG
+docker <span class="nb">exec</span> <span class="nv">$CONTAINER_ID</span> <span class="nb">env</span> | <span class="nb">grep </span>STORAGE_DIR
+docker <span class="nb">exec</span> <span class="nv">$CONTAINER_ID</span> <span class="nb">ls</span> <span class="nt">-R</span> /code/static/.vite/
+</code></pre></div></div>
+
+<p>Inspecting <code class="language-plaintext highlighter-rouge">env</code> prints secrets to the terminal. Grep for the specific variable
+rather than dumping the whole environment.</p>
+
+<h2 id="static-files">Static files</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find static <span class="nt">-mindepth</span> 1 <span class="o">!</span> <span class="nt">-path</span> <span class="s2">"static/.vite*"</span> <span class="nt">-delete</span>
+npm run build <span class="o">&amp;&amp;</span> python manage.py collectstatic <span class="nt">--clear</span> <span class="nt">--noinput</span>
+python manage.py check
+
+docker run <span class="nt">--rm</span> <span class="nt">-it</span> ghcr.io/&lt;owner&gt;/zaideih/django-app:latest <span class="nb">cat</span> /code/staticfiles/.vite/manifest.json
+</code></pre></div></div>
+
+<h2 id="tearing-a-stack-down">Tearing a stack down</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stack <span class="nb">rm </span>zaideih
+
+<span class="c"># Deletes all database data in that volume</span>
+docker volume <span class="nb">rm </span>zaideih_mysql_data
+docker volume prune <span class="nt">-f</span>
+
+<span class="c"># If a container still holds the volume</span>
+docker <span class="nb">rm</span> <span class="nt">-f</span> &lt;container-id&gt;
+</code></pre></div></div>
 
 <footer class="docs__tags" aria-label="Tags">
       <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=server">server</a><a class="docs__tag mono" href="/directory/#tag=docker">docker</a><a class="docs__tag mono" href="/directory/#tag=swarm">swarm</a></footer></article>
@@ -173,9 +249,9 @@ Give the node a stable address first — see <a class="wikilink" href="/linux/ne
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

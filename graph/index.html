@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
 <body class="is-home is-graph" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -73,6 +73,14 @@
         </span>
         <span class="sidebar__fixed-label">Graph View</span>
       </a>
+      <a class="sidebar__fixed-item" href="/todo/">
+        <span class="sidebar__fixed-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6.5 6 8.5 9.5 5"/><path d="M4 17.5 6 19.5 9.5 16"/><path d="M13 7h7M13 18h7"/>
+          </svg>
+        </span>
+        <span class="sidebar__fixed-label">Todo</span>
+      </a>
       <a class="sidebar__fixed-item" href="/docs/">
         <span class="sidebar__fixed-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -107,9 +115,21 @@
       <path d="M9 6l6 6-6 6"/>
     </svg>
     <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Todo<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">What's next, in progress, and shipped</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/todo/bible/" data-text="Lai Siangtho — e-book &amp; presentation suite">Lai Siangtho — e-book & presentation suite</a><a class="sidebar-sect__page" href="/todo/migration/" data-text="Move off Google Cloud">Move off Google Cloud</a><a class="sidebar-sect__page" href="/todo/domains/" data-text="Domain names">Domain names</a><a class="sidebar-sect__page" href="/todo/obsidian-import/" data-text="Import the Obsidian vault">Import the Obsidian vault</a><a class="sidebar-sect__page" href="/todo/auto-index/" data-text="Drop the manual index bookkeeping">Drop the manual index bookkeeping</a><a class="sidebar-sect__page" href="/todo/subsystem/" data-text="Disposable Linux subsystems">Disposable Linux subsystems</a><a class="sidebar-sect__more" href="/todo/">Open Todo →</a>
+  </div>
+</details>
+<details class="sidebar-sect is-highlight">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 6l6 6-6 6"/>
+    </svg>
+    <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Docs<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">Building & running this site</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/docs/getting-started/">Getting started</a><a class="sidebar-sect__page" href="/docs/deployment/">Deployment guide</a><a class="sidebar-sect__page" href="/docs/secrets/">Secrets manager</a><a class="sidebar-sect__page" href="/docs/summary/">Handoff summary</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/docs/getting-started/" data-text="Getting started">Getting started</a><a class="sidebar-sect__page" href="/docs/deployment/" data-text="Deployment guide">Deployment guide</a><a class="sidebar-sect__page" href="/docs/secrets/" data-text="Secrets manager">Secrets manager</a><a class="sidebar-sect__page" href="/docs/summary/" data-text="Handoff summary">Handoff summary</a><a class="sidebar-sect__page" href="/docs/authoring/" data-text="Authoring these docs">Authoring these docs</a><a class="sidebar-sect__page" href="/docs/git/" data-text="Git">Git</a><a class="sidebar-sect__more" href="/docs/">All 7 pages →</a>
+  </div>
 </details>
 <details class="sidebar-sect is-highlight">
   <summary class="sidebar-sect__summary">
@@ -119,7 +139,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Server<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">Self-hosted infrastructure</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/server/docker-swarm/">Docker Swarm</a><a class="sidebar-sect__page" href="/server/cloudflare/">Cloudflare Tunnel</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/server/docker-install/" data-text="Docker installation">Docker installation</a><a class="sidebar-sect__page" href="/server/docker-compose/" data-text="Docker Compose">Docker Compose</a><a class="sidebar-sect__page" href="/server/docker-swarm/" data-text="Docker Swarm">Docker Swarm</a><a class="sidebar-sect__page" href="/server/cloudflare/" data-text="Cloudflare Tunnel">Cloudflare Tunnel</a><a class="sidebar-sect__page" href="/server/cloudflare-access/" data-text="Cloudflare Access">Cloudflare Access</a><a class="sidebar-sect__page" href="/server/nginx-proxy-manager/" data-text="Nginx Proxy Manager">Nginx Proxy Manager</a><a class="sidebar-sect__more" href="/server/">All 10 pages →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -129,7 +150,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Linux</span><span class="sidebar-sect__blurb">System administration</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/linux/fstab/">Managing fstab</a><a class="sidebar-sect__page" href="/linux/netplan/">Static networking</a><a class="sidebar-sect__page" href="/linux/gnome/">GNOME</a><a class="sidebar-sect__page" href="/linux/utility/">Utility</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/linux/fstab/" data-text="Managing fstab">Managing fstab</a><a class="sidebar-sect__page" href="/linux/netplan/" data-text="Static networking">Static networking</a><a class="sidebar-sect__page" href="/linux/utility/" data-text="Linux utilities">Linux utilities</a><a class="sidebar-sect__page" href="/linux/gnome/" data-text="GNOME">GNOME</a><a class="sidebar-sect__page" href="/linux/remote-access/" data-text="Remote access">Remote access</a><a class="sidebar-sect__page" href="/linux/virt-manager/" data-text="Virtual Machine Manager">Virtual Machine Manager</a><a class="sidebar-sect__more" href="/linux/">All 8 pages →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -139,7 +161,19 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Python</span><span class="sidebar-sect__blurb">Scripts & tooling</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/python/setup/">Environment setup</a><a class="sidebar-sect__page" href="/python/utility/">Utility</a><a class="sidebar-sect__page" href="/python/packaging/">Packaging scripts</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/python/setup/" data-text="Environment setup">Environment setup</a><a class="sidebar-sect__page" href="/python/packaging/" data-text="Packaging scripts">Packaging scripts</a><a class="sidebar-sect__page" href="/python/utility/" data-text="Python utilities">Python utilities</a><a class="sidebar-sect__page" href="/python/django/" data-text="Django">Django</a><a class="sidebar-sect__more" href="/python/">Open Python →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 6l6 6-6 6"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Mobile</span><span class="sidebar-sect__blurb">Android & Flutter toolchain</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/mobile/android/" data-text="Android toolchain">Android toolchain</a><a class="sidebar-sect__page" href="/mobile/flutter/" data-text="Flutter">Flutter</a><a class="sidebar-sect__more" href="/mobile/">Open Mobile →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -149,7 +183,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">SQL</span><span class="sidebar-sect__blurb">Queries & schema</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/sql/joins/">Joins</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/sql/joins/" data-text="Joins">Joins</a><a class="sidebar-sect__page" href="/sql/mysql-backup/" data-text="MySQL backups">MySQL backups</a><a class="sidebar-sect__page" href="/sql/mariadb/" data-text="MariaDB setup">MariaDB setup</a><a class="sidebar-sect__page" href="/sql/spam-cleanup/" data-text="Clearing bot spam">Clearing bot spam</a><a class="sidebar-sect__more" href="/sql/">Open SQL →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -159,7 +194,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Plex</span><span class="sidebar-sect__blurb">Media server</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/plex/library/">Library layout</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/plex/library/" data-text="Library layout">Library layout</a><a class="sidebar-sect__more" href="/plex/">Open Plex →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -169,7 +205,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Notes</span><span class="sidebar-sect__blurb">Working notes</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/note/scratch/">Scratch notes</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/note/scratch/" data-text="Scratch notes">Scratch notes</a><a class="sidebar-sect__page" href="/note/infrastructure-log/" data-text="Infrastructure log">Infrastructure log</a><a class="sidebar-sect__page" href="/note/running-costs/" data-text="Running costs">Running costs</a><a class="sidebar-sect__more" href="/note/">Open Notes →</a>
+  </div>
 </details>
 <details class="sidebar-sect">
   <summary class="sidebar-sect__summary">
@@ -179,7 +216,8 @@
     <span class="sidebar-sect__text">
       <span class="sidebar-sect__label">Quotes</span><span class="sidebar-sect__blurb">Collected quotes</span></span>
   </summary>
-  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/quote/favorites/">Favorites</a></div>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/quote/favorites/" data-text="Favorites">Favorites</a><a class="sidebar-sect__more" href="/quote/">Open Quotes →</a>
+  </div>
 </details>
 </nav>
     
@@ -205,9 +243,7 @@
           <span class="brand-name">Lethil</span>
         </a>
         
-      </div>
-
-      <div class="topbar__cluster">
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -268,15 +304,15 @@
   window.GRAPH_URL = "/graph.json";
 </script>
 
-<script src="/assets/js/graph.js?v=1788190682" defer=""></script>
+<script src="/assets/js/graph.js?v=1788689264" defer=""></script>
 
 
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

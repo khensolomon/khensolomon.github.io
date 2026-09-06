@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Getting started — Lethil</title>
-  <meta name="description" content="Bring the stack up, then learn how these docs are built.">
+  <meta name="description" content="Take a fresh machine to a running deployment.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 
@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788190682">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788190682" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -63,24 +63,24 @@
   </div>
 
   <div class="sidebar__body">
-    <p class="sidebar__title mono muted">Docs</p>
-    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link is-active"
-           href="/docs/getting-started/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Getting started</span>
-        </a><a class="sidebar__link"
-           href="/docs/deployment/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Deployment guide</span>
-        </a><a class="sidebar__link"
-           href="/docs/secrets/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Secrets manager</span>
-        </a><a class="sidebar__link"
-           href="/docs/summary/">
-          <span class="sidebar__marker" aria-hidden="true"></span>
-          <span class="sidebar__link-text">Handoff summary</span>
-        </a></nav>
+    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
+           href="/docs/">
+          <span class="sidebar__link-text" data-text="Overview">Overview</span>
+        </a><p class="sidebar__group mono">Server</p><a class="sidebar__link is-active" href="/docs/getting-started/">
+            <span class="sidebar__link-text" data-text="Getting started">Getting started</span>
+          </a><a class="sidebar__link" href="/docs/deployment/">
+            <span class="sidebar__link-text" data-text="Deployment guide">Deployment guide</span>
+          </a><a class="sidebar__link" href="/docs/secrets/">
+            <span class="sidebar__link-text" data-text="Secrets manager">Secrets manager</span>
+          </a><a class="sidebar__link" href="/docs/summary/">
+            <span class="sidebar__link-text" data-text="Handoff summary">Handoff summary</span>
+          </a><p class="sidebar__group mono">Documentations</p><a class="sidebar__link" href="/docs/authoring/">
+            <span class="sidebar__link-text" data-text="Authoring these docs">Authoring these docs</span>
+          </a><a class="sidebar__link" href="/changelog/">
+            <span class="sidebar__link-text" data-text="Changelog">Changelog</span>
+          </a><p class="sidebar__group mono">Reference</p><a class="sidebar__link" href="/docs/git/">
+            <span class="sidebar__link-text" data-text="Git">Git</span>
+          </a></nav>
 
     
   </div><div class="sidebar__foot" hidden></div>
@@ -103,6 +103,8 @@
         <a class="brand" href="/docs/">
           <span class="brand-name">Docs</span>
         </a>
+        
+      </div><div class="topbar__cluster">
         <div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
@@ -136,11 +138,6 @@
   </div>
 </div>
 
-        
-      </div>
-
-      <div class="topbar__cluster">
-        
       </div>
     </header>
 
@@ -148,16 +145,13 @@
       <div class="docs inset">
   <article class="docs__content prose">
     <header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Guide">Guide</a>
-      <h1>Getting started</h1>
-      <p class="docs__lede">Bring the stack up, then learn how these docs are built.</p>
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Guide">Guide</a><h1>Getting started</h1><p class="docs__lede">Take a fresh machine to a running deployment.</p>
     </header>
     
-    <p>Two things live under this heading: the commands that take a fresh machine to a
-running deployment, and the conventions behind the docs site itself. Start at the
-top for a working stack; skip to the second half to add or edit pages.</p>
+    <p>The steps below run in order on a new machine. Each block is copy-paste ready;
+paths assume the monorepo is checked out at <code class="language-plaintext highlighter-rouge">~/dev/lethil</code>.</p>
 
-<h2 id="bring-up-the-stack">Bring up the stack</h2>
+<p>For the full provisioning story including Cloudflare, see <a class="wikilink" href="/docs/deployment/">Deployment guide</a>.</p>
 
 <p>The steps below run in order on a new machine. Each block is copy-paste ready;
 paths assume the monorepo is checked out at <code class="language-plaintext highlighter-rouge">~/dev/lethil</code>.</p>
@@ -234,48 +228,8 @@ python3 ~/dev/lethil/script/hash.py <span class="nt">-s</span> <span class="s2">
 python3 ~/dev/lethil/script/hash.py <span class="nt">-s</span> <span class="s2">"test"</span> <span class="nt">-t</span> 21
 </code></pre></div></div>
 
-<h2 id="how-these-docs-are-built">How these docs are built</h2>
-
-<p>Every docs section — <code class="language-plaintext highlighter-rouge">docs</code>, <code class="language-plaintext highlighter-rouge">python</code>, <code class="language-plaintext highlighter-rouge">linux</code>, <code class="language-plaintext highlighter-rouge">server</code>, and so on — is a
-Jekyll <strong>collection</strong>. Landing on any section shows only that section’s pages
-in the sidebar; the home page shows a collapsible directory of every section.</p>
-
-<h3 id="the-three-moving-parts">The three moving parts</h3>
-
-<ol>
-  <li><strong><code class="language-plaintext highlighter-rouge">_config.yml</code></strong> registers each section as a collection (an explicit
-allow-list, so folders like <code class="language-plaintext highlighter-rouge">assets/</code> and <code class="language-plaintext highlighter-rouge">tmp/</code> are simply never included).</li>
-  <li><strong><code class="language-plaintext highlighter-rouge">_data/sections.yml</code></strong> lists the sections for the home sidebar — label,
-badge, an optional blurb, and an optional <code class="language-plaintext highlighter-rouge">highlight</code> flag to pin it up top.</li>
-  <li><strong><code class="language-plaintext highlighter-rouge">_&lt;section&gt;/</code></strong> holds the pages: an <code class="language-plaintext highlighter-rouge">index.md</code> that forwards to the first
-page, plus one markdown file per page.</li>
-</ol>
-
-<h3 id="add-a-page-to-an-existing-section">Add a page to an existing section</h3>
-
-<ol>
-  <li>Create <code class="language-plaintext highlighter-rouge">_python/logging.md</code>.</li>
-  <li>Give it <code class="language-plaintext highlighter-rouge">title</code>, <code class="language-plaintext highlighter-rouge">category</code>, <code class="language-plaintext highlighter-rouge">nav_order</code>, and <code class="language-plaintext highlighter-rouge">in_nav: true</code>.</li>
-  <li>Write Markdown. It appears in that section’s sidebar and in search.</li>
-</ol>
-
-<h3 id="add-a-whole-new-section">Add a whole new section</h3>
-
-<ol>
-  <li>Register it in <code class="language-plaintext highlighter-rouge">_config.yml</code> under <code class="language-plaintext highlighter-rouge">collections:</code> and <code class="language-plaintext highlighter-rouge">defaults:</code>.</li>
-  <li>Create the <code class="language-plaintext highlighter-rouge">_&lt;name&gt;/</code> folder with an <code class="language-plaintext highlighter-rouge">index.md</code> and pages.</li>
-  <li>Add an entry to <code class="language-plaintext highlighter-rouge">_data/sections.yml</code>.</li>
-</ol>
-
-<h3 id="run-it-locally">Run it locally</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">exec </span>jekyll serve <span class="nt">--livereload</span>
-</code></pre></div></div>
-
-<p>Then open <code class="language-plaintext highlighter-rouge">http://localhost:4000</code>. Styling comes from the SCSS in <code class="language-plaintext highlighter-rouge">_sass/</code>,
-compiled to <code class="language-plaintext highlighter-rouge">/assets/css/style.css</code> — no per-page CSS needed.</p>
-
-</article>
+<footer class="docs__tags" aria-label="Tags">
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=setup">setup</a><a class="docs__tag mono" href="/directory/#tag=deployment">deployment</a></footer></article>
 </div>
 
 <footer class="docfoot inset">
@@ -297,9 +251,9 @@ compiled to <code class="language-plaintext highlighter-rouge">/assets/css/style
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788190682" defer></script>
-  <script src="/assets/js/search.js?v=1788190682" defer></script>
-  <script src="/assets/js/activity.js?v=1788190682" defer></script>
-  <script src="/assets/js/stars.js?v=1788190682" defer></script>
+  <script src="/assets/js/app.js?v=1788689264" defer></script>
+  <script src="/assets/js/search.js?v=1788689264" defer></script>
+  <script src="/assets/js/activity.js?v=1788689264" defer></script>
+  <script src="/assets/js/stars.js?v=1788689264" defer></script>
 </body>
 </html>

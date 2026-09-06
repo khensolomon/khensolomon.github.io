@@ -18,6 +18,16 @@
   /* a touch darker for hover on accent fills */
   --accent-soft: #3457e01a;
   --shadow: 0 1px 2px rgba(20,22,28,.04), 0 8px 30px rgba(20,22,28,.06);
+  /* status — Todo board + the page-header pill. Four states, deliberately
+     desaturated so a board full of them stays calm next to the accent. */
+  --status-active: #1f9d55;
+  /* in progress */
+  --status-planned: #6b7078;
+  /* queued — same weight as muted text */
+  --status-blocked: #c2410c;
+  /* waiting on something else */
+  --status-done: #7c7f88;
+  /* shipped — recedes on purpose */
   /* type */
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                Helvetica, Arial, sans-serif;
@@ -67,6 +77,10 @@
   /* lighter for hover on accent fills (dark) */
   --accent-soft: #7aa0ff1f;
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 40px rgba(0,0,0,.5);
+  --status-active: #3ddc84;
+  --status-planned: #8b919c;
+  --status-blocked: #fb8b5a;
+  --status-done: #6b7079;
   color-scheme: dark;
 }
 
@@ -258,42 +272,50 @@ body[data-nav="open"] .sidebar {
   display: none;
 }
 
-.sidebar__title {
-  padding: .2rem .6rem .55rem;
-  margin: 0 0 .45rem;
-  border-bottom: 1px solid var(--border);
-}
-
+/* --- section sidebar: page list ------------------------------------------
+   Matches the home sidebar's language rather than inventing a second one.
+   Items are flat rows that fill on hover, exactly like .sidebar__fixed-item;
+   the active page is marked by a rail on the left edge instead of a leading
+   dot, so every label starts on the same vertical line and the list reads as
+   one column of text rather than a bulleted list.                          */
 .sidebar__nav {
   display: grid;
-  gap: .1rem;
+  gap: .05rem;
 }
 
 .sidebar__link {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: .6rem;
-  padding: .4rem .6rem;
+  padding: .38rem .6rem .38rem .75rem;
   border-radius: var(--radius-sm);
   color: var(--muted);
+  /* A step below the brand above, so the brand reads as the heading of the
+     column and the pages read as its contents. */
+  font-size: .855rem;
   transition: background .15s, color .15s;
 }
 
-/* a small round marker leads each item; it's a hollow ring at rest, fills with
-   the accent on hover, and becomes a solid accent dot for the active page —
-   a calm, legible status cue in place of the old [*]/[+] brackets */
-.sidebar__marker {
-  flex-shrink: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  border: 1.5px solid var(--border-hover);
-  background: transparent;
-  transition: background .15s, border-color .15s, transform .15s;
+/* The active rail. A pseudo-element rather than a border so the text does not
+   shift by a pixel when a page becomes active. */
+.sidebar__link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 2px;
+  height: 0;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: var(--accent);
+  transition: height 0.18s var(--ease);
 }
 
 .sidebar__link-text {
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sidebar__link:hover {
@@ -301,27 +323,73 @@ body[data-nav="open"] .sidebar {
   color: var(--text);
 }
 
-.sidebar__link:hover .sidebar__marker {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 35%, transparent);
-}
-
-/* active: solid accent dot + accent text, no heavy filled background */
 .sidebar__link.is-active {
   color: var(--text);
+  font-weight: 650;
 }
 
-.sidebar__link.is-active .sidebar__marker {
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: scale(1.15);
+.sidebar__link.is-active::before {
+  height: 1.05rem;
 }
 
+/* --- bold the active item WITHOUT reflow ---------------------------------
+   Weighting only the active item is what makes it stand out — weighting every
+   item highlights nothing. But bold glyphs are wider, so the label visibly
+   re-flows each time the active page changes.
+
+   The fix is to reserve the bold width up front. Every label carries its own
+   text in data-text, and a zero-height hidden copy of it is rendered at the
+   bold weight inside the same box. That copy contributes its width to the
+   element's intrinsic size but nothing to its height, so the box is always as
+   wide as the bold version and toggling the visible weight moves nothing.
+
+   Long labels that already ellipse are unaffected: they are constrained by the
+   column, not by their content, so there is no width to reserve. */
+.sidebar__link-text::after,
+.sidebar-sect__page::after {
+  content: attr(data-text);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 650;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Overview sits above the page list and points at a section index that is a
+   real page. Separated by space, not a rule — one less line in a narrow
+   column. */
+.sidebar__link--overview {
+  margin-bottom: .35rem;
+}
+
+/* Group headings. Sized and coloured like the section blurbs on the home
+   sidebar so the two navigations feel like one system. */
+.sidebar__group {
+  margin: 1.1rem 0 .3rem;
+  padding: 0 .6rem;
+  font-size: .68rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: .75;
+}
+
+.sidebar__group:first-child {
+  margin-top: .2rem;
+}
+
+.sidebar__link + .sidebar__group {
+  margin-top: 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar__link, .sidebar__link::before {
+    transition: none;
+  }
+}
 /* --- home sidebar: collapsible section groups (native <details>) --------- */
-.sidebar__title + .sidebar__sections {
-  margin-bottom: 1.4rem;
-}
-
 .sidebar__sections {
   display: grid;
   gap: .1rem;
@@ -403,11 +471,12 @@ body[data-nav="open"] .sidebar {
 .sidebar-sect__page,
 .sidebar-sect__more {
   position: relative;
-  margin-left: .55rem;
-  /* clear the connector tick */
-  padding: .3rem .5rem;
+  /* The connector tick lives INSIDE the box as left padding rather than in a
+     negative margin outside it. Truncating long titles needs overflow:hidden,
+     which would clip anything drawn outside the box — the ticks vanished. */
+  padding: .3rem .5rem .3rem 1.05rem;
   border-radius: var(--radius-sm);
-  font-size: .88rem;
+  font-size: .84rem;
   color: var(--muted);
   transition: background .15s, color .15s;
 }
@@ -417,7 +486,7 @@ body[data-nav="open"] .sidebar {
 .sidebar-sect__more::before {
   content: "";
   position: absolute;
-  left: -.55rem;
+  left: 0;
   top: 50%;
   width: .5rem;
   height: 1.5px;
@@ -433,6 +502,7 @@ body[data-nav="open"] .sidebar {
 .sidebar-sect__page.is-active {
   color: var(--text);
   background: var(--accent-soft);
+  font-weight: 650;
 }
 
 /* the active item's connector + a segment of rail glow in the accent */
@@ -502,6 +572,50 @@ body[data-nav="open"] .sidebar {
   border-radius: 50%;
   background: var(--accent);
   vertical-align: middle;
+}
+
+/* --- sidebar: no horizontal scrollbar ------------------------------------
+   Long page titles ("Lai Siangtho — e-book & presentation suite") were wider
+   than the column and pushed a scrollbar onto every sidebar. Flex and grid
+   children default to min-width:auto, so they refuse to shrink below their
+   content and overflow the track instead of ellipsing. Each text node is
+   allowed to shrink and truncate; overflow-x on the body is the backstop. */
+.sidebar__body {
+  overflow-x: hidden;
+}
+
+.sidebar__body > * {
+  min-width: 0;
+}
+
+.sidebar-sect__summary {
+  min-width: 0;
+}
+
+.sidebar-sect__text {
+  min-width: 0;
+}
+
+.sidebar-sect__label,
+.sidebar-sect__blurb,
+.sidebar-sect__page,
+.sidebar__group,
+.sidebar__fixed-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar__fixed-item {
+  min-width: 0;
+}
+
+.brand-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ===========================================================================
@@ -648,6 +762,11 @@ body[data-nav="open"] .navbtn {
   /* left-align so varied widths read as a ragged edge */
   width: 18px;
   height: 14px;
+  /* The open-state hover transform below animates from here. Without this the
+     icon jumped straight to its hovered position — the closed state had a
+     spring on bar widths while the open state had no transition at all, which
+     is why one felt considered and the other felt like nothing. */
+  transition: transform 0.4s var(--spring);
 }
 
 .navbtn__bar {
@@ -715,20 +834,20 @@ body[data-nav="open"] .navbtn__bar:nth-child(3) {
   transform: translateY(-6px) rotate(-45deg);
 }
 
-/* OPEN + hover: a calm, legible "close" cue — the whole X rotates a gentle 8°
-   and the strokes deepen to accent. No spin, no shrink-jitter; it just settles
-   with a small confident tilt, like a control acknowledging the cursor. */
+/* OPEN + hover: a quarter turn inward. An X is symmetric under 90°, so the
+   mark lands exactly on itself — the motion reads as a complete, deliberate
+   rotation rather than a nudge that stops somewhere arbitrary (the old 8°
+   tilt, which had no resting logic and no transition to carry it). The slight
+   scale-down is the "collapse" half of the gesture: the icon draws inward,
+   matching what clicking it does. Spring easing gives it the same character
+   as the width shuffle in the closed state. */
 body[data-nav="open"] .navbtn:hover .navbtn__icon {
-  transform: rotate(8deg);
+  transform: rotate(90deg) scale(0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .navbtn__bar {
     transition: opacity .2s, background-color .2s;
-  }
-
-  .navbtn__icon {
-    transition: none;
   }
 
   /* no width shuffle or tilt under reduced-motion; keep resting widths + X */
@@ -746,6 +865,10 @@ body[data-nav="open"] .navbtn:hover .navbtn__icon {
 
   body[data-nav="open"] .navbtn:hover .navbtn__icon {
     transform: none;
+  }
+
+  .navbtn__icon {
+    transition: none;
   }
 }
 /* ===========================================================================
@@ -2242,6 +2365,581 @@ body[data-nav="open"] .navbtn:hover .navbtn__icon {
   user-select: none;
 }
 
+[data-status="active"] {
+  --status-c: var(--status-active);
+}
+
+[data-status="planned"] {
+  --status-c: var(--status-planned);
+}
+
+[data-status="blocked"] {
+  --status-c: var(--status-blocked);
+}
+
+[data-status="done"] {
+  --status-c: var(--status-done);
+}
+
+.docs__status {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  margin: .55rem 0 0;
+  padding: .2rem .6rem .2rem .5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-2);
+  --status-c: var(--muted);
+}
+
+.docs__status-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--status-c);
+  flex: none;
+}
+
+.docs__status-text {
+  font-size: .74rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--status-c);
+}
+
+.todo {
+  max-width: var(--measure);
+  padding: 2.4rem var(--gutter) 3rem;
+}
+.todo[data-board-view="kanban"] {
+  max-width: 76rem;
+}
+
+.todo__head {
+  margin-bottom: 2rem;
+}
+
+.todo__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  letter-spacing: -.02em;
+}
+
+.todo__lede {
+  margin: .4rem 0 0;
+  font-size: .85rem;
+}
+
+.todo__progress {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin-top: 1.1rem;
+}
+
+.todo__progress-bar {
+  flex: 1;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+
+.todo__progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--status-active);
+  transition: width var(--dur) var(--ease);
+}
+
+.todo__progress-text {
+  margin: 0;
+  font-size: .74rem;
+  flex: none;
+}
+
+.todo__group {
+  margin-top: 2.1rem;
+  --status-c: var(--muted);
+}
+
+.todo__group-head {
+  margin-bottom: .7rem;
+}
+
+.todo__group-title {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+  font-size: .95rem;
+  letter-spacing: -.01em;
+}
+
+.todo__pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--status-c);
+  flex: none;
+}
+
+.todo__group-count {
+  font-size: .72rem;
+  color: var(--muted);
+  background: var(--surface-2);
+  border-radius: 999px;
+  padding: .05rem .45rem;
+}
+
+.todo__group-blurb {
+  margin: .15rem 0 0;
+  padding-left: 1rem;
+  font-size: .74rem;
+}
+
+.todo__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.todo__item {
+  display: flex;
+  align-items: baseline;
+  gap: .75rem;
+  flex-wrap: wrap;
+  padding: .7rem .2rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  transition: background var(--dur-nav) var(--ease);
+}
+
+.todo__item:hover {
+  background: var(--surface-2);
+}
+
+.todo__item-link {
+  flex: 1 1 14rem;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.todo__item-title {
+  display: block;
+  font-size: .93rem;
+  font-weight: 500;
+}
+
+.todo__item-link:hover .todo__item-title {
+  color: var(--accent);
+}
+
+.todo__item-desc {
+  display: block;
+  margin-top: .12rem;
+  font-size: .78rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+[data-status="done"] .todo__item-title {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--border-hover);
+}
+
+.todo__item-tags {
+  display: flex;
+  gap: .3rem;
+  flex-wrap: wrap;
+  flex: none;
+}
+
+.todo__item-tag {
+  font-size: .68rem;
+  color: var(--muted);
+  background: var(--surface-2);
+  border-radius: 999px;
+  padding: .1rem .45rem;
+  text-decoration: none;
+  transition: background var(--dur-nav) var(--ease);
+}
+
+.todo__item-tag:hover {
+  background: var(--surface-3);
+}
+
+.todo__empty {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .todo__progress-fill,
+  .todo__item,
+  .todo__item-tag {
+    transition: none;
+  }
+}
+.todo__head-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.todo__views {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-btn);
+  flex: none;
+}
+
+.todo__view {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .3rem .55rem;
+  border: 0;
+  border-radius: calc(var(--radius-btn) - 2px);
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: .76rem;
+  cursor: pointer;
+  transition: background var(--dur-nav) var(--ease), color var(--dur-nav) var(--ease);
+}
+.todo__view svg {
+  width: 14px;
+  height: 14px;
+}
+.todo__view:hover {
+  color: var(--text);
+}
+.todo__view[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+[data-board-view="kanban"] .todo__groups {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+[data-board-view="kanban"] .todo__group {
+  margin-top: 1.6rem;
+  min-width: 0;
+}
+[data-board-view="kanban"] .todo__list {
+  border-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+[data-board-view="kanban"] .todo__item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  padding: .65rem .7rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: .45rem;
+}
+[data-board-view="kanban"] .todo__item:hover {
+  background: var(--surface-2);
+  border-color: var(--border-hover);
+}
+[data-board-view="kanban"] .todo__group-blurb {
+  display: none;
+}
+
+[data-board-view="list"] .todo__group.is-empty {
+  display: none;
+}
+[data-board-view="list"] .todo__item--placeholder {
+  display: none;
+}
+
+.todo__item--placeholder {
+  justify-content: center;
+  font-size: .74rem;
+  border-style: dashed;
+  background: transparent;
+}
+
+.todo__item-tasks {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  flex: none;
+}
+
+.todo__item-taskbar {
+  width: 46px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  overflow: hidden;
+  flex: none;
+}
+
+.todo__item-taskfill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--status-c, var(--muted));
+}
+
+.todo__item-taskcount {
+  font-size: .68rem;
+  color: var(--muted);
+}
+
+@media (max-width: 1100px) {
+  [data-board-view="kanban"] .todo__groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  [data-board-view="kanban"] .todo__groups {
+    grid-template-columns: 1fr;
+  }
+  [data-board-view="kanban"] .todo__group.is-empty {
+    display: none;
+  }
+  [data-board-view="kanban"] .todo__item--placeholder {
+    display: none;
+  }
+}
+.todopage__back {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  margin-bottom: .9rem;
+  font-size: .76rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+.todopage__back svg {
+  width: 14px;
+  height: 14px;
+}
+.todopage__back:hover {
+  color: var(--accent);
+}
+
+.todopage__head {
+  --status-c: var(--muted);
+  border-left: 3px solid var(--status-c);
+  padding-left: 1rem;
+  margin-left: -1rem;
+}
+
+.todopage__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: .8rem;
+}
+
+.todopage__status {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .74rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--status-c);
+}
+
+.todopage__status-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--status-c);
+}
+
+.todopage__tasks {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .74rem;
+}
+
+.todopage__taskbar {
+  width: 90px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+
+.todopage__taskfill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--status-c);
+  transition: width var(--dur) var(--ease);
+}
+
+.todopage__nav {
+  display: flex;
+  gap: .75rem;
+  margin-top: 2.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+
+.todopage__nav-link {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  padding: .6rem .75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  font-size: .74rem;
+  transition: border-color var(--dur-nav) var(--ease), background var(--dur-nav) var(--ease);
+}
+.todopage__nav-link:hover {
+  background: var(--surface-2);
+  border-color: var(--border-hover);
+}
+
+.todopage__nav-link--next {
+  text-align: right;
+}
+
+.todopage__nav-title {
+  font-size: .86rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prose .task-list-item {
+  list-style: none;
+  margin-left: -1.2em;
+}
+
+.prose .task-list-item-checkbox {
+  margin-right: .5em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .todo__view,
+  .todopage__taskfill,
+  .todopage__nav-link {
+    transition: none;
+  }
+}
+.section-index {
+  max-width: var(--measure);
+  padding: 2.4rem var(--gutter) 3rem;
+}
+
+.section-index__head {
+  margin-bottom: 1.6rem;
+}
+
+.section-index__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  letter-spacing: -.02em;
+}
+
+.section-index__lede {
+  margin: .35rem 0 0;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.section-index__count {
+  margin: .5rem 0 0;
+  font-size: .72rem;
+}
+
+.section-index__group {
+  margin-top: 2rem;
+}
+
+.section-index__group-title {
+  margin: 0 0 .5rem;
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: .75;
+}
+
+.section-index__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.section-index__item {
+  border-bottom: 1px solid var(--border);
+}
+
+.section-index__link {
+  display: block;
+  padding: .7rem .2rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--dur-nav) var(--ease);
+}
+.section-index__link:hover {
+  background: var(--surface-2);
+}
+
+.section-index__name {
+  display: block;
+  font-size: .95rem;
+  font-weight: 500;
+}
+
+.section-index__link:hover .section-index__name {
+  color: var(--accent);
+}
+
+.section-index__desc {
+  display: block;
+  margin-top: .15rem;
+  font-size: .8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.section-index__empty {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-index__link {
+    transition: none;
+  }
+}
 /* ===========================================================================
    SEARCH — one design, identical on home and docs.
    ---------------------------------------------------------------------------
