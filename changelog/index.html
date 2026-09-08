@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788883143">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788883143" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -60,7 +60,38 @@
         <path d="M12 3.5a8.5 8.5 0 0 0 0 17Z" fill="currentColor" stroke="none"/>
       </svg>
     </button>
-  </div>
+  </div><nav class="toolrail" aria-label="Tools"><a class="toolrail__item"
+       href="/directory/" title="Directory — Every page, filtered by category and tag" aria-label="Directory"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg>
+    </a><a class="toolrail__item"
+       href="/tags/" title="Tags — Narrow the library by combining tags" aria-label="Tags"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12V5.5A1.5 1.5 0 0 1 5.5 4H12l8 8-6.5 6.5z"/><circle cx="8" cy="8" r="1.2"/></svg>
+    </a><a class="toolrail__item"
+       href="/graph/" title="Graph — How pages link to one another" aria-label="Graph"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="9" r="2.2"/><circle cx="11" cy="18" r="2.2"/><path d="M8 8l8 .6M7 9.2 10 15.8M16.6 11l-4 5.4"/></svg>
+    </a><a class="toolrail__item"
+       href="/todo/" title="Todo — What's next, in progress, and shipped" aria-label="Todo"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5 6 8.5 9.5 5"/><path d="M4 17.5 6 19.5 9.5 16"/><path d="M13 7h7M13 18h7"/></svg>
+    </a><a class="toolrail__item"
+       href="/bookmarks/" title="Bookmarks — Pages saved on this device" aria-label="Bookmarks"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-4.5L6 20z"/></svg>
+    </a><a class="toolrail__item"
+       href="/settings/" title="Settings — Values filled into code blocks" aria-label="Settings"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg>
+    </a></nav>
+
 
   <div class="sidebar__body">
     <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
@@ -104,8 +135,25 @@
           <span class="brand-name">Docs</span>
         </a>
         
-      </div><div class="topbar__cluster">
-        <div class="search" data-search>
+      </div><div class="topbar__cluster"><div class="pageacts">
+          <button class="pageact" type="button" data-bookmark aria-pressed="false"
+                  title="Save this page" aria-label="Save this page"
+                  data-url="/changelog/"
+                  data-title="Changelog"
+                  data-section="Docs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 4h12v16l-6-4.5L6 20z"/>
+            </svg>
+            <span class="bookmark__label visually-hidden">Save</span>
+          </button>
+          <button class="pageact" type="button" data-ph-toggle aria-pressed="true" hidden
+                  data-ph-settings="/settings/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 6l-5 6 5 6"/><path d="M15 6l5 6-5 6"/>
+            </svg>
+            <span class="phbar__label visually-hidden">Your values</span>
+          </button>
+        </div><div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
@@ -143,12 +191,133 @@
 
     <main class="page">
       <div class="docs inset">
-  <article class="docs__content prose">
-    <header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Reference">Reference</a><h1>Changelog</h1><p class="docs__lede">Notable changes, newest first.</p>
+  <article class="docs__content prose"><header class="docs__head">
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Reference">Reference</a>
+      <h1>Changelog</h1><p class="docs__lede">Notable changes, newest first.</p>
     </header>
     
     <p>Versions use <code class="language-plaintext highlighter-rouge">yy.mm.dd</code> — the date the change shipped. Newest at the top.</p>
+
+<h2 id="260907f">26.09.07f</h2>
+
+<ul>
+  <li>The tool pages are one workspace rather than six unrelated URLs. Directory,
+Tags, Graph, Todo, Bookmarks and Settings share a layout and carry a tab
+strip listing all six with the current one marked, so arriving at any tool
+shows the way to the others.</li>
+  <li>Added a <strong>tool rail</strong> to the sidebar on every page — a single icon row under
+the brand. The tool links previously existed only on the home sidebar, so
+reaching Bookmarks or Settings from a doc page meant navigating home first.
+It sits outside the scrolling body, so it stays put however far the page list
+below it scrolls.</li>
+  <li>Icons rather than a labelled list in the rail: seven labelled rows would have
+pushed a section’s page list off screen. The labels live on the tab strip,
+with a title and an accessible name on each icon.</li>
+  <li>Both are generated from <code class="language-plaintext highlighter-rouge">_data/tools.yml</code>, so the rail and the strip cannot
+list different things.</li>
+  <li>On narrow screens the tab labels drop away and only the active tab keeps
+its label, so all six stay reachable without horizontal scrolling.</li>
+</ul>
+
+<h2 id="260907e">26.09.07e</h2>
+
+<ul>
+  <li>Settings rows are one line again. The key and its page-count collapsible sit
+in a two-column grid rather than stacking, so an expandable list no longer
+costs a second line on every row whether it is opened or not. Expanding still
+grows the list under its own summary.</li>
+  <li>Dropped the key background tint — with 48 rows it read as a wall of chips.
+The mono face and accent colour already mark it as a key.</li>
+  <li>Dropped the per-row “credential” tag. The section’s left border says it once;
+repeating the word on all nine rows was noise.</li>
+  <li>Moved the sort control into the header of the column it sorts, which was
+otherwise costing a whole row to say one word. Rendered transparent and
+unbordered so the header still reads as a header.</li>
+</ul>
+
+<h2 id="260907d">26.09.07d</h2>
+
+<ul>
+  <li>Moved the Save and values/placeholders controls into the sticky topbar, as
+icons. They stay reachable at any scroll position and cost the same width on
+a phone as on a desktop. Each keeps a visually-hidden label and a title, so
+the icon is never the only cue.</li>
+  <li><strong>Credentials are now listed</strong>, in their own section, instead of being hidden
+from the form. Excluding them meant the tedious half of the job stayed
+tedious. They are handled differently rather than refused: a credential is
+never written into the page — the block keeps showing <code class="language-plaintext highlighter-rouge">&lt;TUNNEL_TOKEN&gt;</code> — and
+the real value is inserted only when Copy is pressed, so it reaches the
+clipboard and nothing else. Not the screen, not a screenshot, not a shared
+window. They are excluded from export, and can be set to clear when the tab
+closes.</li>
+  <li>Settings columns are Key and Value; keys lost their angle brackets and are
+styled as keys. Clear is an icon inside the field, with a reveal toggle
+beside it on credential rows.</li>
+  <li>Each key lists the pages using it, collapsed by default.</li>
+  <li>Added sorting: most used, A→Z, or filled first.</li>
+  <li>Stored values are obfuscated at rest — XOR against a fixed pad, then base64 —
+so the blob is not a legible key list at a glance. This is deliberately not
+encryption and is not claimed to be; anything with access to this origin can
+still decode it. Existing plain values are read once and re-saved obfuscated.</li>
+</ul>
+
+<h2 id="260907c">26.09.07c</h2>
+
+<ul>
+  <li>Made placeholders discoverable. Substitution worked, but nothing on a page
+said the feature existed until a value was already set — so an untouched site
+looked identical to a broken one. An unset <code class="language-plaintext highlighter-rouge">&lt;PLACEHOLDER&gt;</code> is now a link:
+clicking it opens Settings scrolled to that exact row with the cursor in the
+field. Filled ones lose the dashed underline and read as content.</li>
+  <li>Every token carries a title explaining its state — no value set, showing your
+value, or showing the placeholder because the toggle is off.</li>
+  <li>The values/placeholders toggle is hidden on pages that contain no
+placeholders, instead of sitting there doing nothing.</li>
+  <li>Guarded <code class="language-plaintext highlighter-rouge">scrollIntoView</code>: where it is unimplemented the throw was caught by
+the fetch handler’s own catch, which then rendered the settings form with
+zero rows.</li>
+</ul>
+
+<h2 id="260907b">26.09.07b</h2>
+
+<ul>
+  <li>Added <strong>Referenced by</strong> to the foot of every page with inbound links — the
+reverse of the wiki-links already written by hand. Writing <code class="language-plaintext highlighter-rouge">[[Docker Swarm]]</code>
+on the Compose page said nothing when standing on the Swarm page; it now
+lists all five pages pointing at it. Build-time, no plugin, no new front
+matter. 24 of 46 pages show one. Matching accepts the raw token, the
+<code class="language-plaintext highlighter-rouge">section/slug</code> form, and the rendered anchor, so the result does not depend
+on build order.</li>
+  <li>Added <strong>placeholder values</strong>. <code class="language-plaintext highlighter-rouge">/settings/</code> lists every <code class="language-plaintext highlighter-rouge">&lt;PLACEHOLDER&gt;</code> used
+in the docs — discovered at build time and ordered by how often it appears,
+so the form arrives filled in rather than empty — and any value entered is
+substituted into code blocks across the site. Stored in localStorage on the
+device; nothing is sent anywhere.</li>
+  <li>Every code block gained a copy button, revealed on hover or keyboard focus.
+It copies exactly what is on screen, so a filled command copies filled.</li>
+  <li>A toggle in the page header switches code blocks between stored values and
+raw placeholders, for reading the docs as written.</li>
+  <li>Secret-shaped names (<code class="language-plaintext highlighter-rouge">TOKEN</code>, <code class="language-plaintext highlighter-rouge">SECRET</code>, <code class="language-plaintext highlighter-rouge">KEY</code>, <code class="language-plaintext highlighter-rouge">PASSWORD</code>, <code class="language-plaintext highlighter-rouge">CREDENTIAL</code>,
+<code class="language-plaintext highlighter-rouge">PRIVATE</code>, <code class="language-plaintext highlighter-rouge">AUTH</code>) are excluded from discovery, so a live credential cannot
+be stored through this system even deliberately. Commands needing one show a
+shell variable such as <code class="language-plaintext highlighter-rouge">"$TUNNEL_TOKEN"</code> instead.</li>
+  <li>Bookmarks: Export and Remove all are disabled while the store is empty.
+Import stays enabled — restoring into an empty store is its main use.</li>
+</ul>
+
+<h2 id="260907">26.09.07</h2>
+
+<ul>
+  <li>Added bookmarks. A Save toggle in each page header, a manager at
+<code class="language-plaintext highlighter-rouge">/bookmarks/</code>, and JSON import/export. Everything is one key in
+localStorage: no account, no network, no sync, and clearing site data clears
+it. Every storage call is guarded, so private mode or a full quota degrades
+to “bookmarks do not work” rather than a broken page.</li>
+  <li>The manager builds its list with DOM methods rather than an HTML string, and
+import merges instead of replacing while rejecting any URL that is not a
+same-origin relative path. Titles and URLs in the store are user-editable and
+importable, so they are treated as untrusted input.</li>
+</ul>
 
 <h2 id="260906e">26.09.06e</h2>
 
@@ -1064,7 +1233,8 @@ between a hamburger and an X.</li>
 client-side search, left-anchored layout.</li>
 </ul>
 
-</article>
+
+  </article>
 </div>
 
 <footer class="docfoot inset">
@@ -1086,9 +1256,10 @@ client-side search, left-anchored layout.</li>
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788689264" defer></script>
-  <script src="/assets/js/search.js?v=1788689264" defer></script>
-  <script src="/assets/js/activity.js?v=1788689264" defer></script>
-  <script src="/assets/js/stars.js?v=1788689264" defer></script>
+  <script src="/assets/js/app.js?v=1788883143" defer></script>
+  <script src="/assets/js/search.js?v=1788883143" defer></script><script src="/assets/js/bookmarks.js?v=1788883143" defer></script>
+  <script src="/assets/js/placeholders.js?v=1788883143" defer></script>
+  <script src="/assets/js/activity.js?v=1788883143" defer></script>
+  <script src="/assets/js/stars.js?v=1788883143" defer></script>
 </body>
 </html>

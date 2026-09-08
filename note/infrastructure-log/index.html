@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788689264">
-  <script>window.SITE = { searchUrl: "/search.json?v=1788689264" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1788883143">
+  <script>window.SITE = { searchUrl: "/search.json?v=1788883143" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -60,7 +60,38 @@
         <path d="M12 3.5a8.5 8.5 0 0 0 0 17Z" fill="currentColor" stroke="none"/>
       </svg>
     </button>
-  </div>
+  </div><nav class="toolrail" aria-label="Tools"><a class="toolrail__item"
+       href="/directory/" title="Directory — Every page, filtered by category and tag" aria-label="Directory"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg>
+    </a><a class="toolrail__item"
+       href="/tags/" title="Tags — Narrow the library by combining tags" aria-label="Tags"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12V5.5A1.5 1.5 0 0 1 5.5 4H12l8 8-6.5 6.5z"/><circle cx="8" cy="8" r="1.2"/></svg>
+    </a><a class="toolrail__item"
+       href="/graph/" title="Graph — How pages link to one another" aria-label="Graph"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="9" r="2.2"/><circle cx="11" cy="18" r="2.2"/><path d="M8 8l8 .6M7 9.2 10 15.8M16.6 11l-4 5.4"/></svg>
+    </a><a class="toolrail__item"
+       href="/todo/" title="Todo — What's next, in progress, and shipped" aria-label="Todo"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5 6 8.5 9.5 5"/><path d="M4 17.5 6 19.5 9.5 16"/><path d="M13 7h7M13 18h7"/></svg>
+    </a><a class="toolrail__item"
+       href="/bookmarks/" title="Bookmarks — Pages saved on this device" aria-label="Bookmarks"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-4.5L6 20z"/></svg>
+    </a><a class="toolrail__item"
+       href="/settings/" title="Settings — Values filled into code blocks" aria-label="Settings"
+       >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/></svg>
+    </a></nav>
+
 
   <div class="sidebar__body">
     <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
@@ -96,8 +127,25 @@
           <span class="brand-name">Notes</span>
         </a>
         
-      </div><div class="topbar__cluster">
-        <div class="search" data-search>
+      </div><div class="topbar__cluster"><div class="pageacts">
+          <button class="pageact" type="button" data-bookmark aria-pressed="false"
+                  title="Save this page" aria-label="Save this page"
+                  data-url="/note/infrastructure-log/"
+                  data-title="Infrastructure log"
+                  data-section="Notes">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 4h12v16l-6-4.5L6 20z"/>
+            </svg>
+            <span class="bookmark__label visually-hidden">Save</span>
+          </button>
+          <button class="pageact" type="button" data-ph-toggle aria-pressed="true" hidden
+                  data-ph-settings="/settings/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 6l-5 6 5 6"/><path d="M15 6l5 6-5 6"/>
+            </svg>
+            <span class="phbar__label visually-hidden">Your values</span>
+          </button>
+        </div><div class="search" data-search>
   <div class="search__bar">
     <button type="button" class="search__toggle" data-search-toggle aria-label="Search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
@@ -135,9 +183,9 @@
 
     <main class="page">
       <div class="docs inset">
-  <article class="docs__content prose">
-    <header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Notes">Notes</a><h1>Infrastructure log</h1><p class="docs__lede">Dated record of infrastructure changes.</p>
+  <article class="docs__content prose"><header class="docs__head">
+      <a class="eyebrow mono accent docs__category" href="/directory/#category=Notes">Notes</a>
+      <h1>Infrastructure log</h1><p class="docs__lede">Dated record of infrastructure changes.</p>
     </header>
     
     <p>Newest first. Forward-looking work lives on the <a href="/todo/">Todo board</a>, not here.</p>
@@ -163,7 +211,8 @@ this date.</p>
 <code class="language-plaintext highlighter-rouge">tearsgospel.com</code>, <code class="language-plaintext highlighter-rouge">nahnuai.com</code>. Status in <a class="wikilink" href="/todo/domains/">Domain names</a>.</p>
 
 <footer class="docs__tags" aria-label="Tags">
-      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=log">log</a><a class="docs__tag mono" href="/directory/#tag=infrastructure">infrastructure</a><a class="docs__tag mono" href="/directory/#tag=history">history</a></footer></article>
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=log">log</a><a class="docs__tag mono" href="/directory/#tag=infrastructure">infrastructure</a><a class="docs__tag mono" href="/directory/#tag=history">history</a></footer>
+  </article>
 </div>
 
 <footer class="docfoot inset">
@@ -185,9 +234,10 @@ this date.</p>
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1788689264" defer></script>
-  <script src="/assets/js/search.js?v=1788689264" defer></script>
-  <script src="/assets/js/activity.js?v=1788689264" defer></script>
-  <script src="/assets/js/stars.js?v=1788689264" defer></script>
+  <script src="/assets/js/app.js?v=1788883143" defer></script>
+  <script src="/assets/js/search.js?v=1788883143" defer></script><script src="/assets/js/bookmarks.js?v=1788883143" defer></script>
+  <script src="/assets/js/placeholders.js?v=1788883143" defer></script>
+  <script src="/assets/js/activity.js?v=1788883143" defer></script>
+  <script src="/assets/js/stars.js?v=1788883143" defer></script>
 </body>
 </html>
