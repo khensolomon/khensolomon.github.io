@@ -17,6 +17,11 @@
   --accent-hover:#2c49c0;
   /* a touch darker for hover on accent fills */
   --accent-soft: #3457e01a;
+  /* The scrim behind the open search panel. A token rather than a hardcoded
+     rgba with an opacity multiplier: the two dim layers (page and topbar) have
+     to agree exactly or the seam between them shows, and the right strength
+     differs per theme — a dark UI needs a heavier veil to read as dimmed. */
+  --scrim: rgba(20, 22, 28, .07);
   --shadow: 0 1px 2px rgba(20,22,28,.04), 0 8px 30px rgba(20,22,28,.06);
   /* status — Todo board + the page-header pill. Four states, deliberately
      desaturated so a board full of them stays calm next to the accent. */
@@ -45,6 +50,8 @@
      matches it so borders align   */
   --radius: 14px;
   --radius-sm: 9px;
+  --radius-xs: 5px;
+  /* chips, badges — boxes too small for 9px to read */
   --radius-btn: 8px;
   /* shared by theme toggle, menu button, search input */
   --btn: 35px;
@@ -76,6 +83,7 @@
   --accent-hover:#9ab6ff;
   /* lighter for hover on accent fills (dark) */
   --accent-soft: #7aa0ff1f;
+  --scrim: rgba(0, 0, 0, .28);
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 40px rgba(0,0,0,.5);
   --status-active: #3ddc84;
   --status-planned: #8b919c;
@@ -151,6 +159,72 @@ a {
   padding-inline: var(--gutter);
 }
 
+/* --- thin scrollbars -----------------------------------------------------
+   For panes that scroll inside the page (the search chip strip, the search
+   result list). Deliberately minimal: no track, no arrow buttons, and the
+   thumb only appears on hover or while the pane has keyboard focus, so a
+   resting panel shows no furniture.
+
+   The thumb is transparent rather than absent when idle: keeping the scrollbar
+   present at a fixed width means revealing it does not reflow the content,
+   which is what a `display: none` to `block` swap would do.
+
+   Firefox reserves a hairline for `scrollbar-width: thin`; WebKit takes the
+   declared 6px from the pane. Both are accounted for in the padding of the
+   panes that use this. */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scroll-thin:hover,
+.scroll-thin:focus-within {
+  scrollbar-color: var(--border-hover) transparent;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-thin::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.scroll-thin::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: transparent;
+  /* Inset by a transparent border so the thumb reads as a slim overlay pill
+     rather than filling the full track width. */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+  transition: background-color .15s;
+}
+
+.scroll-thin:hover::-webkit-scrollbar-thumb,
+.scroll-thin:focus-within::-webkit-scrollbar-thumb {
+  background-color: var(--border-hover);
+}
+
+.scroll-thin::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-thin::-webkit-scrollbar-thumb {
+    transition: none;
+  }
+}
 /* ===========================================================================
    SHELL + SIDEBAR PUSH
    ---------------------------------------------------------------------------
@@ -280,6 +354,7 @@ body[data-nav="open"] .sidebar {
    one column of text rather than a bulleted list.                          */
 .sidebar__nav {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: .05rem;
 }
 
@@ -313,9 +388,11 @@ body[data-nav="open"] .sidebar {
 
 .sidebar__link-text {
   min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.3;
 }
 
 .sidebar__link:hover {
@@ -325,41 +402,24 @@ body[data-nav="open"] .sidebar {
 
 .sidebar__link.is-active {
   color: var(--text);
-  font-weight: 650;
+  text-shadow: .3px 0 0 currentColor;
 }
 
 .sidebar__link.is-active::before {
   height: 1.05rem;
 }
 
-/* --- bold the active item WITHOUT reflow ---------------------------------
-   Weighting only the active item is what makes it stand out — weighting every
-   item highlights nothing. But bold glyphs are wider, so the label visibly
-   re-flows each time the active page changes.
+/* --- marking the active item without reflow ------------------------------
+   Weighting only the active item is what makes it stand out, but bold glyphs
+   are wider, so a real font-weight change re-flows the label every time the
+   active page moves.
 
-   The fix is to reserve the bold width up front. Every label carries its own
-   text in data-text, and a zero-height hidden copy of it is rendered at the
-   bold weight inside the same box. That copy contributes its width to the
-   element's intrinsic size but nothing to its height, so the box is always as
-   wide as the bold version and toggling the visible weight moves nothing.
-
-   Long labels that already ellipse are unaffected: they are constrained by the
-   column, not by their content, so there is no width to reserve. */
-.sidebar__link-text::after,
-.sidebar-sect__page::after {
-  content: attr(data-text);
-  display: block;
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-  font-weight: 650;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Overview sits above the page list and points at a section index that is a
-   real page. Separated by space, not a rule — one less line in a narrow
-   column. */
+   A text-shadow offset by a fraction of a pixel thickens the strokes while
+   leaving every metric untouched — no reflow, and nothing to reserve. The
+   previous approach rendered a hidden bold copy inside the label to reserve
+   its width; that copy was a block-level child, which silently disabled
+   `text-overflow: ellipsis` on the label and is why long titles were being
+   chopped mid-word instead of truncating.                                  */
 .sidebar__link--overview {
   margin-bottom: .35rem;
 }
@@ -390,9 +450,19 @@ body[data-nav="open"] .sidebar {
   }
 }
 /* --- home sidebar: collapsible section groups (native <details>) --------- */
+/* minmax(0, 1fr), not the implicit 1fr: a grid item's default min-width is
+   auto, which means it refuses to shrink below its content. The section rows
+   were therefore as wide as their longest blurb and overflowed the sidebar,
+   so the text was clipped by the panel edge rather than truncating in its own
+   box — no ellipsis, just a hard cut. */
 .sidebar__sections {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: .1rem;
+}
+
+.sidebar-sect, .sidebar-sect__summary, .sidebar-sect__pages {
+  min-width: 0;
 }
 
 .sidebar-sect {
@@ -421,8 +491,8 @@ body[data-nav="open"] .sidebar {
 
 /* chevron leads the row (file-tree style), rotates down when open */
 .sidebar-sect__chevron {
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
   flex-shrink: 0;
   color: var(--muted);
   transition: transform 0.2s var(--ease);
@@ -440,14 +510,19 @@ body[data-nav="open"] .sidebar {
   flex: 1;
 }
 
+/* Lighter and a step smaller than before. With a topbar carrying the brand,
+   search and the tools popover, a heavy 1rem label in the sidebar competed
+   with chrome that already outranks it — the sidebar is a list to scan, not a
+   set of headings to read. */
 .sidebar-sect__label {
   color: var(--text);
-  line-height: 1.2;
-  font-weight: 550;
+  line-height: 1.25;
+  font-weight: 500;
+  font-size: .82rem;
 }
 
 .sidebar-sect__blurb {
-  font-size: .72rem;
+  font-size: .68rem;
   color: var(--muted);
   line-height: 1.2;
   white-space: nowrap;
@@ -461,6 +536,7 @@ body[data-nav="open"] .sidebar {
    (summary padding .55rem + half the 15px chevron ≈ 1rem from the edge). */
 .sidebar-sect__pages {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: .05rem;
   margin-left: 1rem;
   /* rail position = chevron centre */
@@ -471,6 +547,7 @@ body[data-nav="open"] .sidebar {
 .sidebar-sect__page,
 .sidebar-sect__more {
   position: relative;
+  font-weight: 400;
   /* The connector tick lives INSIDE the box as left padding rather than in a
      negative margin outside it. Truncating long titles needs overflow:hidden,
      which would clip anything drawn outside the box — the ticks vanished. */
@@ -502,7 +579,7 @@ body[data-nav="open"] .sidebar {
 .sidebar-sect__page.is-active {
   color: var(--text);
   background: var(--accent-soft);
-  font-weight: 650;
+  text-shadow: .3px 0 0 currentColor;
 }
 
 /* the active item's connector + a segment of rail glow in the accent */
@@ -598,13 +675,23 @@ body[data-nav="open"] .sidebar {
 
 .sidebar-sect__label,
 .sidebar-sect__blurb,
-.sidebar-sect__page,
 .sidebar__group,
 .sidebar__fixed-label {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Page titles get two lines before truncating — they are the one label here
+   whose tail carries meaning. */
+.sidebar-sect__page {
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.35;
 }
 
 .sidebar__fixed-item {
@@ -616,49 +703,6 @@ body[data-nav="open"] .sidebar {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* --- tool rail -----------------------------------------------------------
-   Icon row under the brand, on every page. Previously the tool links only
-   existed on the home sidebar, so reaching Bookmarks or Settings from a doc
-   page meant navigating home first.
-
-   Outside .sidebar__body on purpose: it must not scroll away with a long page
-   list. Icons rather than labels so it costs one row instead of seven and
-   leaves the section list room to breathe — labels live on the tab strip at
-   the top of each tool page. */
-.toolrail {
-  display: flex;
-  gap: 2px;
-  padding: .35rem .55rem .5rem;
-  margin: 0 .25rem;
-  border-bottom: 1px solid var(--border);
-  flex: none;
-}
-
-.toolrail__item {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1 1 0;
-  /* share the width evenly at any sidebar size */
-  min-width: 0;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  color: var(--muted);
-  transition: color .15s, background .15s;
-}
-.toolrail__item svg {
-  width: 16px;
-  height: 16px;
-}
-.toolrail__item:hover {
-  color: var(--text);
-  background: var(--surface-2);
-}
-.toolrail__item.is-active {
-  color: var(--accent);
-  background: var(--accent-soft);
 }
 
 /* ===========================================================================
@@ -2156,7 +2200,7 @@ body[data-nav="open"] .navbtn:hover .navbtn__icon {
   background: var(--accent);
 }
 
-/* label: the primary meaning — the thing you filter by. */
+/* label: the primary meaning — the thing filtered by. */
 .directory__chip-label {
   font-weight: 450;
   line-height: 1;
@@ -3370,46 +3414,94 @@ pre.has-copy:hover .copybtn,
   fill: currentColor;
 }
 
-.pageact[data-ph-toggle][aria-pressed="false"] {
-  opacity: .55;
+/* The values toggle reads its state the same way the Save button does — a
+   filled accent chip when on — instead of a dimmed icon that looked disabled
+   rather than off. Off adds a slash across the icon so the two states differ
+   in shape, not only in colour. */
+.pageact[data-ph-toggle] {
+  position: relative;
+}
+
+.pageact[data-ph-toggle][aria-pressed="false"]::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 50%;
+  height: 1.5px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  opacity: .8;
 }
 
 .phsort {
   display: inline-flex;
   align-items: center;
-  gap: .3rem;
-  cursor: pointer;
+  gap: .4rem;
+  min-width: 0;
 }
 
 .phsort__label {
-  pointer-events: none;
+  flex: none;
 }
 
-.phsort select {
-  padding: 0 .2rem;
+/* Custom trigger; the real select sits on top of it, invisible, so the platform
+   still owns the menu. */
+.phsort__control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  max-width: 100%;
+  padding: .1rem .3rem;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
-  background: transparent;
   color: var(--muted);
-  font: inherit;
-  font-size: .64rem;
-  letter-spacing: .04em;
-  text-transform: uppercase;
   cursor: pointer;
 }
-.phsort select:hover {
+.phsort__control:hover {
   border-color: var(--border);
   color: var(--text);
 }
-.phsort select:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
+.phsort__control:focus-within {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.phsort__icon {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+
+.phsort__value {
+  font-size: .64rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phsort select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .phform {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  /* The rule belongs to the ROW, not to each cell. Per-cell borders meant the
+     two columns drew their own line at their own content height, so an
+     expanded key cell left the two halves of the rule at different heights. */
 }
 .phform th {
   text-align: left;
@@ -3427,11 +3519,13 @@ pre.has-copy:hover .copybtn,
 }
 .phform td {
   padding: .35rem .5rem .35rem 0;
-  border-bottom: 1px solid var(--border);
   vertical-align: top;
 }
 .phform td:last-child {
   padding-right: 0;
+}
+.phform tbody tr {
+  border-bottom: 1px solid var(--border);
 }
 
 .phform__loading {
@@ -3441,10 +3535,6 @@ pre.has-copy:hover .copybtn,
 
 .phrow__keycell {
   padding-top: .5rem !important;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: .45rem;
-  align-items: baseline;
 }
 
 .phrow__key {
@@ -3452,6 +3542,19 @@ pre.has-copy:hover .copybtn,
   font-size: .8rem;
   color: var(--accent);
   word-break: break-all;
+}
+
+/* Use count as a superscript badge on the key itself. */
+.phrow__count {
+  margin-left: .15rem;
+  font-family: var(--font-mono);
+  font-size: .58rem;
+  color: var(--muted);
+  vertical-align: super;
+  line-height: 0;
+}
+.phrow__count.is-zero {
+  opacity: .45;
 }
 
 .phrow.is-target td {
@@ -3465,36 +3568,52 @@ pre.has-copy:hover .copybtn,
 .phuses__summary {
   cursor: pointer;
   list-style: none;
-  font-size: .66rem;
-  color: var(--muted);
-  opacity: .8;
+  display: inline-flex;
+  align-items: baseline;
 }
 .phuses__summary::-webkit-details-marker {
   display: none;
 }
 .phuses__summary::before {
-  content: "▸ ";
+  content: "▸";
+  margin-right: .25rem;
+  font-size: .6rem;
+  color: var(--muted);
+  opacity: .6;
 }
-.phuses__summary:hover {
-  color: var(--text);
+.phuses__summary:hover .phrow__key {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .phuses[open] .phuses__summary::before {
-  content: "▾ ";
+  content: "▾";
 }
 
 .phuses__list {
+  counter-reset: phuse;
   list-style: none;
-  margin: .25rem 0 .2rem;
-  padding: 0 0 0 .8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .15rem .5rem;
+  margin: .3rem 0 .25rem;
+  padding: 0 0 0 .9rem;
   border-left: 1px solid var(--border);
-  display: grid;
-  gap: .1rem;
+}
+.phuses__list li {
+  counter-increment: phuse;
+  min-width: 0;
 }
 .phuses__list a {
-  font-size: .72rem;
+  font-size: .71rem;
   color: var(--muted);
   text-decoration: none;
+  white-space: nowrap;
+}
+.phuses__list a::before {
+  content: counter(phuse) ".";
+  margin-right: .2rem;
+  opacity: .55;
 }
 .phuses__list a:hover {
   color: var(--accent);
@@ -3654,11 +3773,21 @@ pre.has-copy:hover .copybtn,
 
 @media (max-width: 620px) {
   .phform th:first-child {
-    width: 38%;
+    width: 44%;
   }
 
   .phrow__key {
     font-size: .74rem;
+  }
+
+  /* Icon only. The chosen order is visible in the rows themselves, and a
+     wrapped two-word label was overrunning the VALUE column. */
+  .phsort__value {
+    display: none;
+  }
+
+  .phsort__control {
+    padding: .15rem .25rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -3666,68 +3795,352 @@ pre.has-copy:hover .copybtn,
     transition: none;
   }
 }
-.toolbar {
+.contextbar {
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
 
-.toolbar__inner {
+.contextbar__inner {
   display: flex;
-  gap: .15rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   max-width: 76rem;
   margin: 0 auto;
   padding: 0.4rem var(--gutter);
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.toolbar__inner::-webkit-scrollbar {
-  display: none;
+  min-height: 2.1rem;
 }
 
-.toolbar__tab {
-  display: inline-flex;
+.contextbar__crumbs {
+  display: flex;
   align-items: center;
-  gap: .35rem;
-  flex: none;
-  padding: .3rem .6rem;
-  border-radius: var(--radius-btn);
+  flex-wrap: wrap;
+  gap: .3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  font-size: .76rem;
+}
+.contextbar__crumbs li {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  min-width: 0;
+}
+.contextbar__crumbs li + li::before {
+  content: "/";
+  color: var(--border-hover);
+}
+.contextbar__crumbs a {
   color: var(--muted);
   text-decoration: none;
-  font-size: .8rem;
-  white-space: nowrap;
-  transition: color var(--dur-nav) var(--ease), background var(--dur-nav) var(--ease);
 }
-.toolbar__tab svg {
-  width: 15px;
-  height: 15px;
+.contextbar__crumbs a:hover {
+  color: var(--accent);
+}
+.contextbar__crumbs li[aria-current] {
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contextbar__blurb {
+  margin: 0;
+  font-size: .72rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   flex: none;
 }
-.toolbar__tab:hover {
+
+.contextbar__steps {
+  display: flex;
+  align-items: center;
+  gap: .15rem;
+  flex: none;
+}
+
+.contextbar__step {
+  display: inline-flex;
+  align-items: center;
+  gap: .2rem;
+  max-width: 11rem;
+  padding: .2rem .4rem;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .74rem;
+  transition: color var(--dur-nav) var(--ease), background var(--dur-nav) var(--ease);
+}
+.contextbar__step svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+.contextbar__step span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.contextbar__step:hover {
   color: var(--text);
   background: var(--surface-2);
 }
-.toolbar__tab.is-active {
-  color: var(--accent);
-  background: var(--accent-soft);
-  font-weight: 550;
-}
 
-@media (max-width: 620px) {
-  .toolbar__tab span {
+@media (max-width: 720px) {
+  .contextbar__step span {
     display: none;
   }
 
-  .toolbar__tab.is-active span {
-    display: inline;
+  .contextbar__step {
+    max-width: none;
   }
 
-  .toolbar__tab {
-    padding: .35rem .55rem;
+  .contextbar__blurb {
+    display: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .toolrail__item, .toolbar__tab {
+  .contextbar__step {
     transition: none;
+  }
+}
+.toolmenu {
+  position: relative;
+  flex: none;
+}
+
+.toolmenu__panel {
+  position: absolute;
+  top: calc(100% + .45rem);
+  right: 0;
+  z-index: 5;
+  width: 16.5rem;
+  padding: .35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.toolmenu__panel[hidden] {
+  display: none;
+}
+
+.toolmenu__panel::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 11px;
+  width: 9px;
+  height: 9px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+
+.toolmenu__title {
+  margin: .2rem .45rem .35rem;
+  font-size: .62rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: .7;
+}
+
+.toolmenu__item {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  padding: .4rem .45rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--dur-nav) var(--ease);
+}
+.toolmenu__item:hover {
+  background: var(--surface-2);
+}
+.toolmenu__item.is-active {
+  background: var(--accent-soft);
+}
+.toolmenu__item.is-active .toolmenu__label {
+  color: var(--accent);
+}
+
+.toolmenu__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  margin-top: 1px;
+  color: var(--muted);
+}
+.toolmenu__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.toolmenu__item:hover .toolmenu__icon,
+.toolmenu__item.is-active .toolmenu__icon {
+  color: var(--accent);
+}
+
+.toolmenu__text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolmenu__label {
+  font-size: .84rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.toolmenu__blurb {
+  font-size: .7rem;
+  color: var(--muted);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toolmenu.is-open .toolmenu__btn {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+@media (max-width: 560px) {
+  .toolmenu__panel {
+    position: fixed;
+    top: var(--topbar-h);
+    left: 0;
+    right: 0;
+    width: auto;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: .4rem .5rem .6rem;
+  }
+
+  .toolmenu__panel::before {
+    display: none;
+  }
+
+  .toolmenu__blurb {
+    white-space: normal;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toolmenu__item {
+    transition: none;
+  }
+}
+mark.hit {
+  background: var(--accent-soft);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 .1em;
+}
+
+mark.hit.is-current {
+  background: var(--accent);
+  color: var(--surface);
+}
+
+.hitbar {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  max-width: calc(100vw - 2rem);
+  padding: .3rem .35rem .3rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.hitbar__term {
+  font-size: .76rem;
+  font-weight: 500;
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hitbar__count {
+  font-size: .68rem;
+  color: var(--muted);
+  flex: none;
+}
+
+.hitbar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.hitbar__btn svg {
+  width: 14px;
+  height: 14px;
+}
+.hitbar__btn:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+@media (max-width: 560px) {
+  .hitbar {
+    left: 1rem;
+    right: 1rem;
+    justify-content: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  mark.hit {
+    scroll-behavior: auto;
+  }
+}
+/* The tools glyph leans in a little on hover — the one control that opens a
+   menu rather than performing an action, so it can afford to feel alive. */
+.toolmenu__glyph {
+  transition: transform var(--dur-nav) var(--ease);
+}
+
+.toolmenu__btn:hover .toolmenu__glyph {
+  transform: scale(1.08);
+}
+
+.toolmenu.is-open .toolmenu__glyph {
+  transform: rotate(45deg) scale(0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolmenu__glyph {
+    transition: none;
+  }
+
+  .toolmenu.is-open .toolmenu__glyph {
+    transform: none;
   }
 }
 /* ===========================================================================
@@ -3758,16 +4171,25 @@ elevation and would still be painted over */
   height: var(--btn);
   width: clamp(13rem, 26vw, 28rem);
   /* fluid: grows with the viewport */
-  padding-left: .5rem;
-  background: var(--surface);
-  /* SAME colour as the results panel */
-  border: 1px solid var(--border);
+  padding-left: .55rem;
+  /* Recessed rather than outlined. A bordered white box in a white topbar
+     reads as a form control bolted on; a soft filled well reads as part of the
+     bar, and lifts to a real surface only once it is focused. */
+  background: var(--surface-2);
+  border: 1px solid transparent;
   border-radius: var(--radius-btn);
-  transition: border-color .2s, box-shadow .2s;
+  transition: background 0.18s var(--ease), border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
 }
 
 .search__bar:hover {
-  border-color: var(--border-hover);
+  background: var(--surface-3);
+}
+
+.search:focus-within .search__bar,
+.search.has-results .search__bar {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow);
 }
 
 .search__bar:focus-within {
@@ -3828,7 +4250,7 @@ elevation and would still be painted over */
   }
 }
 .search__hint kbd {
-  padding: .08rem .4rem;
+  padding: .1rem .4rem;
   font-family: var(--font-mono);
   line-height: 1.35;
   color: var(--muted);
@@ -3837,13 +4259,8 @@ elevation and would still be painted over */
   border-radius: 4px;
 }
 
-.search__hint-sep {
-  font-size: .68rem;
-}
-
-.search__hint-plus {
-  font-size: .68rem;
-  margin: 0 -.05rem;
+.search__hint-sep, .search__hint-plus {
+  display: none;
 }
 
 .search__bar:focus-within .search__hint,
@@ -3863,7 +4280,8 @@ elevation and would still be painted over */
   height: 100%;
   padding: 0 .7rem 0 .2rem;
   color: var(--text);
-  background: var(--surface);
+  background: transparent;
+  /* the bar carries the fill now */
   border: none;
   border-radius: inherit;
 }
@@ -3879,31 +4297,18 @@ elevation and would still be painted over */
 /* --- results panel: joins the bar into one box --------------------------- */
 .search__panel {
   position: absolute;
-  top: 100%;
-  /* touches the bar — no gap, no overlap */
+  /* A small gap instead of welding the panel to the bar. The joined shape made
+     the two read as one tall control; separated, the bar stays a field and the
+     panel is clearly a result surface floating over the page. */
+  top: calc(100% + .4rem);
   left: 0;
   right: 0;
-  /* exactly the bar's width */
   background: var(--surface);
-  /* SAME colour as the bar */
-  border: 1px solid var(--border-hover);
-  border-top: none;
-  /* the bar's bottom edge is the divider */
-  border-radius: 0 0 var(--radius-btn) var(--radius-btn);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   box-shadow: var(--shadow);
   overflow: hidden;
   z-index: 60;
-}
-
-/* active: bar + panel read as a single continuous, shadowed box — the top of
-   the panel and the bottom of the bar are flat where they meet, the outer
-   corners stay round, and the shadow wraps the whole thing (the seam sits
-   hidden between the two opaque surfaces). */
-.search.has-results .search__bar {
-  border-color: var(--border-hover);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  box-shadow: var(--shadow);
 }
 
 /* --- result rows --------------------------------------------------------- */
@@ -3919,17 +4324,72 @@ elevation and would still be painted over */
   border-radius: var(--radius-sm);
 }
 
+/* Same rhythm as the tools menu: a leading mark, a strong label, a muted
+   second line. The mark is the section badge from _data/sections.yml. */
+.search__results {
+  padding: .25rem;
+}
+
 .search__results a {
-  display: block;
-  padding: .6rem .7rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  padding: .5rem .55rem;
+  border-radius: var(--radius-sm);
 }
 
 .search__results a:hover, .search__results a.is-focused {
   background: var(--surface-2);
 }
 
+.search__badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: var(--radius-xs);
+  background: var(--surface-3);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  text-transform: uppercase;
+}
+
+.search__results a:hover .search__badge,
+.search__results a.is-focused .search__badge {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.search__rbody {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .search__rtitle {
   font-weight: 550;
+  font-size: .88rem;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Page › Heading. The page name stays dominant so a result still reads as
+   "which document", with the section as the qualifier. */
+.search__rsep {
+  margin: 0 .3rem;
+  color: var(--border-hover);
+  font-weight: 400;
+}
+
+.search__rhead {
+  font-weight: 400;
+  color: var(--muted);
 }
 
 .search__rcat {
@@ -3940,8 +4400,9 @@ elevation and would still be painted over */
 
 .search__rsnip {
   color: var(--muted);
-  font-size: .85rem;
-  margin-top: .15rem;
+  font-size: .78rem;
+  margin-top: .1rem;
+  line-height: 1.45;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -4088,7 +4549,7 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: 55;
-  background: rgba(10, 12, 16, 0.4);
+  background: var(--scrim);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s var(--ease);
@@ -4098,14 +4559,118 @@ body.search-dim::before {
   opacity: 1;
 }
 
-/* the search box's own siblings within the topbar (brand, nav button, theme
-   toggle) — everything in the header EXCEPT the search box itself */
-body.search-dim .topbar__cluster > :not(.search) {
-  opacity: .4;
+/* The page dim cannot reach the topbar: the topbar sits at a higher z-index,
+   so while everything else darkened it stayed lit and looked like the selected
+   thing. It gets its own overlay in the same colour, layered under the search
+   box's z-index so the box and its panel stay bright and the dim reads as one
+   continuous surface across the whole window. */
+.topbar::after {
+  content: "";
+  position: absolute;
+  /* -1px at the bottom so the topbar's own border-bottom is covered too:
+     `inset: 0` stops at the padding box, leaving that hairline undimmed as a
+     bright line between the header and the breadcrumb. */
+  inset: 0 0 -1px;
+  z-index: 59;
+  background: var(--scrim);
+  opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s var(--ease);
 }
 
+body.search-dim .topbar::after {
+  opacity: 1;
+}
+
+body.search-dim .topbar__cluster > :not(.search) {
+  pointer-events: none;
+}
+
+/* --- browse mode ---------------------------------------------------------
+   The panel does double duty: empty box browses, typing filters. The chips are
+   the only control, so browsing never turns into a form full of options.     */
+.search__facets {
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  margin: 0 .25rem;
+  padding: .4rem .25rem;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  /* No scrollbar at all in this strip. Styling ::-webkit-scrollbar forces the
+     classic space-reserving kind, which is what left the chips sitting high
+     with dead space beneath them. The row is one line tall — a track would be
+     thicker than the gap it lives in. Scrolling still works: wheel is mapped
+     to horizontal in search.js, and trackpad and drag are untouched. */
+  scrollbar-width: none;
+}
+.search__facets::-webkit-scrollbar {
+  display: none;
+}
+.search__facets:empty {
+  display: none;
+}
+
+/* A partly-visible chip at the trailing edge is the affordance: it says "more
+   this way" without occupying a row of its own. */
+/* Filled chips with no outline: eleven bordered pills in one strip read as a
+   row of empty boxes. Escalation is by fill only — quiet, hover, selected. */
+.search__facet {
+  flex: none;
+  padding: .22rem .55rem;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: var(--surface-2);
+  color: var(--muted);
+  font: inherit;
+  font-size: .72rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s, background .15s;
+  /* The SELECTED chip is the tinted one, not the resting ones. Tinting every
+     chip by default and greying the active one inverts the signal — the state
+     that matters should be the state that stands out. */
+}
+.search__facet:hover {
+  color: var(--text);
+  background: var(--surface-3);
+}
+.search__facet.is-active {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Browsing can list every page, so the result area scrolls rather than
+   growing without limit. Search results are capped at eight and never reach
+   this height. */
+/* Interpolated so Sass emits the CSS min() literally instead of trying to
+   evaluate it — libsass rejects mixing vh and rem inside its own min(). */
+.search__results {
+  max-height: min(60vh, 27rem);
+  overflow-y: auto;
+}
+
+.search__foot {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: .4rem .6rem;
+  border-top: 1px solid var(--border);
+  font-size: .66rem;
+  color: var(--muted);
+  opacity: .8;
+}
+.search__foot:empty {
+  display: none;
+}
+
+@media (max-width: 699.98px) {
+  /* In the full-screen overlay the list owns the remaining height instead of
+     being capped, so the whole directory is reachable by scrolling the page. */
+  .search__results {
+    max-height: none;
+  }
+}
 /* ===========================================================================
    PROSE
    =========================================================================== */
