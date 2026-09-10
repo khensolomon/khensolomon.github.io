@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789028541">
-  <script>window.SITE = { searchUrl: "/search.json?v=1789028541" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789051516">
+  <script>window.SITE = { searchUrl: "/search.json?v=1789051516" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -116,7 +116,30 @@
               <path d="M6 4h12v16l-6-4.5L6 20z"/>
             </svg>
             <span class="bookmark__label visually-hidden">Save</span>
-          </button>
+          </button><div class="reviewadd">
+            <button class="pageact" type="button" data-review-add aria-expanded="false"
+                    title="Note something to fix on this page" aria-label="Note something to fix on this page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 21V4.5"/><path d="M5 5.2c3.5-1.9 6.5.9 10-.6v8.2c-3.5 1.5-6.5-1.3-10 .6z"/>
+              </svg>
+            </button>
+            <div class="reviewform" data-review-form hidden>
+              <p class="reviewform__where mono">
+                On: <span data-review-where>this page</span>
+              </p>
+              <label class="visually-hidden" for="review-type">Kind of note</label>
+              <select id="review-type" class="reviewform__type">
+                <option value="outdated">Outdated</option>
+                <option value="unclear">Unclear</option>
+                <option value="missing">Missing</option>
+                <option value="typo">Typo</option>
+              </select>
+              <label class="visually-hidden" for="review-text">Note</label>
+              <textarea id="review-text" class="reviewform__text" rows="3"
+                        placeholder="What needs changing here?"></textarea>
+              <button class="reviewform__save" type="button" data-review-save>Add note</button>
+            </div>
+          </div>
           <button class="pageact" type="button" data-ph-toggle aria-pressed="true" hidden
                   data-ph-settings="/settings/">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -180,6 +203,17 @@
         <span class="toolmenu__text">
           <span class="toolmenu__label">Todo</span>
           <span class="toolmenu__blurb">What's next, in progress, and shipped</span>
+        </span>
+      </a><a class="toolmenu__item"
+         href="/todo/review/"
+         >
+        <span class="toolmenu__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+               stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H15l5 5v9.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M14.5 4v5.5H20"/><path d="M8 13.5l2 2 4-4"/></svg>
+        </span>
+        <span class="toolmenu__text">
+          <span class="toolmenu__label">Review</span>
+          <span class="toolmenu__blurb">Page notes and site findings</span>
         </span>
       </a><a class="toolmenu__item"
          href="/bookmarks/"
@@ -252,8 +286,8 @@
 
 
 <div class="docs inset">
-  <article class="docs__content prose"><header class="docs__head">
-      <a class="eyebrow mono accent docs__category" href="/directory/#category=Linux">Linux</a>
+  <article class="docs__content prose"><header class="docs__head"><p class="eyebrow mono docs__meta">
+        2 min read · Desktop</p>
       <h1>Desktop setup</h1><p class="docs__lede">Flatpak, Ventoy install media, and the post-reinstall app checklist.</p>
     </header>
     
@@ -342,12 +376,14 @@ rsync <span class="nt">-ah</span> <span class="nt">--progress</span> /path/to/os
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1789028541" defer></script>
-  <script src="/assets/js/search.js?v=1789028541" defer></script><script src="/assets/js/bookmarks.js?v=1789028541" defer></script>
-  <script src="/assets/js/placeholders.js?v=1789028541" defer></script>
-  <script src="/assets/js/toolmenu.js?v=1789028541" defer></script>
-  <script src="/assets/js/highlight.js?v=1789028541" defer></script>
-  <script src="/assets/js/activity.js?v=1789028541" defer></script>
-  <script src="/assets/js/stars.js?v=1789028541" defer></script>
+  <script src="/assets/js/app.js?v=1789051516" defer></script>
+  <script src="/assets/js/search.js?v=1789051516" defer></script><script src="/assets/js/bookmarks.js?v=1789051516" defer></script>
+  <script src="/assets/js/placeholders.js?v=1789051516" defer></script>
+  <script src="/assets/js/toolmenu.js?v=1789051516" defer></script>
+  <script src="/assets/js/highlight.js?v=1789051516" defer></script>
+  <script src="/assets/js/reading.js?v=1789051516" defer></script>
+  <script src="/assets/js/review.js?v=1789051516" defer></script>
+  <script src="/assets/js/activity.js?v=1789051516" defer></script>
+  <script src="/assets/js/stars.js?v=1789051516" defer></script>
 </body>
 </html>

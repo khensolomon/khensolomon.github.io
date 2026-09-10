@@ -2,8 +2,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Static networking — Lethil</title>
-  <meta name="description" content="netplan for static IPs.">
+  <title>Review — Lethil</title>
+  <meta name="description" content="Page notes and automatic findings for this site.">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 
@@ -64,25 +64,21 @@
 
   <div class="sidebar__body">
     <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
-           href="/linux/">
+           href="/todo/">
           <span class="sidebar__link-text">Overview</span>
-        </a><p class="sidebar__group mono">System</p><a class="sidebar__link" href="/linux/fstab/">
-            <span class="sidebar__link-text">Managing fstab</span>
-          </a><a class="sidebar__link is-active" href="/linux/netplan/">
-            <span class="sidebar__link-text">Static networking</span>
-          </a><a class="sidebar__link" href="/linux/utility/">
-            <span class="sidebar__link-text">Linux utilities</span>
-          </a><p class="sidebar__group mono">Desktop</p><a class="sidebar__link" href="/linux/gnome/">
-            <span class="sidebar__link-text">GNOME</span>
-          </a><a class="sidebar__link" href="/linux/desktop-setup/">
-            <span class="sidebar__link-text">Desktop setup</span>
-          </a><p class="sidebar__group mono">Remote & VMs</p><a class="sidebar__link" href="/linux/remote-access/">
-            <span class="sidebar__link-text">Remote access</span>
-          </a><a class="sidebar__link" href="/linux/virt-manager/">
-            <span class="sidebar__link-text">Virtual Machine Manager</span>
-          </a><a class="sidebar__link" href="/linux/multipass/">
-            <span class="sidebar__link-text">Multipass</span>
-          </a></nav>
+        </a><a class="sidebar__link" href="/todo/bible/">
+          <span class="sidebar__link-text">Lai Siangtho — e-book & presentation suite</span>
+        </a><a class="sidebar__link" href="/todo/migration/">
+          <span class="sidebar__link-text">Move off Google Cloud</span>
+        </a><a class="sidebar__link" href="/todo/domains/">
+          <span class="sidebar__link-text">Domain names</span>
+        </a><a class="sidebar__link" href="/todo/obsidian-import/">
+          <span class="sidebar__link-text">Import the Obsidian vault</span>
+        </a><a class="sidebar__link" href="/todo/auto-index/">
+          <span class="sidebar__link-text">Drop the manual index bookkeeping</span>
+        </a><a class="sidebar__link" href="/todo/subsystem/">
+          <span class="sidebar__link-text">Disposable Linux subsystems</span>
+        </a></nav>
 
     
   </div><div class="sidebar__foot" hidden></div>
@@ -102,16 +98,16 @@
           </span>
         </button>
 
-        <a class="brand" href="/linux/">
-          <span class="brand-name">Linux</span>
+        <a class="brand" href="/todo/">
+          <span class="brand-name">Todo</span>
         </a>
         
       </div><div class="topbar__cluster"><div class="pageacts">
           <button class="pageact" type="button" data-bookmark aria-pressed="false"
                   title="Save this page" aria-label="Save this page"
-                  data-url="/linux/netplan/"
-                  data-title="Static networking"
-                  data-section="Linux">
+                  data-url="/todo/review/"
+                  data-title="Review"
+                  data-section="Todo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M6 4h12v16l-6-4.5L6 20z"/>
             </svg>
@@ -204,9 +200,9 @@
           <span class="toolmenu__label">Todo</span>
           <span class="toolmenu__blurb">What's next, in progress, and shipped</span>
         </span>
-      </a><a class="toolmenu__item"
+      </a><a class="toolmenu__item is-active"
          href="/todo/review/"
-         >
+         aria-current="page">
         <span class="toolmenu__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
                stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H15l5 5v9.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M14.5 4v5.5H20"/><path d="M8 13.5l2 2 4-4"/></svg>
@@ -278,63 +274,53 @@
       <nav class="contextbar" aria-label="Breadcrumb and page navigation">
   <div class="contextbar__inner">
     <ol class="contextbar__crumbs">
-      <li><a href="/">Home</a></li><li><a href="/linux/">Linux</a></li><li aria-current="page">Static networking</li></ol><div class="contextbar__steps"><a class="contextbar__step" href="/linux/fstab/" title="Managing fstab" rel="prev">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
-            <span>Managing fstab</span>
-          </a><a class="contextbar__step contextbar__step--next" href="/linux/utility/" title="Linux utilities" rel="next">
-            <span>Linux utilities</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-          </a></div></div>
+      <li><a href="/">Home</a></li><li aria-current="page">Review</li></ol><p class="contextbar__blurb">Page notes and site findings</p></div>
 </nav>
 
+<div class="review" data-review-page="/">
+  <header class="review__head">
+    <h1 class="review__title">Review</h1>
+    <p class="review__lede">
+      What needs fixing on the site itself — separate from the
+      <a href="/todo/">project board</a>, which tracks
+      the work rather than the writing.
+    </p>
+  </header>
 
-<div class="docs inset">
-  <article class="docs__content prose"><header class="docs__head"><p class="eyebrow mono docs__meta">
-        1 min read · System</p>
-      <h1>Static networking</h1><p class="docs__lede">netplan for static IPs.</p>
-    </header>
-    
-    <p>Setting a static IP with netplan on Ubuntu Server. Useful before configuring
-the <a class="wikilink" href="/server/docker-swarm/">Docker Swarm</a> node so its address doesn’t move.</p>
+  <section class="review__block">
+    <h2 class="review__block-title mono">Findings</h2>
+    <p class="review__block-note">
+      Computed from the site's own indexes on each visit, so they are always
+      current and need no upkeep.
+    </p>
+    <div data-review-findings="">
+      <p class="review__empty mono">Loading…</p>
+    </div>
+  </section>
 
-<footer class="docs__tags" aria-label="Tags">
-      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=linux">linux</a><a class="docs__tag mono" href="/directory/#tag=networking">networking</a><a class="docs__tag mono" href="/directory/#tag=netplan">netplan</a></footer><nav class="backlinks" aria-label="Pages referencing this one">
-  <h2 class="backlinks__title mono">Referenced by</h2>
-  <ul class="backlinks__list"><li class="backlinks__item">
-      <a class="backlinks__link" href="/server/docker-swarm/">
-        <span class="backlinks__name">Docker Swarm</span>
-        <span class="backlinks__section mono">Server</span>
-      </a>
-    </li><li class="backlinks__item">
-      <a class="backlinks__link" href="/linux/fstab/">
-        <span class="backlinks__name">Managing fstab</span>
-        <span class="backlinks__section mono">Linux</span>
-      </a>
-    </li><li class="backlinks__item">
-      <a class="backlinks__link" href="/linux/virt-manager/">
-        <span class="backlinks__name">Virtual Machine Manager</span>
-        <span class="backlinks__section mono">Linux</span>
-      </a>
-    </li></ul>
-</nav>
-  </article>
+  <section class="review__block">
+    <h2 class="review__block-title mono">
+      Page notes
+      <span class="review__count mono" data-review-count="">0 notes</span>
+    </h2>
+    <p class="review__block-note">
+      Stored on this device only. Export writes markdown, so a note can be
+      pasted straight into a commit or a board item.
+    </p>
+    <div data-review-notes=""></div>
+
+    <div class="bookmarks__actions review__actions">
+      <button class="bookmarks__btn" type="button" data-review-export="">Export markdown</button>
+      <label class="bookmarks__btn bookmarks__btn--file">
+        Import JSON
+        <input type="file" accept="application/json,.json" data-review-import="" hidden="" />
+      </label>
+      <button class="bookmarks__btn bookmarks__btn--danger" type="button" data-review-clear="">Remove all</button>
+    </div>
+    <p class="bookmarks__status mono muted" role="status" data-review-status=""></p>
+  </section>
 </div>
 
-<footer class="docfoot inset">
-  <div class="docfoot__inner">
-    <span class="mono muted docfoot__built">
-      Lethil · built with
-      <a class="docfoot__jekyll" href="https://jekyllrb.com" rel="noopener" target="_blank" aria-label="Jekyll">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M9 3h6"/>
-          <path d="M10 3v6.5L5.6 18.2A2 2 0 0 0 7.4 21h9.2a2 2 0 0 0 1.8-2.8L14 9.5V3"/>
-          <path d="M7.7 14h8.6"/>
-        </svg>
-      </a>
-    </span>
-    <span class="mono muted">© 2026</span>
-  </div>
-</footer>
 
     </main>
   </div>
