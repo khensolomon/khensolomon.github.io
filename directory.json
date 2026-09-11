@@ -5,7 +5,7 @@
     "section": "Todo",
     "sectionKey": "todo",
     "category": "Todo",
-    "tags": ["electron","desktop","scripture","presenter"],
+    "tags": ["desktop","planning"],
     "status": "planned"
   },{
     "title": "Move off Google Cloud",
@@ -14,7 +14,7 @@
     "section": "Todo",
     "sectionKey": "todo",
     "category": "Todo",
-    "tags": ["migration","gce","cloudflare","digitalocean"],
+    "tags": ["migration","cloudflare"],
     "status": "active"
   },{
     "title": "Domain names",
@@ -23,7 +23,7 @@
     "section": "Todo",
     "sectionKey": "todo",
     "category": "Todo",
-    "tags": ["domains","dns","cloudflare"],
+    "tags": ["dns","cloudflare"],
     "status": "active"
   },{
     "title": "Import the Obsidian vault",
@@ -32,7 +32,7 @@
     "section": "Todo",
     "sectionKey": "todo",
     "category": "Todo",
-    "tags": ["obsidian","import","migration"],
+    "tags": ["migration"],
     "status": ""
   },{
     "title": "Drop the manual index bookkeeping",
@@ -50,7 +50,7 @@
     "section": "Todo",
     "sectionKey": "todo",
     "category": "Todo",
-    "tags": ["containers","vm","tooling"],
+    "tags": ["vm","tooling"],
     "status": "planned"
   },{
     "title": "Getting started",
@@ -59,7 +59,7 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": ["setup","deployment"],
+    "tags": ["deployment"],
     "status": ""
   },{
     "title": "Deployment guide",
@@ -68,7 +68,7 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": ["deployment"],
+    "tags": ["deployment","secrets","provisioning"],
     "status": ""
   },{
     "title": "Secrets manager",
@@ -86,7 +86,7 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": ["summary"],
+    "tags": ["deployment","planning"],
     "status": ""
   },{
     "title": "Authoring these docs",
@@ -95,7 +95,7 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": ["jekyll","authoring","docs"],
+    "tags": ["jekyll","authoring"],
     "status": ""
   },{
     "title": "Git",
@@ -104,7 +104,7 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Guide",
-    "tags": ["git"],
+    "tags": ["tooling","cli"],
     "status": ""
   },{
     "title": "Changelog",
@@ -113,7 +113,7 @@
     "section": "Docs",
     "sectionKey": "docs",
     "category": "Reference",
-    "tags": [],
+    "tags": ["jekyll","authoring"],
     "status": ""
   },{
     "title": "Docker installation",
@@ -131,7 +131,7 @@
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","docker","compose","django"],
+    "tags": ["server","docker","django"],
     "status": ""
   },{
     "title": "Docker Swarm",
@@ -140,7 +140,7 @@
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","docker","swarm"],
+    "tags": ["server","docker"],
     "status": ""
   },{
     "title": "Cloudflare Tunnel",
@@ -149,7 +149,7 @@
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","cloudflare","networking","tunnel"],
+    "tags": ["server","cloudflare","networking","dns"],
     "status": ""
   },{
     "title": "Cloudflare Access",
@@ -158,7 +158,7 @@
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","cloudflare","ssh","access","ci"],
+    "tags": ["server","cloudflare","ssh","ci","remote","secrets"],
     "status": ""
   },{
     "title": "Nginx Proxy Manager",
@@ -167,7 +167,7 @@
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","nginx","proxy","networking","ssl"],
+    "tags": ["server","nginx","networking"],
     "status": ""
   },{
     "title": "Nginx and Gunicorn",
@@ -176,7 +176,7 @@
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","nginx","gunicorn","django","systemd"],
+    "tags": ["server","nginx","django"],
     "status": ""
   },{
     "title": "Storage and buckets",
@@ -185,7 +185,7 @@
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","storage","rclone","r2","virtiofs"],
+    "tags": ["server","storage","backup"],
     "status": ""
   },{
     "title": "Self-hosted runner",
@@ -194,7 +194,7 @@
     "section": "Server",
     "sectionKey": "server",
     "category": "Server",
-    "tags": ["server","github-actions","ci","docker"],
+    "tags": ["server","ci","docker"],
     "status": ""
   },{
     "title": "Provisioning a host",
@@ -221,7 +221,7 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["linux","networking","netplan"],
+    "tags": ["linux","networking"],
     "status": ""
   },{
     "title": "Linux utilities",
@@ -230,7 +230,7 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["utility","customization","UI"],
+    "tags": ["utility","desktop"],
     "status": ""
   },{
     "title": "GNOME",
@@ -239,7 +239,7 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["gnome"],
+    "tags": ["desktop"],
     "status": ""
   },{
     "title": "Remote access",
@@ -248,7 +248,7 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["ssh","rdp","vnc","remote","remmina"],
+    "tags": ["ssh","remote"],
     "status": ""
   },{
     "title": "Virtual Machine Manager",
@@ -257,7 +257,7 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["kvm","qemu","virtualization","vm"],
+    "tags": ["vm"],
     "status": ""
   },{
     "title": "Multipass",
@@ -266,7 +266,7 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["multipass","vm","testing","ci"],
+    "tags": ["vm","ci"],
     "status": ""
   },{
     "title": "Desktop setup",
@@ -275,7 +275,7 @@
     "section": "Linux",
     "sectionKey": "linux",
     "category": "Linux",
-    "tags": ["flatpak","ventoy","desktop","iso"],
+    "tags": ["desktop"],
     "status": ""
   },{
     "title": "Environment setup",
@@ -284,7 +284,7 @@
     "section": "Python",
     "sectionKey": "python",
     "category": "Python",
-    "tags": ["python","venv","tooling"],
+    "tags": ["python","tooling"],
     "status": ""
   },{
     "title": "Packaging scripts",
@@ -293,7 +293,7 @@
     "section": "Python",
     "sectionKey": "python",
     "category": "Python",
-    "tags": ["python","packaging","cli"],
+    "tags": ["python","cli"],
     "status": ""
   },{
     "title": "Python utilities",
@@ -320,7 +320,7 @@
     "section": "Mobile",
     "sectionKey": "mobile",
     "category": "Mobile",
-    "tags": ["android","java","sdk","emulator"],
+    "tags": ["android","toolchain"],
     "status": ""
   },{
     "title": "Flutter",
@@ -329,7 +329,7 @@
     "section": "Mobile",
     "sectionKey": "mobile",
     "category": "Mobile",
-    "tags": ["flutter","dart","android"],
+    "tags": ["toolchain","android"],
     "status": ""
   },{
     "title": "Joins",
@@ -347,7 +347,7 @@
     "section": "SQL",
     "sectionKey": "sql",
     "category": "SQL",
-    "tags": ["mysql","backup","docker","cron"],
+    "tags": ["mysql","backup","docker","maintenance"],
     "status": ""
   },{
     "title": "MariaDB setup",
@@ -356,7 +356,7 @@
     "section": "SQL",
     "sectionKey": "sql",
     "category": "SQL",
-    "tags": ["mysql","mariadb","install"],
+    "tags": ["mysql","install"],
     "status": ""
   },{
     "title": "Clearing bot spam",
@@ -365,7 +365,7 @@
     "section": "SQL",
     "sectionKey": "sql",
     "category": "SQL",
-    "tags": ["mysql","regex","spam","maintenance"],
+    "tags": ["mysql","maintenance"],
     "status": ""
   },{
     "title": "Library layout",
@@ -374,7 +374,7 @@
     "section": "Plex",
     "sectionKey": "plex",
     "category": "Plex",
-    "tags": ["plex","media","mergerfs"],
+    "tags": ["mergerfs","storage"],
     "status": ""
   },{
     "title": "Scratch notes",
@@ -392,7 +392,7 @@
     "section": "Notes",
     "sectionKey": "note",
     "category": "Notes",
-    "tags": ["log","infrastructure","history"],
+    "tags": ["migration","planning"],
     "status": ""
   },{
     "title": "Running costs",
@@ -401,7 +401,7 @@
     "section": "Notes",
     "sectionKey": "note",
     "category": "Notes",
-    "tags": ["costs","hosting","planning"],
+    "tags": ["planning","migration"],
     "status": ""
   },{
     "title": "Favorites",

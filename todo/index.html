@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789051516">
-  <script>window.SITE = { searchUrl: "/search.json?v=1789051516" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789110010">
+  <script>window.SITE = { searchUrl: "/search.json?v=1789110010" };</script>
 </head>
 <body class="is-docs is-todo" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -120,11 +120,10 @@
               </svg>
             </button>
             <div class="reviewform" data-review-form hidden>
-              <p class="reviewform__where mono">
-                On: <span data-review-where>this page</span>
-              </p>
+              <label class="visually-hidden" for="review-where">Section this note is about</label>
+              <select id="review-where" class="reviewform__where" data-review-where></select>
               <label class="visually-hidden" for="review-type">Kind of note</label>
-              <select id="review-type" class="reviewform__type">
+              <select id="review-type" class="reviewform__type" data-review-type>
                 <option value="outdated">Outdated</option>
                 <option value="unclear">Unclear</option>
                 <option value="missing">Missing</option>
@@ -201,7 +200,7 @@
           <span class="toolmenu__blurb">What's next, in progress, and shipped</span>
         </span>
       </a><a class="toolmenu__item"
-         href="/todo/review/"
+         href="/review/"
          >
         <span class="toolmenu__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
@@ -284,7 +283,7 @@
         <h1 class="todo__title">Todo</h1>
         <p class="todo__lede mono muted">
           Where this is heading, and how far along it is.
-          <a class="todo__crosslink" href="/todo/review/">Page notes →</a>
+          <a class="todo__crosslink" href="/review/">Page notes →</a>
         </p>
       </div><div class="todo__views" role="group" aria-label="Board layout">
         <button class="todo__view" type="button" data-board-set="kanban" aria-pressed="true">
@@ -325,19 +324,19 @@
             <span class="todo__item-desc">GCE commitment ends September 2026 — move compute, storage and domains to Cloudflare and DigitalOcean.</span></a><span class="todo__item-tasks" title="1 of 11 tasks done">
             <span class="todo__item-taskbar"><span class="todo__item-taskfill" style="width: 9%"></span></span>
             <span class="todo__item-taskcount mono">1/11</span>
-          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=migration">migration</a><a class="todo__item-tag mono" href="/directory/#tag=gce">gce</a><a class="todo__item-tag mono" href="/directory/#tag=cloudflare">cloudflare</a><a class="todo__item-tag mono" href="/directory/#tag=digitalocean">digitalocean</a></span></li><li class="todo__item">
+          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=migration">migration</a><a class="todo__item-tag mono" href="/directory/#tag=cloudflare">cloudflare</a></span></li><li class="todo__item">
           <a class="todo__item-link" href="/todo/domains/">
             <span class="todo__item-title">Domain names</span>
             <span class="todo__item-desc">Registrations, expiry dates, and the Squarespace to Cloudflare transfers.</span></a><span class="todo__item-tasks" title="0 of 5 tasks done">
             <span class="todo__item-taskbar"><span class="todo__item-taskfill" style="width: 0%"></span></span>
             <span class="todo__item-taskcount mono">0/5</span>
-          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=domains">domains</a><a class="todo__item-tag mono" href="/directory/#tag=dns">dns</a><a class="todo__item-tag mono" href="/directory/#tag=cloudflare">cloudflare</a></span></li><li class="todo__item">
+          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=dns">dns</a><a class="todo__item-tag mono" href="/directory/#tag=cloudflare">cloudflare</a></span></li><li class="todo__item">
           <a class="todo__item-link" href="/todo/obsidian-import/">
             <span class="todo__item-title">Import the Obsidian vault</span>
             <span class="todo__item-desc">Bring the existing .obsidian notes into the site's collections without losing links, tags, or history.</span></a><span class="todo__item-tasks" title="2 of 7 tasks done">
             <span class="todo__item-taskbar"><span class="todo__item-taskfill" style="width: 28%"></span></span>
             <span class="todo__item-taskcount mono">2/7</span>
-          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=obsidian">obsidian</a><a class="todo__item-tag mono" href="/directory/#tag=import">import</a><a class="todo__item-tag mono" href="/directory/#tag=migration">migration</a></span></li></ul>
+          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=migration">migration</a></span></li></ul>
     </section><section class="todo__group" data-status="planned">
       <header class="todo__group-head">
         <h2 class="todo__group-title">
@@ -351,13 +350,13 @@
       <ul class="todo__list"><li class="todo__item">
           <a class="todo__item-link" href="/todo/bible/">
             <span class="todo__item-title">Lai Siangtho — e-book &amp; presentation suite</span>
-            <span class="todo__item-desc">A desktop e-book reader and study app with a native presenter mode for projecting scripture to a second screen.</span></a><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=electron">electron</a><a class="todo__item-tag mono" href="/directory/#tag=desktop">desktop</a><a class="todo__item-tag mono" href="/directory/#tag=scripture">scripture</a><a class="todo__item-tag mono" href="/directory/#tag=presenter">presenter</a></span></li><li class="todo__item">
+            <span class="todo__item-desc">A desktop e-book reader and study app with a native presenter mode for projecting scripture to a second screen.</span></a><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=desktop">desktop</a><a class="todo__item-tag mono" href="/directory/#tag=planning">planning</a></span></li><li class="todo__item">
           <a class="todo__item-link" href="/todo/subsystem/">
             <span class="todo__item-title">Disposable Linux subsystems</span>
             <span class="todo__item-desc">Finding a WSL-like workflow on a Linux desktop — isolated, disposable, easy to tear down.</span></a><span class="todo__item-tasks" title="0 of 8 tasks done">
             <span class="todo__item-taskbar"><span class="todo__item-taskfill" style="width: 0%"></span></span>
             <span class="todo__item-taskcount mono">0/8</span>
-          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=containers">containers</a><a class="todo__item-tag mono" href="/directory/#tag=vm">vm</a><a class="todo__item-tag mono" href="/directory/#tag=tooling">tooling</a></span></li></ul>
+          </span><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=vm">vm</a><a class="todo__item-tag mono" href="/directory/#tag=tooling">tooling</a></span></li></ul>
     </section><section class="todo__group is-empty" data-status="blocked">
       <header class="todo__group-head">
         <h2 class="todo__group-title">
@@ -385,21 +384,21 @@
             <span class="todo__item-desc">Make a page navigable and correctly ordered without hand-managed nav_order and in_nav front matter.</span></a><span class="todo__item-tags"><a class="todo__item-tag mono" href="/directory/#tag=authoring">authoring</a><a class="todo__item-tag mono" href="/directory/#tag=jekyll">jekyll</a></span></li></ul>
     </section></div></div>
 
-<script src="/assets/js/todo.js?v=1789051516" defer=""></script>
+<script src="/assets/js/todo.js?v=1789110010" defer=""></script>
 
 
 
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1789051516" defer></script>
-  <script src="/assets/js/search.js?v=1789051516" defer></script><script src="/assets/js/bookmarks.js?v=1789051516" defer></script>
-  <script src="/assets/js/placeholders.js?v=1789051516" defer></script>
-  <script src="/assets/js/toolmenu.js?v=1789051516" defer></script>
-  <script src="/assets/js/highlight.js?v=1789051516" defer></script>
-  <script src="/assets/js/reading.js?v=1789051516" defer></script>
-  <script src="/assets/js/review.js?v=1789051516" defer></script>
-  <script src="/assets/js/activity.js?v=1789051516" defer></script>
-  <script src="/assets/js/stars.js?v=1789051516" defer></script>
+  <script src="/assets/js/app.js?v=1789110010" defer></script>
+  <script src="/assets/js/search.js?v=1789110010" defer></script><script src="/assets/js/bookmarks.js?v=1789110010" defer></script>
+  <script src="/assets/js/placeholders.js?v=1789110010" defer></script>
+  <script src="/assets/js/toolmenu.js?v=1789110010" defer></script>
+  <script src="/assets/js/highlight.js?v=1789110010" defer></script>
+  <script src="/assets/js/reading.js?v=1789110010" defer></script>
+  <script src="/assets/js/review.js?v=1789110010" defer></script>
+  <script src="/assets/js/activity.js?v=1789110010" defer></script>
+  <script src="/assets/js/stars.js?v=1789110010" defer></script>
 </body>
 </html>

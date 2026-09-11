@@ -19,10 +19,10 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789051516">
-  <script>window.SITE = { searchUrl: "/search.json?v=1789051516" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789110010">
+  <script>window.SITE = { searchUrl: "/search.json?v=1789110010" };</script>
 </head>
-<body class="is-docs" data-nav="closed">
+<body class="is-home" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
   <script>
     (function () {
@@ -41,11 +41,11 @@
   <aside id="sidebar" class="sidebar" aria-label="Site navigation">
   <div class="sidebar__head">
     
-    <a class="brand" href="/">
+    <a class="brand" href="/docs/">
       <svg class="brand__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 11.2 12 4l8 7.2"/><path d="M6 10v9.2h12V10"/><path d="M10 19v-5h4v5"/>
+        <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5Z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H12v16h6.5a1.5 1.5 0 0 0 1.5-1.5Z"/>
       </svg>
-      <span class="brand-name">Home</span>
+      <span class="brand-name">Library</span>
     </a>
     <button class="theme-toggle theme-toggle--icon" type="button" aria-label="Color theme: auto">
       <svg class="ico ico-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
@@ -63,23 +63,119 @@
   </div>
 
   <div class="sidebar__body">
-    <nav class="sidebar__nav" aria-label="Section pages"><a class="sidebar__link sidebar__link--overview"
-           href="/todo/">
-          <span class="sidebar__link-text">Overview</span>
-        </a><a class="sidebar__link" href="/todo/bible/">
-          <span class="sidebar__link-text">Lai Siangtho — e-book & presentation suite</span>
-        </a><a class="sidebar__link" href="/todo/migration/">
-          <span class="sidebar__link-text">Move off Google Cloud</span>
-        </a><a class="sidebar__link" href="/todo/domains/">
-          <span class="sidebar__link-text">Domain names</span>
-        </a><a class="sidebar__link" href="/todo/obsidian-import/">
-          <span class="sidebar__link-text">Import the Obsidian vault</span>
-        </a><a class="sidebar__link" href="/todo/auto-index/">
-          <span class="sidebar__link-text">Drop the manual index bookkeeping</span>
-        </a><a class="sidebar__link" href="/todo/subsystem/">
-          <span class="sidebar__link-text">Disposable Linux subsystems</span>
-        </a></nav>
+    <div class="sidebar__divider" role="separator"></div>
 
+    <nav class="sidebar__sections" aria-label="Sections"><details class="sidebar-sect is-highlight">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Todo<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">What's next, in progress, and shipped</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/todo/bible/">Lai Siangtho — e-book & presentation suite</a><a class="sidebar-sect__page" href="/todo/migration/">Move off Google Cloud</a><a class="sidebar-sect__page" href="/todo/domains/">Domain names</a><a class="sidebar-sect__page" href="/todo/obsidian-import/">Import the Obsidian vault</a><a class="sidebar-sect__page" href="/todo/auto-index/">Drop the manual index bookkeeping</a><a class="sidebar-sect__page" href="/todo/subsystem/">Disposable Linux subsystems</a><a class="sidebar-sect__more" href="/todo/">Open Todo →</a>
+  </div>
+</details>
+<details class="sidebar-sect is-highlight">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Docs<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">Building & running this site</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/docs/getting-started/">Getting started</a><a class="sidebar-sect__page" href="/docs/deployment/">Deployment guide</a><a class="sidebar-sect__page" href="/docs/secrets/">Secrets manager</a><a class="sidebar-sect__page" href="/docs/summary/">Handoff summary</a><a class="sidebar-sect__page" href="/docs/authoring/">Authoring these docs</a><a class="sidebar-sect__page" href="/docs/git/">Git</a><a class="sidebar-sect__more" href="/docs/">All 7 pages →</a>
+  </div>
+</details>
+<details class="sidebar-sect is-highlight">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Server<span class="sidebar-sect__dot" title="Highlighted"></span></span><span class="sidebar-sect__blurb">Self-hosted infrastructure</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/server/docker-install/">Docker installation</a><a class="sidebar-sect__page" href="/server/docker-compose/">Docker Compose</a><a class="sidebar-sect__page" href="/server/docker-swarm/">Docker Swarm</a><a class="sidebar-sect__page" href="/server/cloudflare/">Cloudflare Tunnel</a><a class="sidebar-sect__page" href="/server/cloudflare-access/">Cloudflare Access</a><a class="sidebar-sect__page" href="/server/nginx-proxy-manager/">Nginx Proxy Manager</a><a class="sidebar-sect__more" href="/server/">All 10 pages →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Linux</span><span class="sidebar-sect__blurb">System administration</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/linux/fstab/">Managing fstab</a><a class="sidebar-sect__page" href="/linux/netplan/">Static networking</a><a class="sidebar-sect__page" href="/linux/utility/">Linux utilities</a><a class="sidebar-sect__page" href="/linux/gnome/">GNOME</a><a class="sidebar-sect__page" href="/linux/remote-access/">Remote access</a><a class="sidebar-sect__page" href="/linux/virt-manager/">Virtual Machine Manager</a><a class="sidebar-sect__more" href="/linux/">All 8 pages →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Python</span><span class="sidebar-sect__blurb">Scripts & tooling</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/python/setup/">Environment setup</a><a class="sidebar-sect__page" href="/python/packaging/">Packaging scripts</a><a class="sidebar-sect__page" href="/python/utility/">Python utilities</a><a class="sidebar-sect__page" href="/python/django/">Django</a><a class="sidebar-sect__more" href="/python/">Open Python →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Mobile</span><span class="sidebar-sect__blurb">Android & Flutter toolchain</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/mobile/android/">Android toolchain</a><a class="sidebar-sect__page" href="/mobile/flutter/">Flutter</a><a class="sidebar-sect__more" href="/mobile/">Open Mobile →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">SQL</span><span class="sidebar-sect__blurb">Queries & schema</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/sql/joins/">Joins</a><a class="sidebar-sect__page" href="/sql/mysql-backup/">MySQL backups</a><a class="sidebar-sect__page" href="/sql/mariadb/">MariaDB setup</a><a class="sidebar-sect__page" href="/sql/spam-cleanup/">Clearing bot spam</a><a class="sidebar-sect__more" href="/sql/">Open SQL →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Plex</span><span class="sidebar-sect__blurb">Media server</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/plex/library/">Library layout</a><a class="sidebar-sect__more" href="/plex/">Open Plex →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Notes</span><span class="sidebar-sect__blurb">Working notes</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/note/scratch/">Scratch notes</a><a class="sidebar-sect__page" href="/note/infrastructure-log/">Infrastructure log</a><a class="sidebar-sect__page" href="/note/running-costs/">Running costs</a><a class="sidebar-sect__more" href="/note/">Open Notes →</a>
+  </div>
+</details>
+<details class="sidebar-sect">
+  <summary class="sidebar-sect__summary">
+    <svg class="sidebar-sect__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.5 6.5l5 5.5-5 5.5"/>
+    </svg>
+    <span class="sidebar-sect__text">
+      <span class="sidebar-sect__label">Quotes</span><span class="sidebar-sect__blurb">Collected quotes</span></span>
+  </summary>
+  <div class="sidebar-sect__pages"><a class="sidebar-sect__page" href="/quote/favorites/">Favorites</a><a class="sidebar-sect__more" href="/quote/">Open Quotes →</a>
+  </div>
+</details>
+</nav>
     
   </div><div class="sidebar__foot" hidden></div>
 </aside>
@@ -98,52 +194,12 @@
           </span>
         </button>
 
-        <a class="brand" href="/todo/">
-          <span class="brand-name">Todo</span>
+        
+        <a class="brand" href="/">
+          <span class="brand-name">Lethil</span>
         </a>
         
-      </div><div class="topbar__cluster"><div class="pageacts">
-          <button class="pageact" type="button" data-bookmark aria-pressed="false"
-                  title="Save this page" aria-label="Save this page"
-                  data-url="/todo/review/"
-                  data-title="Review"
-                  data-section="Todo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M6 4h12v16l-6-4.5L6 20z"/>
-            </svg>
-            <span class="bookmark__label visually-hidden">Save</span>
-          </button><div class="reviewadd">
-            <button class="pageact" type="button" data-review-add aria-expanded="false"
-                    title="Note something to fix on this page" aria-label="Note something to fix on this page">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 21V4.5"/><path d="M5 5.2c3.5-1.9 6.5.9 10-.6v8.2c-3.5 1.5-6.5-1.3-10 .6z"/>
-              </svg>
-            </button>
-            <div class="reviewform" data-review-form hidden>
-              <p class="reviewform__where mono">
-                On: <span data-review-where>this page</span>
-              </p>
-              <label class="visually-hidden" for="review-type">Kind of note</label>
-              <select id="review-type" class="reviewform__type">
-                <option value="outdated">Outdated</option>
-                <option value="unclear">Unclear</option>
-                <option value="missing">Missing</option>
-                <option value="typo">Typo</option>
-              </select>
-              <label class="visually-hidden" for="review-text">Note</label>
-              <textarea id="review-text" class="reviewform__text" rows="3"
-                        placeholder="What needs changing here?"></textarea>
-              <button class="reviewform__save" type="button" data-review-save>Add note</button>
-            </div>
-          </div>
-          <button class="pageact" type="button" data-ph-toggle aria-pressed="true" hidden
-                  data-ph-settings="/settings/">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 6l-5 6 5 6"/><path d="M15 6l5 6-5 6"/>
-            </svg>
-            <span class="phbar__label visually-hidden">Stored values</span>
-          </button>
-        </div><div class="toolmenu" data-toolmenu>
+      </div><div class="topbar__cluster"><div class="toolmenu" data-toolmenu>
   <button class="pageact toolmenu__btn" type="button"
           aria-expanded="false" aria-controls="toolmenu-panel"
           title="Tools" aria-label="Tools"><svg class="toolmenu__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -201,7 +257,7 @@
           <span class="toolmenu__blurb">What's next, in progress, and shipped</span>
         </span>
       </a><a class="toolmenu__item is-active"
-         href="/todo/review/"
+         href="/review/"
          aria-current="page">
         <span class="toolmenu__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
@@ -325,14 +381,14 @@
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1789051516" defer></script>
-  <script src="/assets/js/search.js?v=1789051516" defer></script><script src="/assets/js/bookmarks.js?v=1789051516" defer></script>
-  <script src="/assets/js/placeholders.js?v=1789051516" defer></script>
-  <script src="/assets/js/toolmenu.js?v=1789051516" defer></script>
-  <script src="/assets/js/highlight.js?v=1789051516" defer></script>
-  <script src="/assets/js/reading.js?v=1789051516" defer></script>
-  <script src="/assets/js/review.js?v=1789051516" defer></script>
-  <script src="/assets/js/activity.js?v=1789051516" defer></script>
-  <script src="/assets/js/stars.js?v=1789051516" defer></script>
+  <script src="/assets/js/app.js?v=1789110010" defer></script>
+  <script src="/assets/js/search.js?v=1789110010" defer></script><script src="/assets/js/bookmarks.js?v=1789110010" defer></script>
+  <script src="/assets/js/placeholders.js?v=1789110010" defer></script>
+  <script src="/assets/js/toolmenu.js?v=1789110010" defer></script>
+  <script src="/assets/js/highlight.js?v=1789110010" defer></script>
+  <script src="/assets/js/reading.js?v=1789110010" defer></script>
+  <script src="/assets/js/review.js?v=1789110010" defer></script>
+  <script src="/assets/js/activity.js?v=1789110010" defer></script>
+  <script src="/assets/js/stars.js?v=1789110010" defer></script>
 </body>
 </html>

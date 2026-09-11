@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789051516">
-  <script>window.SITE = { searchUrl: "/search.json?v=1789051516" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789110010">
+  <script>window.SITE = { searchUrl: "/search.json?v=1789110010" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -122,11 +122,10 @@
               </svg>
             </button>
             <div class="reviewform" data-review-form hidden>
-              <p class="reviewform__where mono">
-                On: <span data-review-where>this page</span>
-              </p>
+              <label class="visually-hidden" for="review-where">Section this note is about</label>
+              <select id="review-where" class="reviewform__where" data-review-where></select>
               <label class="visually-hidden" for="review-type">Kind of note</label>
-              <select id="review-type" class="reviewform__type">
+              <select id="review-type" class="reviewform__type" data-review-type>
                 <option value="outdated">Outdated</option>
                 <option value="unclear">Unclear</option>
                 <option value="missing">Missing</option>
@@ -203,7 +202,7 @@
           <span class="toolmenu__blurb">What's next, in progress, and shipped</span>
         </span>
       </a><a class="toolmenu__item"
-         href="/todo/review/"
+         href="/review/"
          >
         <span class="toolmenu__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
@@ -285,11 +284,112 @@
 
 <div class="docs inset">
   <article class="docs__content prose"><header class="docs__head"><p class="eyebrow mono docs__meta">
-        66 min read · Documentations</p>
+        71 min read · Documentations</p>
       <h1>Changelog</h1><p class="docs__lede">Notable changes, newest first.</p>
     </header>
     
     <p>Versions use <code class="language-plaintext highlighter-rouge">yy.mm.dd</code> — the date the change shipped. Newest at the top.</p>
+
+<h2 id="260910i">26.09.10i</h2>
+
+<ul>
+  <li>The note form adapts below 560px the way the tools popover already did: a
+full-width sheet under the header rather than an anchored box, with the arrow
+dropped since there is nothing left to point at. A 16rem panel pinned to the
+right of a 360px viewport was most of the width anyway, and this one contains
+a textarea — the control that most wants room to type in. Its fields get
+larger targets and a taller writing area at that size.</li>
+  <li>Note rows under a heading wrap on narrow screens instead of pushing the
+article sideways.</li>
+</ul>
+
+<h2 id="260910h">26.09.10h</h2>
+
+<ul>
+  <li>Dimmed the reading progress indicator. At full accent it competed with the
+active sidebar item and the links in the prose for the one colour the page
+uses to mean “this matters”; it is ambient feedback, not a control.</li>
+  <li>Removed the page count from the context bar on section indexes. The page
+already prints its own count under the title, so the same figure appeared
+twice a few pixels apart. Tool pages keep their blurb there, which is not
+repeated anywhere else.</li>
+  <li>The note form now points at its button with the same arrow as the tools
+popover, so the two read as one kind of object.</li>
+  <li><strong>Every heading can be noted against.</strong> “The last heading scrolled past”
+could never reach the final headings of a short page: once the document
+bottom is on screen scrolling stops, and those headings never cross the
+threshold. At the end of the document the last heading now wins outright,
+and otherwise the topmost heading still visible is used.</li>
+  <li>The section is a select rather than a label, listing every heading with H3s
+indented, so anything auto-detection cannot reach can still be chosen. On the
+deployment guide that is 77 headings.</li>
+  <li>It follows the page while the form is open, updating on scroll so the section
+shown is the one being looked at rather than the one in view when the form
+opened. Choosing by hand stops the tracking, so a deliberate pick is never
+overridden.</li>
+</ul>
+
+<h2 id="260910g">26.09.10g</h2>
+
+<ul>
+  <li>Graph hover eases instead of flashing. Every node and edge switched between
+two fixed alphas on the same frame the pointer crossed a circle, so moving
+across the graph read as flickering rather than as focus moving. Each node
+and edge now carries a focus value eased toward its target every frame, and
+nothing in the draw call tests hover directly — colour, width, alpha and
+labels all read from that one value, so an edge brightens and thickens
+together. Labels crossfade rather than appearing outright.</li>
+  <li>Fade-in runs faster than fade-out (about 430ms against 820ms), which keeps a
+hover feeling responsive while settling gently when the pointer leaves. The
+largest single-frame change is now 0.22 where it used to be a full 1.0 jump.</li>
+  <li><strong>Cut the tag vocabulary from 89 to 32, with none used only once</strong> — it was
+65 single-use tags before. A tag on one page groups nothing; it only adds
+rows to the tag index and noise to the directory.</li>
+  <li>Removed tags that restated the page title (<code class="language-plaintext highlighter-rouge">multipass</code> on Multipass, <code class="language-plaintext highlighter-rouge">gnome</code>
+on GNOME, <code class="language-plaintext highlighter-rouge">git</code> on Git, <code class="language-plaintext highlighter-rouge">mariadb</code> on MariaDB setup, <code class="language-plaintext highlighter-rouge">netplan</code> on Static
+networking) and tags that restated the section.</li>
+  <li>Merged synonyms into the concept they share: <code class="language-plaintext highlighter-rouge">kvm</code>/<code class="language-plaintext highlighter-rouge">qemu</code>/<code class="language-plaintext highlighter-rouge">virtualization</code>
+into <code class="language-plaintext highlighter-rouge">vm</code>, <code class="language-plaintext highlighter-rouge">rdp</code>/<code class="language-plaintext highlighter-rouge">vnc</code>/<code class="language-plaintext highlighter-rouge">remmina</code> into <code class="language-plaintext highlighter-rouge">remote</code>, <code class="language-plaintext highlighter-rouge">r2</code>/<code class="language-plaintext highlighter-rouge">rclone</code>/<code class="language-plaintext highlighter-rouge">virtiofs</code>
+into <code class="language-plaintext highlighter-rouge">storage</code>, <code class="language-plaintext highlighter-rouge">flatpak</code>/<code class="language-plaintext highlighter-rouge">ventoy</code>/<code class="language-plaintext highlighter-rouge">iso</code> into <code class="language-plaintext highlighter-rouge">desktop</code>, <code class="language-plaintext highlighter-rouge">java</code>/<code class="language-plaintext highlighter-rouge">sdk</code>/
+<code class="language-plaintext highlighter-rouge">emulator</code>/<code class="language-plaintext highlighter-rouge">dart</code> into <code class="language-plaintext highlighter-rouge">toolchain</code>, <code class="language-plaintext highlighter-rouge">github-actions</code> into <code class="language-plaintext highlighter-rouge">ci</code>.</li>
+  <li>Added tags where a genuinely cross-cutting one was missing from pages that
+share the subject — <code class="language-plaintext highlighter-rouge">secrets</code> now spans the secrets manager, Access service
+tokens and the deployment guide; <code class="language-plaintext highlighter-rouge">dns</code> spans the tunnel and domain pages;
+<code class="language-plaintext highlighter-rouge">backup</code> spans the database dumps and the storage they sync to.</li>
+  <li>Three pages had no tags at all and now do.</li>
+</ul>
+
+<h2 id="260910f">26.09.10f</h2>
+
+<ul>
+  <li>Page actions that do not apply to the current page are disabled and labelled
+rather than left live. The note button needs an article to anchor to, so on a
+board, an index or a tool page it did nothing while still hovering and
+clicking — which reads as a bug. Interaction is removed outright, and the
+reason is in the title.</li>
+  <li>The values toggle behaves the same way instead of hiding itself. A control
+that appears and disappears between pages makes the header change shape as
+navigation moves; a stable header with a clearly unavailable button is
+steadier.</li>
+  <li>Redesigned the sidebar tree. No hover fill anywhere in it: a filled row is
+how the ACTIVE page is marked, so using the same device for “the cursor is
+here” made the two compete, and on an already-open parent it implied the row
+itself was a target. Hover now moves colour only — nothing fills, nothing
+shifts, so no item changes position or size under the pointer.</li>
+  <li>The rail ends at its last entry. Each item has a short tick into the rail,
+and the last one masks the rail below itself, so the tree stops instead of
+running on into empty space.</li>
+  <li>The chevron became a smaller, lighter caret that reads as a disclosure rather
+than a navigation arrow, and its rotation is the animation. Expanding animates
+where the browser can size a <code class="language-plaintext highlighter-rouge">&lt;details&gt;</code> content box, and snaps elsewhere,
+which is the previous behaviour.</li>
+  <li>The active page is marked by colour and a filled tick rather than a
+background, which keeps the tree quiet.</li>
+  <li>Moved Review from <code class="language-plaintext highlighter-rouge">/todo/review/</code> to <code class="language-plaintext highlighter-rouge">/review/</code>. The nested path implied it
+was part of the project board, while its breadcrumb read “Home / Review” —
+the URL and the page disagreed. Review is site maintenance, not project work,
+and every other tool sits at the top level. The board keeps its link across.</li>
+</ul>
 
 <h2 id="260910e">26.09.10e</h2>
 
@@ -1703,7 +1803,8 @@ between a hamburger and an X.</li>
 client-side search, left-anchored layout.</li>
 </ul>
 
-
+<footer class="docs__tags" aria-label="Tags">
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=jekyll">jekyll</a><a class="docs__tag mono" href="/directory/#tag=authoring">authoring</a></footer>
   </article>
 </div>
 
@@ -1726,14 +1827,14 @@ client-side search, left-anchored layout.</li>
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1789051516" defer></script>
-  <script src="/assets/js/search.js?v=1789051516" defer></script><script src="/assets/js/bookmarks.js?v=1789051516" defer></script>
-  <script src="/assets/js/placeholders.js?v=1789051516" defer></script>
-  <script src="/assets/js/toolmenu.js?v=1789051516" defer></script>
-  <script src="/assets/js/highlight.js?v=1789051516" defer></script>
-  <script src="/assets/js/reading.js?v=1789051516" defer></script>
-  <script src="/assets/js/review.js?v=1789051516" defer></script>
-  <script src="/assets/js/activity.js?v=1789051516" defer></script>
-  <script src="/assets/js/stars.js?v=1789051516" defer></script>
+  <script src="/assets/js/app.js?v=1789110010" defer></script>
+  <script src="/assets/js/search.js?v=1789110010" defer></script><script src="/assets/js/bookmarks.js?v=1789110010" defer></script>
+  <script src="/assets/js/placeholders.js?v=1789110010" defer></script>
+  <script src="/assets/js/toolmenu.js?v=1789110010" defer></script>
+  <script src="/assets/js/highlight.js?v=1789110010" defer></script>
+  <script src="/assets/js/reading.js?v=1789110010" defer></script>
+  <script src="/assets/js/review.js?v=1789110010" defer></script>
+  <script src="/assets/js/activity.js?v=1789110010" defer></script>
+  <script src="/assets/js/stars.js?v=1789110010" defer></script>
 </body>
 </html>

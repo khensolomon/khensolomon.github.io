@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789051516">
-  <script>window.SITE = { searchUrl: "/search.json?v=1789051516" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789110010">
+  <script>window.SITE = { searchUrl: "/search.json?v=1789110010" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -128,11 +128,10 @@
               </svg>
             </button>
             <div class="reviewform" data-review-form hidden>
-              <p class="reviewform__where mono">
-                On: <span data-review-where>this page</span>
-              </p>
+              <label class="visually-hidden" for="review-where">Section this note is about</label>
+              <select id="review-where" class="reviewform__where" data-review-where></select>
               <label class="visually-hidden" for="review-type">Kind of note</label>
-              <select id="review-type" class="reviewform__type">
+              <select id="review-type" class="reviewform__type" data-review-type>
                 <option value="outdated">Outdated</option>
                 <option value="unclear">Unclear</option>
                 <option value="missing">Missing</option>
@@ -209,7 +208,7 @@
           <span class="toolmenu__blurb">What's next, in progress, and shipped</span>
         </span>
       </a><a class="toolmenu__item"
-         href="/todo/review/"
+         href="/review/"
          >
         <span class="toolmenu__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
@@ -366,7 +365,7 @@ docker system prune <span class="nt">-af</span> <span class="nt">--volumes</span
 <p>Reach for the last one only when a volume is stuck and the data is expendable.</p>
 
 <footer class="docs__tags" aria-label="Tags">
-      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=server">server</a><a class="docs__tag mono" href="/directory/#tag=docker">docker</a><a class="docs__tag mono" href="/directory/#tag=compose">compose</a><a class="docs__tag mono" href="/directory/#tag=django">django</a></footer><nav class="backlinks" aria-label="Pages referencing this one">
+      <span class="docs__tags-label mono muted">Tagged</span><a class="docs__tag mono" href="/directory/#tag=server">server</a><a class="docs__tag mono" href="/directory/#tag=docker">docker</a><a class="docs__tag mono" href="/directory/#tag=django">django</a></footer><nav class="backlinks" aria-label="Pages referencing this one">
   <h2 class="backlinks__title mono">Referenced by</h2>
   <ul class="backlinks__list"><li class="backlinks__item">
       <a class="backlinks__link" href="/python/django/">
@@ -397,14 +396,14 @@ docker system prune <span class="nt">-af</span> <span class="nt">--volumes</span
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1789051516" defer></script>
-  <script src="/assets/js/search.js?v=1789051516" defer></script><script src="/assets/js/bookmarks.js?v=1789051516" defer></script>
-  <script src="/assets/js/placeholders.js?v=1789051516" defer></script>
-  <script src="/assets/js/toolmenu.js?v=1789051516" defer></script>
-  <script src="/assets/js/highlight.js?v=1789051516" defer></script>
-  <script src="/assets/js/reading.js?v=1789051516" defer></script>
-  <script src="/assets/js/review.js?v=1789051516" defer></script>
-  <script src="/assets/js/activity.js?v=1789051516" defer></script>
-  <script src="/assets/js/stars.js?v=1789051516" defer></script>
+  <script src="/assets/js/app.js?v=1789110010" defer></script>
+  <script src="/assets/js/search.js?v=1789110010" defer></script><script src="/assets/js/bookmarks.js?v=1789110010" defer></script>
+  <script src="/assets/js/placeholders.js?v=1789110010" defer></script>
+  <script src="/assets/js/toolmenu.js?v=1789110010" defer></script>
+  <script src="/assets/js/highlight.js?v=1789110010" defer></script>
+  <script src="/assets/js/reading.js?v=1789110010" defer></script>
+  <script src="/assets/js/review.js?v=1789110010" defer></script>
+  <script src="/assets/js/activity.js?v=1789110010" defer></script>
+  <script src="/assets/js/stars.js?v=1789110010" defer></script>
 </body>
 </html>
