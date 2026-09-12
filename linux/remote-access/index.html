@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789110010">
-  <script>window.SITE = { searchUrl: "/search.json?v=1789110010" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789202611">
+  <script>window.SITE = { searchUrl: "/search.json?v=1789202611" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -139,14 +139,29 @@
               <button class="reviewform__save" type="button" data-review-save>Add note</button>
             </div>
           </div>
-          <button class="pageact" type="button" data-ph-toggle aria-pressed="true" hidden
+          <button class="pageact" type="button" data-ph-toggle aria-pressed="true"
+                  aria-label="Stored values in code blocks"
                   data-ph-settings="/settings/">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M9 6l-5 6 5 6"/><path d="M15 6l5 6-5 6"/>
             </svg>
             <span class="phbar__label visually-hidden">Stored values</span>
           </button>
-        </div><div class="toolmenu" data-toolmenu>
+        </div><div class="moreacts" data-moreacts hidden>
+          <button class="pageact" type="button" data-moreacts-btn aria-expanded="false"
+                  title="More actions" aria-label="More actions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>
+            </svg>
+          </button>
+          <div class="moreacts__panel" data-moreacts-panel hidden></div>
+        </div><button class="pageact" type="button" data-composer-open aria-pressed="false"
+                title="Composer — drafts and notes" aria-label="Open the composer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17z"/><path d="M14.5 8l1.5 1.5"/>
+          </svg>
+        </button>
+        <div class="toolmenu" data-toolmenu>
   <button class="pageact toolmenu__btn" type="button"
           aria-expanded="false" aria-controls="toolmenu-panel"
           title="Tools" aria-label="Tools"><svg class="toolmenu__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -381,14 +396,17 @@ credentials.</p>
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1789110010" defer></script>
-  <script src="/assets/js/search.js?v=1789110010" defer></script><script src="/assets/js/bookmarks.js?v=1789110010" defer></script>
-  <script src="/assets/js/placeholders.js?v=1789110010" defer></script>
-  <script src="/assets/js/toolmenu.js?v=1789110010" defer></script>
-  <script src="/assets/js/highlight.js?v=1789110010" defer></script>
-  <script src="/assets/js/reading.js?v=1789110010" defer></script>
-  <script src="/assets/js/review.js?v=1789110010" defer></script>
-  <script src="/assets/js/activity.js?v=1789110010" defer></script>
-  <script src="/assets/js/stars.js?v=1789110010" defer></script>
+  <script src="/assets/js/app.js?v=1789202611" defer></script>
+  <script src="/assets/js/layers.js?v=1789202611" defer></script>
+  <script src="/assets/js/search.js?v=1789202611" defer></script><script src="/assets/js/bookmarks.js?v=1789202611" defer></script>
+  <script src="/assets/js/placeholders.js?v=1789202611" defer></script>
+  <script src="/assets/js/toolmenu.js?v=1789202611" defer></script>
+  <script src="/assets/js/highlight.js?v=1789202611" defer></script>
+  <script src="/assets/js/reading.js?v=1789202611" defer></script>
+  <script src="/assets/js/review.js?v=1789202611" defer></script>
+  <script src="/assets/js/composer.js?v=1789202611" defer></script>
+  <script src="/assets/js/moreacts.js?v=1789202611" defer></script>
+  <script src="/assets/js/activity.js?v=1789202611" defer></script>
+  <script src="/assets/js/stars.js?v=1789202611" defer></script>
 </body>
 </html>

@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789110010">
-  <script>window.SITE = { searchUrl: "/search.json?v=1789110010" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789202611">
+  <script>window.SITE = { searchUrl: "/search.json?v=1789202611" };</script>
 </head>
 <body class="is-home" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -199,7 +199,21 @@
           <span class="brand-name">Lethil</span>
         </a>
         
-      </div><div class="topbar__cluster"><div class="toolmenu" data-toolmenu>
+      </div><div class="topbar__cluster"><div class="moreacts" data-moreacts hidden>
+          <button class="pageact" type="button" data-moreacts-btn aria-expanded="false"
+                  title="More actions" aria-label="More actions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>
+            </svg>
+          </button>
+          <div class="moreacts__panel" data-moreacts-panel hidden></div>
+        </div><button class="pageact" type="button" data-composer-open aria-pressed="false"
+                title="Composer — drafts and notes" aria-label="Open the composer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17z"/><path d="M14.5 8l1.5 1.5"/>
+          </svg>
+        </button>
+        <div class="toolmenu" data-toolmenu>
   <button class="pageact toolmenu__btn" type="button"
           aria-expanded="false" aria-controls="toolmenu-panel"
           title="Tools" aria-label="Tools"><svg class="toolmenu__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -341,17 +355,17 @@
       </svg>
       <span class="feature__star-count mono" data-feature-star-count></span>
     </a></div>
-  <p class="hero__eyebrow mono reveal" data-hero-eyebrow hidden>Friday · 11 Sep 2026</p>
+  <p class="hero__eyebrow mono reveal" data-hero-eyebrow hidden>Saturday · 12 Sep 2026</p>
 
-  <h1 class="hero__caption reveal" style="--d:1" data-hero-caption>The desktop</h1><p class="hero__slogan mono reveal" style="--d:2" data-hero-slogan>GNOME Shell, refined</p><div class="hero__subrow is-split" data-hero-layout>
-    <div class="hero__media reveal" style="--d:3" data-hero-media>
-      <span class="hero__art hero__art--symbolic" data-hero-art style="--icon:url('https://raw.githubusercontent.com/khensolomon/hornbill/refs/heads/master/icon/hornbill-symbolic.svg')"></span>
+  <h1 class="hero__caption reveal" style="--d:1" data-hero-caption>Infrastructure</h1><p class="hero__slogan mono reveal" style="--d:2" data-hero-slogan>Self-hosted, end to end</p><div class="hero__subrow" data-hero-layout>
+    <div class="hero__media reveal" style="--d:3" data-hero-media hidden>
+      <span class="hero__art" data-hero-art></span>
     </div>
 
     <div class="hero__subject-col reveal" style="--d:3">
-      <p class="hero__subject" data-hero-subject><span data-hero-subject-text>I write Hornbill, a GNOME Shell extension that reshapes the Linux desktop around the way people actually work.</span> <a class="hero__arrow-link" data-hero-inline-arrow hidden aria-label="Open link">↗</a></p>
+      <p class="hero__subject" data-hero-subject><span data-hero-subject-text>I design and run the self-hosted infrastructure — containers, tunnels, and tooling — that keeps these projects online without the big platforms.</span> <a class="hero__arrow-link" data-hero-inline-arrow hidden aria-label="Open link">↗</a></p>
 
-      <ul class="hero__daylinks" data-hero-daylinks><li><a href="https://github.com/khensolomon/hornbill">Source <span class="hero__arrow-icon" aria-hidden="true">↗</span></a></li><li><a href="https://extensions.gnome.org">GNOME Extensions <span class="hero__arrow-icon" aria-hidden="true">↗</span></a></li></ul>
+      <ul class="hero__daylinks" data-hero-daylinks hidden></ul>
     </div>
   </div><script>
   (function () {
@@ -604,14 +618,17 @@
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1789110010" defer></script>
-  <script src="/assets/js/search.js?v=1789110010" defer></script><script src="/assets/js/bookmarks.js?v=1789110010" defer></script>
-  <script src="/assets/js/placeholders.js?v=1789110010" defer></script>
-  <script src="/assets/js/toolmenu.js?v=1789110010" defer></script>
-  <script src="/assets/js/highlight.js?v=1789110010" defer></script>
-  <script src="/assets/js/reading.js?v=1789110010" defer></script>
-  <script src="/assets/js/review.js?v=1789110010" defer></script>
-  <script src="/assets/js/activity.js?v=1789110010" defer></script>
-  <script src="/assets/js/stars.js?v=1789110010" defer></script>
+  <script src="/assets/js/app.js?v=1789202611" defer></script>
+  <script src="/assets/js/layers.js?v=1789202611" defer></script>
+  <script src="/assets/js/search.js?v=1789202611" defer></script><script src="/assets/js/bookmarks.js?v=1789202611" defer></script>
+  <script src="/assets/js/placeholders.js?v=1789202611" defer></script>
+  <script src="/assets/js/toolmenu.js?v=1789202611" defer></script>
+  <script src="/assets/js/highlight.js?v=1789202611" defer></script>
+  <script src="/assets/js/reading.js?v=1789202611" defer></script>
+  <script src="/assets/js/review.js?v=1789202611" defer></script>
+  <script src="/assets/js/composer.js?v=1789202611" defer></script>
+  <script src="/assets/js/moreacts.js?v=1789202611" defer></script>
+  <script src="/assets/js/activity.js?v=1789202611" defer></script>
+  <script src="/assets/js/stars.js?v=1789202611" defer></script>
 </body>
 </html>

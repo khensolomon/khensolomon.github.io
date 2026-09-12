@@ -19,8 +19,8 @@
         r.setAttribute('data-theme-pref', pref);
       } catch (e) {}
     })();
-  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789110010">
-  <script>window.SITE = { searchUrl: "/search.json?v=1789110010" };</script>
+  </script><link rel="stylesheet" href="/assets/css/style.css?v=1789202611">
+  <script>window.SITE = { searchUrl: "/search.json?v=1789202611" };</script>
 </head>
 <body class="is-docs" data-nav="closed">
   <!-- Decide the initial nav state before the sidebar renders (no animation flash). -->
@@ -137,14 +137,29 @@
               <button class="reviewform__save" type="button" data-review-save>Add note</button>
             </div>
           </div>
-          <button class="pageact" type="button" data-ph-toggle aria-pressed="true" hidden
+          <button class="pageact" type="button" data-ph-toggle aria-pressed="true"
+                  aria-label="Stored values in code blocks"
                   data-ph-settings="/settings/">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M9 6l-5 6 5 6"/><path d="M15 6l5 6-5 6"/>
             </svg>
             <span class="phbar__label visually-hidden">Stored values</span>
           </button>
-        </div><div class="toolmenu" data-toolmenu>
+        </div><div class="moreacts" data-moreacts hidden>
+          <button class="pageact" type="button" data-moreacts-btn aria-expanded="false"
+                  title="More actions" aria-label="More actions">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>
+            </svg>
+          </button>
+          <div class="moreacts__panel" data-moreacts-panel hidden></div>
+        </div><button class="pageact" type="button" data-composer-open aria-pressed="false"
+                title="Composer — drafts and notes" aria-label="Open the composer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 20h4.5L19 9.5a2.1 2.1 0 0 0-3-3L5.5 17z"/><path d="M14.5 8l1.5 1.5"/>
+          </svg>
+        </button>
+        <div class="toolmenu" data-toolmenu>
   <button class="pageact toolmenu__btn" type="button"
           aria-expanded="false" aria-controls="toolmenu-panel"
           title="Tools" aria-label="Tools"><svg class="toolmenu__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -284,11 +299,154 @@
 
 <div class="docs inset">
   <article class="docs__content prose"><header class="docs__head"><p class="eyebrow mono docs__meta">
-        71 min read · Documentations</p>
+        79 min read · Documentations</p>
       <h1>Changelog</h1><p class="docs__lede">Notable changes, newest first.</p>
     </header>
     
     <p>Versions use <code class="language-plaintext highlighter-rouge">yy.mm.dd</code> — the date the change shipped. Newest at the top.</p>
+
+<h2 id="260911f">26.09.11f</h2>
+
+<ul>
+  <li>Both lists on <code class="language-plaintext highlighter-rouge">/review/</code> now follow changes as they happen. The <code class="language-plaintext highlighter-rouge">storage</code>
+event only fires in OTHER tabs, so a page editing its own localStorage gets
+no notification — which is why the drafts list sat stale while the composer,
+open on that very page, had already saved, and why resolving a page note
+needed a reload to disappear.</li>
+  <li>Every writer now announces itself and every list listens. Saving in the
+composer, starting a new draft, or resolving a note repaints the affected
+list immediately; the cross-tab <code class="language-plaintext highlighter-rouge">storage</code> event is still handled, so two
+windows stay in step too.</li>
+  <li>Resolve no longer repaints only the surface it was pressed on. It used to
+refresh the in-page markers whether or not that was the view being looked at,
+and never the collected list. The listener repaints whichever views are
+present, so the markers, the page count and the collected list cannot
+disagree.</li>
+</ul>
+
+<h2 id="260911e">26.09.11e</h2>
+
+<ul>
+  <li>The composer no longer scrolls the page behind it. <code class="language-plaintext highlighter-rouge">overscroll-behavior:
+contain</code> covers a pane that can scroll and has reached its end, but not a
+pane with nothing to scroll at all — that box is not a scrolling container,
+so the wheel passes straight through to the document. That was the case being
+hit: a window taller than its own content, sliding the page away underneath.
+A wheel handler now stops the gesture at the window edge, while still letting
+a scrollable pane scroll normally.</li>
+  <li>Fixed the preview being narrower than its window. <code class="language-plaintext highlighter-rouge">.prose</code> caps at the site’s
+reading measure and that cap landed on the pane, which is also the scroll
+container — so the preview sat inboard of the frame with its scrollbar
+floating in the middle of the window. The pane fills the window now; a
+reading measure belongs to a page, not to a panel already sized by hand.</li>
+</ul>
+
+<h2 id="260911d">26.09.11d</h2>
+
+<ul>
+  <li>The composer launcher now shows whether the window is open, and pressing it
+while the window is off screen pulls it back instead of closing it. A window
+dragged past an edge — or restored from a position saved on a larger display
+— was indistinguishable from no window at all, so the button appeared to do
+nothing.</li>
+  <li>The composer survives navigation. Nothing here is a single-page app, so
+following a link used to throw away an open draft window mid-thought; the
+state is remembered and the window returns on the next page with the draft
+that was being edited. Focus is deliberately not taken on restore — the
+reader asked for the page, not the textarea.</li>
+  <li>Added a layer registry, so the surfaces coordinate instead of each guessing.
+Two kinds: the composer is a persistent window, while search, tools, the page
+actions and the note form are transient.</li>
+  <li>A transient surface is raised above the composer for as long as it is open,
+since it was just asked for; hiding it behind a window that happens to
+overlap the header would be the wrong answer. Raising the whole topbar is
+what does it — a popover anchored inside a sticky header is capped at that
+header’s rank whatever z-index the panel itself carries.</li>
+  <li>Opening one transient surface now closes any other. Two popovers at once has
+no meaning, and stale ones are how a header ends up with three panels hanging
+off it. The composer is never closed by any of them.</li>
+</ul>
+
+<h2 id="260911c">26.09.11c</h2>
+
+<ul>
+  <li><strong>Fixed Maximise.</strong> The class sets left, top, width and height, but drag and
+restore write those as inline styles, which always win — so toggling it
+changed the class and nothing on screen. The inline geometry is now stashed
+and cleared while maximised, and put back on restore.</li>
+  <li><strong>Fixed the overflow menu not restoring on a wider window.</strong> Each moved
+button remembered the node that followed it, but those buttons are siblings
+of each other, so the remembered node had itself been moved into the panel
+and <code class="language-plaintext highlighter-rouge">insertBefore</code> threw “child not found in parent”. A placeholder left in
+the original position cannot go stale.</li>
+  <li>Write, Preview, New and Export are icons. The title bar holds nine controls,
+and four words of button text were most of the width the draft name needed.</li>
+  <li>The kind selector moved to the left of the title, where it reads as what the
+draft <em>is</em> rather than as another action.</li>
+  <li>Title and save message now shrink and truncate; the controls never do. Both
+were taking their natural width, so a long draft name or an “Exported …”
+message pushed the buttons off the end of the bar.</li>
+  <li>“Page settings” is now “Meta”.</li>
+</ul>
+
+<h2 id="260911b">26.09.11b</h2>
+
+<ul>
+  <li>Fixed Maximise and Close doing nothing. The title bar is also the drag
+handle, and its pointer capture swallowed the click that followed — the press
+started a zero-distance drag and the button never saw it. A press that starts
+on a control inside the bar no longer begins a drag.</li>
+  <li>Fixed Preview appearing not to work. The write pane sets <code class="language-plaintext highlighter-rouge">display: flex</code>,
+which beats the <code class="language-plaintext highlighter-rouge">hidden</code> attribute’s user-agent rule, so it stayed on screen
+underneath the preview. <code class="language-plaintext highlighter-rouge">[hidden]</code> now wins.</li>
+  <li>Consolidated the composer into one title bar: name, save state, kind,
+Write/Preview, New, Export, Maximise and Close all on a single line. The
+separate toolbar and footer rows are gone, which is roughly 70px of height
+returned to the writing area.</li>
+  <li>Front matter is collapsed behind a disclosure, since it is set once and the
+body is written for the rest of the session. A note has none at all, so the
+section is removed rather than collapsed.</li>
+  <li>Added an overflow menu for the page actions below 600px. The bar had grown to
+Save, note, values, composer, tools and search, which is fine on a tablet and
+too much at 360px.</li>
+  <li>The buttons are MOVED into the overflow panel rather than copied. Every
+script here binds with <code class="language-plaintext highlighter-rouge">querySelector</code>, so a duplicate would look live and do
+nothing — the first match would keep the handler. Moving keeps one element,
+one handler, one state, and the note form travels with its button. Rows are
+tappable across their full width, and a disabled action reads as unavailable
+there the same way it does in the bar.</li>
+</ul>
+
+<h2 id="260911">26.09.11</h2>
+
+<ul>
+  <li>Moved the reading progress indicator to the very top of the window, above the
+header, where it reads as a property of the page rather than of the topbar.</li>
+  <li><strong>Fixed the topbar scrolling away on phones.</strong> <code class="language-plaintext highlighter-rouge">overflow-x: hidden</code> on
+<code class="language-plaintext highlighter-rouge">html</code>/<code class="language-plaintext highlighter-rouge">body</code> makes them a scroll container, and a sticky descendant then
+sticks to a scrollport that never scrolls — which is why it held on desktop
+and failed on mobile. <code class="language-plaintext highlighter-rouge">overflow-x: clip</code> clips without creating that scroll
+container, so the off-screen shell stays hidden and sticky works.</li>
+  <li><strong>Fixed the tools popover refusing to close on a second tap.</strong> A touch tap
+moves focus to nothing, so <code class="language-plaintext highlighter-rouge">focusout</code> fired with a null <code class="language-plaintext highlighter-rouge">relatedTarget</code> on
+the way to the button’s own click: the panel closed, then the click reopened
+it. Focus going nowhere is not focus leaving; real outside taps were already
+covered by the document handler.</li>
+  <li>Added the <strong>composer</strong>: a movable, resizable window available from every
+page, with a maximise that leaves the page visible around it rather than
+going full screen. On phones it becomes a sheet, since moving and resizing a
+window there is meaningless.</li>
+  <li>One form, two kinds of draft. A page carries the front matter fields and
+exports a ready-to-save <code class="language-plaintext highlighter-rouge">.md</code> with them already written; a note keeps a title
+and a body, and the front matter rows are removed rather than shown inert.</li>
+  <li>Markdown preview from a small built-in renderer rather than a library —
+headings, fenced and inline code, lists, task boxes, quotes, rules, links,
+emphasis and <code class="language-plaintext highlighter-rouge">[[wiki-links]]</code>. Input is escaped before anything else runs, so
+a draft cannot inject markup into its own preview.</li>
+  <li>Drafts autosave and are listed on <code class="language-plaintext highlighter-rouge">/review/</code> by row id, with open, export and
+delete. Opening the composer resumes the most recently edited draft; opening
+a row from the manager loads that one.</li>
+</ul>
 
 <h2 id="260910i">26.09.10i</h2>
 
@@ -1827,14 +1985,17 @@ client-side search, left-anchored layout.</li>
     </main>
   </div>
 
-  <script src="/assets/js/app.js?v=1789110010" defer></script>
-  <script src="/assets/js/search.js?v=1789110010" defer></script><script src="/assets/js/bookmarks.js?v=1789110010" defer></script>
-  <script src="/assets/js/placeholders.js?v=1789110010" defer></script>
-  <script src="/assets/js/toolmenu.js?v=1789110010" defer></script>
-  <script src="/assets/js/highlight.js?v=1789110010" defer></script>
-  <script src="/assets/js/reading.js?v=1789110010" defer></script>
-  <script src="/assets/js/review.js?v=1789110010" defer></script>
-  <script src="/assets/js/activity.js?v=1789110010" defer></script>
-  <script src="/assets/js/stars.js?v=1789110010" defer></script>
+  <script src="/assets/js/app.js?v=1789202611" defer></script>
+  <script src="/assets/js/layers.js?v=1789202611" defer></script>
+  <script src="/assets/js/search.js?v=1789202611" defer></script><script src="/assets/js/bookmarks.js?v=1789202611" defer></script>
+  <script src="/assets/js/placeholders.js?v=1789202611" defer></script>
+  <script src="/assets/js/toolmenu.js?v=1789202611" defer></script>
+  <script src="/assets/js/highlight.js?v=1789202611" defer></script>
+  <script src="/assets/js/reading.js?v=1789202611" defer></script>
+  <script src="/assets/js/review.js?v=1789202611" defer></script>
+  <script src="/assets/js/composer.js?v=1789202611" defer></script>
+  <script src="/assets/js/moreacts.js?v=1789202611" defer></script>
+  <script src="/assets/js/activity.js?v=1789202611" defer></script>
+  <script src="/assets/js/stars.js?v=1789202611" defer></script>
 </body>
 </html>
